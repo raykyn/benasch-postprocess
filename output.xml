@@ -1,0 +1,46 @@
+<?xml version='1.0' encoding='UTF8'?>
+<XML>
+  <Text>Item git ze koffende Grede von Arx Elscmen
+von Arx selige tohter in ze ziten efrow Ulrich
+Geburensmt dez zimermans ze Nuwemburg
+gesessen , Ħeintzi Pnider von Dornach dem
+harrer burger ze Basel daz huse und hofstat
+so man nemmet zem ( filgt ein überschrieben
+unlesserlich Wort vor und hinder gelegen in
+der vorstat ze Eschemertor an demme huse so
+man nemmete Wagenberg und He Brunlio
+von Cappelle ist erbe von eime cappellon
+so ie ist der phrunde sant Veren altars in
+ettia Basel , Joh Bratteller git man 1 ℔ zins d
+angati 2 hünre 2 ring ze wiß halb Martini
+halb an carnis Rno und 5ß erschatz , item
+2 guldin geltz Hedilg gun Bertzschi Eberli dnnah
+7oh bapte et1 mtd jrd Joh ew pro 20gl .
+</Text>
+  <Mentions>
+    <Reference mention_type="NAM" entity_type="PER" num_type="SGL" start="21" end="136" head_start="21" head_end="34"/>
+    <Reference mention_type="NAM" entity_type="PER" num_type="SGL" start="35" end="57" head_start="35" head_end="50"/>
+    <Reference mention_type="NAM" entity_type="PER" num_type="SGL" start="83" end="136" head_start="83" head_end="100"/>
+    <Reference mention_type="NAM" entity_type="GPE" num_type="LOC" start="118" end="127" head_start="118" head_end="127"/>
+    <Reference mention_type="NAM" entity_type="PER" num_type="SGL" start="139" end="192" head_start="139" head_end="153"/>
+    <Reference mention_type="NAM" entity_type="GPE" num_type="LOC" start="158" end="165" head_start="158" head_end="165"/>
+    <Reference mention_type="NAM" entity_type="GPE" num_type="ORG" start="187" end="192" head_start="187" head_end="192"/>
+    <Reference mention_type="NOM" entity_type="FAC" num_type="SGL" start="193" end="367" head_start="197" head_end="213"/>
+    <Reference mention_type="NOM" entity_type="LOC" num_type="SGL" start="306" end="328" head_start="306" head_end="313"/>
+    <Reference mention_type="NAM" entity_type="FAC" num_type="SGL" start="317" end="328" head_start="317" head_end="328"/>
+    <Reference mention_type="NAM" entity_type="FAC" num_type="SGL" start="332" end="367" head_start="358" head_end="367"/>
+    <Reference mention_type="NAM" entity_type="PER" num_type="SGL" start="372" end="395" head_start="375" head_end="395"/>
+    <Reference mention_type="UNK" entity_type="PER" num_type="SGL" start="409" end="423" head_start="414" head_end="423"/>
+    <Reference mention_type="NAM" entity_type="ORG" num_type="SGL" start="434" end="478" head_start="438" head_end="463"/>
+    <Reference mention_type="NAM" entity_type="ORG" num_type="SGL" start="467" end="478" head_start="467" head_end="478"/>
+    <Reference mention_type="NAM" entity_type="PER" num_type="SGL" start="481" end="495" head_start="481" head_end="495"/>
+    <Reference mention_type="NAM" entity_type="PER" num_type="SGL" start="614" end="620" head_start="614" head_end="620"/>
+    <Reference mention_type="NAM" entity_type="PER" num_type="SGL" start="625" end="634" head_start="625" head_end="634"/>
+    <Reference mention_type="NAM" entity_type="PER" num_type="GRP" start="635" end="641" head_start="635" head_end="641"/>
+    <Attribute mention_type="NOM" entity_type="PER" num_type="SGL" start="35" end="64" head_start="58" head_end="64"/>
+    <Attribute mention_type="NOM" entity_type="PER" num_type="SGL" start="65" end="136" head_start="77" head_end="82"/>
+    <Attribute mention_type="NOM" entity_type="PER" num_type="SGL" start="101" end="114" head_start="105" head_end="114"/>
+    <Attribute mention_type="NOM" entity_type="PER" num_type="SGL" start="166" end="176" head_start="170" head_end="176"/>
+    <Attribute mention_type="NOM" entity_type="PER" num_type="SGL" start="177" end="192" head_start="177" head_end="183"/>
+  </Mentions>
+</XML>
