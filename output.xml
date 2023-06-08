@@ -1,46 +1,69 @@
 <?xml version='1.0' encoding='UTF8'?>
 <XML>
-  <Text>Item git ze koffende Grede von Arx Elscmen
+  <Text>STARTDATE 1412. Samstag nach Lucie. ENDDATE
+Item git ze koffende Grede von Arx Elscimen
 von Arx selige tohter in ze ziten efrow Ulrich
-Geburensmt dez zimermans ze Nuwemburg
-gesessen , Ħeintzi Pnider von Dornach dem
-harrer burger ze Basel daz huse und hofstat
-so man nemmet zem ( filgt ein überschrieben
-unlesserlich Wort vor und hinder gelegen in
+Geburensint dez zimermans ze Nuwemburg
+gesessen , Heintzi Tnider von Dornach dem
+Karrer burger ze Basel daz huse und hofstat
+so man nemmet zem ( folgt ein überschrieben
+unlesserlich Wort ) vor und hinder gelegen in
 der vorstat ze Eschemertor an demme huse so
-man nemmete Wagenberg und He Brunlio
+man nemmete Wagenberg und He Brunlig
 von Cappelle ist erbe von eime cappellon
 so ie ist der phrunde sant Veren altars in
-ettia Basel , Joh Bratteller git man 1 ℔ zins d
-angati 2 hünre 2 ring ze wiß halb Martini
-halb an carnis Rno und 5ß erschatz , item
-2 guldin geltz Hedilg gun Bertzschi Eberli dnnah
-7oh bapte et1 mtd jrd Joh ew pro 20gl .
+ettia Basel , Joh Bratteller git man 1 ℔ zins ȡ
+angati 2 hunre 2ring ze wiß halb Martini
+halb an carnis hino und 5ß erschatz , item
+2 guldin geltz Hedilz gud Bertzschi Eberli dnnatt
+Joh bapte et , mni ji Joh ent pro 20gl .
 </Text>
   <Mentions>
-    <Reference mention_type="NAM" entity_type="PER" num_type="SGL" start="21" end="136" head_start="21" head_end="34"/>
-    <Reference mention_type="NAM" entity_type="PER" num_type="SGL" start="35" end="57" head_start="35" head_end="50"/>
-    <Reference mention_type="NAM" entity_type="PER" num_type="SGL" start="83" end="136" head_start="83" head_end="100"/>
-    <Reference mention_type="NAM" entity_type="GPE" num_type="LOC" start="118" end="127" head_start="118" head_end="127"/>
-    <Reference mention_type="NAM" entity_type="PER" num_type="SGL" start="139" end="192" head_start="139" head_end="153"/>
-    <Reference mention_type="NAM" entity_type="GPE" num_type="LOC" start="158" end="165" head_start="158" head_end="165"/>
-    <Reference mention_type="NAM" entity_type="GPE" num_type="ORG" start="187" end="192" head_start="187" head_end="192"/>
-    <Reference mention_type="NOM" entity_type="FAC" num_type="SGL" start="193" end="367" head_start="197" head_end="213"/>
-    <Reference mention_type="NOM" entity_type="LOC" num_type="SGL" start="306" end="328" head_start="306" head_end="313"/>
-    <Reference mention_type="NAM" entity_type="FAC" num_type="SGL" start="317" end="328" head_start="317" head_end="328"/>
-    <Reference mention_type="NAM" entity_type="FAC" num_type="SGL" start="332" end="367" head_start="358" head_end="367"/>
-    <Reference mention_type="NAM" entity_type="PER" num_type="SGL" start="372" end="395" head_start="375" head_end="395"/>
-    <Reference mention_type="UNK" entity_type="PER" num_type="SGL" start="409" end="423" head_start="414" head_end="423"/>
-    <Reference mention_type="NAM" entity_type="ORG" num_type="SGL" start="434" end="478" head_start="438" head_end="463"/>
-    <Reference mention_type="NAM" entity_type="ORG" num_type="SGL" start="467" end="478" head_start="467" head_end="478"/>
-    <Reference mention_type="NAM" entity_type="PER" num_type="SGL" start="481" end="495" head_start="481" head_end="495"/>
-    <Reference mention_type="NAM" entity_type="PER" num_type="SGL" start="614" end="620" head_start="614" head_end="620"/>
-    <Reference mention_type="NAM" entity_type="PER" num_type="SGL" start="625" end="634" head_start="625" head_end="634"/>
-    <Reference mention_type="NAM" entity_type="PER" num_type="GRP" start="635" end="641" head_start="635" head_end="641"/>
-    <Attribute mention_type="NOM" entity_type="PER" num_type="SGL" start="35" end="64" head_start="58" head_end="64"/>
-    <Attribute mention_type="NOM" entity_type="PER" num_type="SGL" start="65" end="136" head_start="77" head_end="82"/>
-    <Attribute mention_type="NOM" entity_type="PER" num_type="SGL" start="101" end="114" head_start="105" head_end="114"/>
-    <Attribute mention_type="NOM" entity_type="PER" num_type="SGL" start="166" end="176" head_start="170" head_end="176"/>
-    <Attribute mention_type="NOM" entity_type="PER" num_type="SGL" start="177" end="192" head_start="177" head_end="183"/>
+    <Reference mention_id="0" mention_type="NAM" mention_subtype="" entity_type="PER" numerus="SGL" specificity="SPC" tempus="PRES" start="65" end="182" head_start="65" head_end="78" head_text="Grede von Arx"/>
+    <Reference mention_id="1" mention_type="NAM" mention_subtype="" entity_type="PER" numerus="SGL" specificity="SPC" tempus="PRES" start="79" end="102" head_start="79" head_end="95" head_text="Elscimen von Arx"/>
+    <Reference mention_id="2" mention_type="NAM" mention_subtype="" entity_type="PER" numerus="SGL" specificity="SPC" tempus="PRES" start="128" end="182" head_start="128" head_end="146" head_text="Ulrich Geburensint"/>
+    <Reference mention_id="3" mention_type="NAM" mention_subtype="" entity_type="GPE_LOC" numerus="SGL" specificity="SPC" tempus="PRES" start="164" end="173" head_start="164" head_end="173" head_text="Nuwemburg"/>
+    <Reference mention_id="4" mention_type="NAM" mention_subtype="" entity_type="PER" numerus="SGL" specificity="SPC" tempus="PRES" start="185" end="238" head_start="185" head_end="199" head_text="Heintzi Tnider"/>
+    <Reference mention_id="5" mention_type="NAM" mention_subtype="" entity_type="GPE_LOC" numerus="SGL" specificity="SPC" tempus="PRES" start="204" end="211" head_start="204" head_end="211" head_text="Dornach"/>
+    <Reference mention_id="6" mention_type="NAM" mention_subtype="" entity_type="GPE_ORG" numerus="SGL" specificity="SPC" tempus="PRES" start="233" end="238" head_start="233" head_end="238" head_text="Basel"/>
+    <Reference mention_id="7" mention_type="NOM" mention_subtype="" entity_type="FAC" numerus="SGL" specificity="SPC" tempus="PRES" start="239" end="415" head_start="243" head_end="259" head_text="huse und hofstat"/>
+    <Reference mention_id="8" mention_type="NOM" mention_subtype="" entity_type="LOC_?vorstadt" numerus="SGL" specificity="SPC" tempus="PRES" start="350" end="376" head_start="354" head_end="361" head_text="vorstat"/>
+    <Reference mention_id="9" mention_type="NAM" mention_subtype="" entity_type="FAC" numerus="SGL" specificity="SPC" tempus="PRES" start="365" end="376" head_start="365" head_end="376" head_text="Eschemertor"/>
+    <Reference mention_id="10" mention_type="NOM" mention_subtype="" entity_type="FAC" numerus="SGL" specificity="SPC" tempus="PRES" start="380" end="415" head_start="386" head_end="390" head_text="huse"/>
+    <Reference mention_id="11" mention_type="NAM" mention_subtype="" entity_type="PER" numerus="SGL" specificity="SPC" tempus="PRES" start="420" end="443" head_start="423" head_end="443" head_text="Brunlig von Cappelle"/>
+    <Reference mention_id="12" mention_type="NAM" mention_subtype="" entity_type="PER" numerus="SGL" specificity="SPC" tempus="PRES" start="457" end="471" head_start="462" head_end="471" head_text="cappellon"/>
+    <Reference mention_id="13" mention_type="NAM" mention_subtype="" entity_type="ORG_REL" numerus="SGL" specificity="SPC" tempus="PRES" start="482" end="526" head_start="486" head_end="511" head_text="phrunde sant Veren altars"/>
+    <Reference mention_id="14" mention_type="NAM" mention_subtype="" entity_type="ORG_REL" numerus="SGL" specificity="SPC" tempus="PRES" start="515" end="526" head_start="515" head_end="526" head_text="ettia Basel"/>
+    <Reference mention_id="15" mention_type="NAM" mention_subtype="" entity_type="PER" numerus="SGL" specificity="SPC" tempus="PRES" start="529" end="543" head_start="529" head_end="543" head_text="Joh Bratteller"/>
+    <Reference mention_id="16" mention_type="NAM" mention_subtype="" entity_type="PER" numerus="SGL" specificity="SPC" tempus="PRES" start="662" end="668" head_start="662" head_end="668" head_text="Hedilz"/>
+    <Reference mention_id="17" mention_type="NAM" mention_subtype="" entity_type="PER" numerus="SGL" specificity="SPC" tempus="PRES" start="673" end="689" head_start="673" head_end="689" head_text="Bertzschi Eberli"/>
+    <Attribute mention_id="18" mention_type="NOM" mention_subtype="fam" entity_type="PER" numerus="SGL" specificity="SPC" tempus="PRES" start="79" end="109" head_start="103" head_end="109" head_text="tohter"/>
+    <Attribute mention_id="19" mention_type="NOM" mention_subtype="fam" entity_type="PER" numerus="SGL" specificity="SPC" tempus="PRES" start="113" end="182" head_start="122" head_end="127" head_text="efrow"/>
+    <Attribute mention_id="20" mention_type="NOM" mention_subtype="occ" entity_type="PER" numerus="SGL" specificity="SPC" tempus="PRES" start="147" end="160" head_start="151" head_end="160" head_text="zimermans"/>
+    <Attribute mention_id="21" mention_type="NOM" mention_subtype="occ" entity_type="PER" numerus="SGL" specificity="SPC" tempus="PRES" start="212" end="222" head_start="216" head_end="222" head_text="Karrer"/>
+    <Attribute mention_id="22" mention_type="NOM" mention_subtype="org-aff" entity_type="PER" numerus="SGL" specificity="SPC" tempus="PRES" start="223" end="238" head_start="223" head_end="229" head_text="burger"/>
+    <Attribute mention_id="23" mention_type="NOM" mention_subtype="alias" entity_type="FAC" numerus="SGL" specificity="SPC" tempus="PRES" start="406" end="415" head_start="406" head_end="415" head_text="Wagenberg"/>
+    <Attribute mention_id="24" mention_type="NOM" mention_subtype="title" entity_type="PER" numerus="SGL" specificity="SPC" tempus="PRES" start="420" end="422" head_start="420" head_end="422" head_text="He"/>
   </Mentions>
+  <Descriptors>
+    <Descriptor desc_type="dead" start="96" end="102" text="selige"/>
+    <Descriptor desc_type="loc" start="161" end="182" text="ze Nuwemburg gesessen"/>
+    <Descriptor desc_type="loc" start="200" end="211" text="von Dornach"/>
+    <Descriptor desc_type="loc" start="324" end="415" text="vor und hinder gelegen in der vorstat ze Eschemertor an demme huse so man nemmete Wagenberg"/>
+    <Descriptor desc_type="loc" start="362" end="376" text="ze Eschemertor"/>
+    <Descriptor desc_type="part-of" start="512" end="526" text="in ettia Basel"/>
+  </Descriptors>
+  <Relations>
+    <Relation rel_type="heir" from_mention="11" to_mention="12"/>
+    <Relation rel_type="fam" from_mention="16" to_mention="17"/>
+    <Relation rel_type="fam" from_mention="18" to_mention="1"/>
+    <Relation rel_type="fam" from_mention="19" to_mention="2"/>
+    <Relation rel_type="org-aff" from_mention="22" to_mention="6"/>
+    <Relation rel_type="loc" from_mention="2" to_mention="3"/>
+    <Relation rel_type="loc" from_mention="4" to_mention="5"/>
+    <Relation rel_type="loc" from_mention="7" to_mention="8"/>
+    <Relation rel_type="loc" from_mention="7" to_mention="10"/>
+    <Relation rel_type="loc" from_mention="8" to_mention="9"/>
+    <Relation rel_type="part-of" from_mention="13" to_mention="14"/>
+  </Relations>
 </XML>

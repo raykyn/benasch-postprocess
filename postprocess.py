@@ -3,17 +3,10 @@
 # Important: This code assumes no intersecting entities!
 
 import glob
-
-infiles = glob.glob("testfiles/*.xmi")
-
+import json
 from lxml import etree as et
 from xml.sax.saxutils import escape
 
-ENTITY_TYPES = ["NAM", "NOM", "PRO", "UNK"]
-
-DEFAULT_VALUES = {
-    "ent_num_type": "SGL"
-}
 
 def create_node_tree(in_root, document_text):
     """
@@ -32,7 +25,7 @@ def create_node_tree(in_root, document_text):
         label = entity.get('label')
         label = label.split(".")
         span_type = None
-        if label[0] in ENTITY_TYPES:
+        if label[0] in SCHEMA_INFO["mention_classes"]:
             span_type = "ent"
         elif label[0] == "att":
             span_type = "att"
@@ -40,8 +33,10 @@ def create_node_tree(in_root, document_text):
             span_type = "desc"
         elif label[0] == "head":
             span_type = "head"
+        elif label[0] in SCHEMA_INFO["value_tags"]:
+            span_type = "value"
         else:
-            print(f"WARNING: Unrecognized Span Label {label[0]}!")
+            print(f"ERROR: Unrecognized Span Label {label[0]}!")
         # we need to check all parent nodes above if they contain the current node
         while(parent_node != work_root):
             if end <= int(parent_node.get("end")):
@@ -67,20 +62,47 @@ def create_node_tree(in_root, document_text):
 
     return work_root
 
+
+def process_others(other_info, mention_id):
+    numerus = SCHEMA_INFO["other_fields"]["numerus"][0]
+    spec = SCHEMA_INFO["other_fields"]["specificity"][0]
+    tempus = SCHEMA_INFO["other_fields"]["tempus"][0]
+
+    for o in other_info:
+        if o in SCHEMA_INFO["other_fields"]["numerus"]:
+            numerus = o
+        elif o in SCHEMA_INFO["other_fields"]["specificity"]:
+            spec = o
+        elif o in SCHEMA_INFO["other_fields"]["tempus"]:
+            tempus = o
+        elif o not in SCHEMA_INFO["other_fields"]["other"]:
+            print(f"ERROR: Unrecognized information {o} in Mention Debug Id {mention_id}.")
+            exit()
+
+    return numerus, spec, tempus
+
 old_to_new_ids = {}
 
 def write_entities(out_root, work_root, document_text):
-    # I renamed Entity to Mention here as it's a more accurate descriptor
+
     entities_node = et.SubElement(out_root, "Mentions")
 
     for entity in work_root.findall(".//Entity[@span_type='ent']"):
         label = entity.get('label')
         label = label.split(".")
-        if len(label) == 2:
-            mention_type, entity_type = label
-            num_type = DEFAULT_VALUES["ent_num_type"]  # default value
-        elif len(label) == 3:
-            mention_type, entity_type, num_type = label
+
+        mention_subtype = ""
+        if label[0] == "NAM":
+            mention_type, entity_type = label[:2]
+            other_types = label[2:]
+        else:
+            mention_type, entity_type = label[:2]
+            if len(label) > 2:
+                mention_subtype = label[2]
+                other_types = label[3:]
+
+        # Process other types
+        numerus, spec, tempus = process_others(other_types, entity.get("id"))
 
         head_elem = entity.find("Entity[@label='head']")
         if head_elem == None:
@@ -100,8 +122,11 @@ def write_entities(out_root, work_root, document_text):
             "Reference",
             mention_id=str(mention_id), 
             mention_type=mention_type,
+            mention_subtype=mention_subtype,
             entity_type=entity_type,
-            num_type=num_type,
+            numerus=numerus,
+            specificity=spec,
+            tempus=tempus,
             start=entity.get("start"),
             end=entity.get("end"),
             head_start=head_start,
@@ -110,17 +135,20 @@ def write_entities(out_root, work_root, document_text):
             )
     
     for entity in work_root.findall(".//Entity[@span_type='att']"):
-        # TODO: Können PRO auch ATT sein oder nicht? Oder dann immer als DESC taggen?
+        
+        # inherit entity type from parent
         parent = entity.getparent()
         label = parent.get('label')
         label = label.split(".")
-        if len(label) == 2:
-            mention_type, entity_type = label
-            num_type = DEFAULT_VALUES["ent_num_type"]  # default value
-        elif len(label) == 3:
-            mention_type, entity_type, num_type = label
-        # overwrite mention type
-        mention_type = "NOM"
+        entity_type = label[1]
+
+        # get own information
+        label = entity.get('label')
+        label = label.split(".")
+
+        mention_type = "NOM" if "PRO" not in label[2:] else "PRO"
+        mention_subtype = label[1]
+        numerus, spec, tempus = process_others(label[2:], entity.get("id"))
 
         head_elem = entity.find("Entity[@label='head']")
         if head_elem == None:
@@ -140,8 +168,11 @@ def write_entities(out_root, work_root, document_text):
             "Attribute",
             mention_id=str(mention_id), 
             mention_type=mention_type,
-            entity_type=entity_type + "_" + entity.get("label").split(".")[1].upper(),
-            num_type=num_type,
+            mention_subtype=mention_subtype,
+            entity_type=entity_type,
+            numerus=numerus,
+            specificity=spec,
+            tempus=tempus,
             start=entity.get("start"),
             end=entity.get("end"),
             head_start=head_start,
@@ -178,6 +209,25 @@ def write_relations(out_root, work_root, document_text):
             from_mention=str(old_to_new_ids[relation.get("from_entity")]),
             to_mention=str(old_to_new_ids[relation.get("to_entity")]),
             )
+        
+    for entity in work_root.findall(".//Entity[@span_type='ent']"):
+        label = entity.get('label')
+        label = label.split(".")
+        if label[0] == "NAM" or len(label) < 3:
+            continue
+        label = label[2]
+
+        # check if an entity is included in this span, then this is what the relationship refers to
+        # if there is no entity included, it's not a relationship
+        child_entities = entity.findall("./Entity[@span_type='ent']")
+        
+        for child_entity in child_entities:
+            et.SubElement(relations_node, 
+                "Relation",
+                rel_type=label,
+                from_mention=str(old_to_new_ids[entity.get("id")]),
+                to_mention=str(old_to_new_ids[child_entity.get("id")]),
+                )
     
     # now the implied relations from att and desc (and entities which are PRO and NOM possibly!)
     # basically, if there is another mention inside an att or a desc, we have a relation between the original mention and the one inside
@@ -187,18 +237,15 @@ def write_relations(out_root, work_root, document_text):
 
         # check if an entity is included in this span, then this is what the relationship refers to
         # if there is no entity included, it's not a relationship
-        # NOTE: Depending on the implementation, we may want the option to have multiple entities included and then make a relation for each
-        # NOTE: This implementation only works if we don't assume missing relationship partners
-        child_entity = entity.find("./Entity[@span_type='ent']")
-        if child_entity is None:
-            continue
+        child_entities = entity.findall("./Entity[@span_type='ent']")
         
-        et.SubElement(relations_node, 
-            "Relation",
-            rel_type=label,
-            from_mention=str(old_to_new_ids[entity.get("id")]),
-            to_mention=str(old_to_new_ids[child_entity.get("id")]),
-            )
+        for child_entity in child_entities:
+            et.SubElement(relations_node, 
+                "Relation",
+                rel_type=label,
+                from_mention=str(old_to_new_ids[entity.get("id")]),
+                to_mention=str(old_to_new_ids[child_entity.get("id")]),
+                )
     
     # desc work almost the same as att, but the connected id is that of the parent element instead
     for descriptor in work_root.findall(".//Entity[@span_type='desc']"):
@@ -208,20 +255,15 @@ def write_relations(out_root, work_root, document_text):
 
         # check if an entity is included in this span, then this is what the relationship refers to
         # if there is no entity included, it's not a relationship
-        # NOTE: Depending on the implementation, we may want the option to have multiple entities included and then make a relation for each
-        child_entity = descriptor.find("./Entity[@span_type='ent']")
-        if child_entity is None:
-            continue
+        child_entities = descriptor.findall("./Entity[@span_type='ent']")
         
-        et.SubElement(relations_node, 
-            "Relation",
-            rel_type=label,
-            from_mention=str(old_to_new_ids[parent.get("id")]),
-            to_mention=str(old_to_new_ids[child_entity.get("id")]),
-            )
-        
-    # finally, sometimes there are NOM and PRO elements which carry relationship information such as "sin frow" which would be a NOM.PER.REL
-    # the problem here is the current annotation, which does not make it easy to distinguish these information from ordinality information
+        for child_entity in child_entities:
+            et.SubElement(relations_node, 
+                "Relation",
+                rel_type=label,
+                from_mention=str(old_to_new_ids[parent.get("id")]),
+                to_mention=str(old_to_new_ids[child_entity.get("id")]),
+                )
 
 
 def process_xmi(xmi_file):
@@ -253,8 +295,15 @@ def process_xmi(xmi_file):
     out_tree = et.ElementTree(out_root)
     out_tree.write('output.xml', xml_declaration=True, pretty_print=True, encoding="utf8")
 
+SCHEMA_INFO = None
+if __name__ == "__main__":
+    
+    with open("schema_info.json", mode="r", encoding="utf8") as inf:
+        SCHEMA_INFO = json.load(inf)
 
-for infile in infiles:
-    xml_file = process_xmi(infile)
-    break
-    #write_xml(xml_file)
+    infiles = sorted(glob.glob("testfiles/*.xmi"))
+
+    for infile in infiles:
+        xml_file = process_xmi(infile)
+        break
+        #write_xml(xml_file)

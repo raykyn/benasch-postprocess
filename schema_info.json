@@ -1,0 +1,19 @@
+{
+    "mention_classes": [
+        "NAM",
+        "NOM",
+        "PRO",
+        "UNK"
+    ],
+    "value_tags": [
+        "MONEY",
+        "TIME",
+        "DATE"
+    ],
+    "other_fields": {
+        "numerus": ["SGL", "GRP", "NEG"],
+        "specificity": ["SPC", "USPC"],
+        "tempus": ["PRES", "PAST", "FUT"],
+        "other": ["PRO"]
+    }
+}

@@ -1,69 +1,82 @@
 <?xml version='1.0' encoding='UTF8'?>
 <XML xmlns:custom="http:///custom.ecore" xmlns:cas="http:///uima/cas.ecore">
-  <Entity id="1776" span_type="ent" label="NAM.PER" start="21" end="136" text="Grede von Arx Elscmen&#10;von Arx selige tohter in ze ziten efrow Ulrich&#10;Geburensmt dez zimermans ze Nuwemburg&#10;gesessen">
-    <Entity id="1796" span_type="head" label="head" start="21" end="34" text="Grede von Arx"/>
-    <Entity id="1781" span_type="att" label="att.rel" start="35" end="64" text="Elscmen&#10;von Arx selige tohter">
-      <Entity id="1786" span_type="ent" label="NAM.PER" start="35" end="57" text="Elscmen&#10;von Arx selige">
-        <Entity id="1791" span_type="head" label="head" start="35" end="50" text="Elscmen&#10;von Arx"/>
-        <Entity id="1801" span_type="desc" label="desc.dead" start="51" end="57" text="selige"/>
+  <Entity id="1898" span_type="ent" label="NAM.PER" start="65" end="182" text="Grede von Arx Elscimen&#10;von Arx selige tohter in ze ziten efrow Ulrich&#10;Geburensint dez zimermans ze Nuwemburg&#10;gesessen">
+    <Entity id="1903" span_type="head" label="head" start="65" end="78" text="Grede von Arx"/>
+    <Entity id="1908" span_type="att" label="att.fam" start="79" end="109" text="Elscimen&#10;von Arx selige tohter">
+      <Entity id="1918" span_type="ent" label="NAM.PER" start="79" end="102" text="Elscimen&#10;von Arx selige">
+        <Entity id="1923" span_type="head" label="head" start="79" end="95" text="Elscimen&#10;von Arx"/>
+        <Entity id="1928" span_type="desc" label="desc.dead" start="96" end="102" text="selige"/>
       </Entity>
-      <Entity id="1806" span_type="head" label="head" start="58" end="64" text="tohter"/>
+      <Entity id="1913" span_type="head" label="head" start="103" end="109" text="tohter"/>
     </Entity>
-    <Entity id="1811" span_type="att" label="att.rel" start="65" end="136" text="in ze ziten efrow Ulrich&#10;Geburensmt dez zimermans ze Nuwemburg&#10;gesessen">
-      <Entity id="1816" span_type="head" label="head" start="77" end="82" text="efrow"/>
-      <Entity id="1821" span_type="ent" label="NAM.PER" start="83" end="136" text="Ulrich&#10;Geburensmt dez zimermans ze Nuwemburg&#10;gesessen">
-        <Entity id="1826" span_type="head" label="head" start="83" end="100" text="Ulrich&#10;Geburensmt"/>
-        <Entity id="1831" span_type="att" label="att.occ" start="101" end="114" text="dez zimermans">
-          <Entity id="1836" span_type="head" label="head" start="105" end="114" text="zimermans"/>
+    <Entity id="1933" span_type="att" label="att.fam" start="113" end="182" text="ze ziten efrow Ulrich&#10;Geburensint dez zimermans ze Nuwemburg&#10;gesessen">
+      <Entity id="1938" span_type="head" label="head" start="122" end="127" text="efrow"/>
+      <Entity id="1943" span_type="ent" label="NAM.PER" start="128" end="182" text="Ulrich&#10;Geburensint dez zimermans ze Nuwemburg&#10;gesessen">
+        <Entity id="1948" span_type="head" label="head" start="128" end="146" text="Ulrich&#10;Geburensint"/>
+        <Entity id="1953" span_type="att" label="att.occ" start="147" end="160" text="dez zimermans">
+          <Entity id="1958" span_type="head" label="head" start="151" end="160" text="zimermans"/>
         </Entity>
-        <Entity id="1841" span_type="desc" label="desc.loc" start="115" end="136" text="ze Nuwemburg&#10;gesessen">
-          <Entity id="1846" span_type="ent" label="NAM.GPE.LOC" start="118" end="127" text="Nuwemburg"/>
-        </Entity>
-      </Entity>
-    </Entity>
-  </Entity>
-  <Entity id="1851" span_type="ent" label="NAM.PER" start="139" end="192" text="Ħeintzi Pnider von Dornach dem&#10;harrer burger ze Basel">
-    <Entity id="1856" span_type="head" label="head" start="139" end="153" text="Ħeintzi Pnider"/>
-    <Entity id="1861" span_type="desc" label="desc.loc" start="154" end="165" text="von Dornach">
-      <Entity id="1866" span_type="ent" label="NAM.GPE.LOC" start="158" end="165" text="Dornach"/>
-    </Entity>
-    <Entity id="1871" span_type="att" label="att.occ" start="166" end="176" text="dem&#10;harrer">
-      <Entity id="1876" span_type="head" label="head" start="170" end="176" text="harrer"/>
-    </Entity>
-    <Entity id="1881" span_type="att" label="att.org-aff" start="177" end="192" text="burger ze Basel">
-      <Entity id="1886" span_type="head" label="head" start="177" end="183" text="burger"/>
-      <Entity id="1891" span_type="ent" label="NAM.GPE.ORG" start="187" end="192" text="Basel"/>
-    </Entity>
-  </Entity>
-  <Entity id="1896" span_type="ent" label="NOM.FAC" start="193" end="367" text="daz huse und hofstat&#10;so man nemmet zem ( filgt ein überschrieben&#10;unlesserlich Wort vor und hinder gelegen in&#10;der vorstat ze Eschemertor an demme huse so&#10;man nemmete Wagenberg">
-    <Entity id="1901" span_type="head" label="head" start="197" end="213" text="huse und hofstat"/>
-    <Entity id="1906" span_type="desc" label="desc.loc" start="276" end="367" text="vor und hinder gelegen in&#10;der vorstat ze Eschemertor an demme huse so&#10;man nemmete Wagenberg">
-      <Entity id="1911" span_type="ent" label="NOM.LOC" start="306" end="328" text="vorstat ze Eschemertor">
-        <Entity id="1916" span_type="head" label="head" start="306" end="313" text="vorstat"/>
-        <Entity id="1921" span_type="desc" label="desc.loc" start="314" end="328" text="ze Eschemertor">
-          <Entity id="1926" span_type="ent" label="NAM.FAC" start="317" end="328" text="Eschemertor"/>
+        <Entity id="1963" span_type="desc" label="desc.loc" start="161" end="182" text="ze Nuwemburg&#10;gesessen">
+          <Entity id="1968" span_type="ent" label="NAM.GPE_LOC" start="164" end="173" text="Nuwemburg"/>
         </Entity>
       </Entity>
-      <Entity id="1931" span_type="ent" label="NAM.FAC" start="332" end="367" text="demme huse so&#10;man nemmete Wagenberg">
-        <Entity id="1936" span_type="head" label="head" start="358" end="367" text="Wagenberg"/>
+    </Entity>
+  </Entity>
+  <Entity id="1973" span_type="ent" label="NAM.PER" start="185" end="238" text="Heintzi Tnider von Dornach dem&#10;Karrer burger ze Basel">
+    <Entity id="1978" span_type="head" label="head" start="185" end="199" text="Heintzi Tnider"/>
+    <Entity id="1983" span_type="desc" label="desc.loc" start="200" end="211" text="von Dornach">
+      <Entity id="1988" span_type="ent" label="NAM.GPE_LOC" start="204" end="211" text="Dornach"/>
+    </Entity>
+    <Entity id="1993" span_type="att" label="att.occ" start="212" end="222" text="dem&#10;Karrer">
+      <Entity id="1998" span_type="head" label="head" start="216" end="222" text="Karrer"/>
+    </Entity>
+    <Entity id="2003" span_type="att" label="att.org-aff" start="223" end="238" text="burger ze Basel">
+      <Entity id="2008" span_type="head" label="head" start="223" end="229" text="burger"/>
+      <Entity id="2013" span_type="ent" label="NAM.GPE_ORG" start="233" end="238" text="Basel"/>
+    </Entity>
+  </Entity>
+  <Entity id="2018" span_type="ent" label="NOM.FAC" start="239" end="415" text="daz huse und hofstat&#10;so man nemmet zem ( folgt ein überschrieben&#10;unlesserlich Wort ) vor und hinder gelegen in&#10;der vorstat ze Eschemertor an demme huse so&#10;man nemmete Wagenberg">
+    <Entity id="2023" span_type="head" label="head" start="243" end="259" text="huse und hofstat"/>
+    <Entity id="2028" span_type="desc" label="desc.loc" start="324" end="415" text="vor und hinder gelegen in&#10;der vorstat ze Eschemertor an demme huse so&#10;man nemmete Wagenberg">
+      <Entity id="2033" span_type="ent" label="NOM.LOC_?vorstadt" start="350" end="376" text="der vorstat ze Eschemertor">
+        <Entity id="2038" span_type="head" label="head" start="354" end="361" text="vorstat"/>
+        <Entity id="2043" span_type="desc" label="desc.loc" start="362" end="376" text="ze Eschemertor">
+          <Entity id="2048" span_type="ent" label="NAM.FAC" start="365" end="376" text="Eschemertor"/>
+        </Entity>
+      </Entity>
+      <Entity id="2053" span_type="ent" label="NOM.FAC" start="380" end="415" text="demme huse so&#10;man nemmete Wagenberg">
+        <Entity id="2058" span_type="head" label="head" start="386" end="390" text="huse"/>
+        <Entity id="2063" span_type="att" label="att.alias" start="406" end="415" text="Wagenberg"/>
       </Entity>
     </Entity>
   </Entity>
-  <Entity id="1941" span_type="ent" label="NAM.PER" start="372" end="395" text="He Brunlio&#10;von Cappelle">
-    <Entity id="1951" span_type="desc" label="desc.title" start="372" end="374" text="He"/>
-    <Entity id="1946" span_type="head" label="head" start="375" end="395" text="Brunlio&#10;von Cappelle"/>
+  <Entity id="2068" span_type="ent" label="NAM.PER" start="420" end="443" text="He Brunlig&#10;von Cappelle">
+    <Entity id="2078" span_type="att" label="att.title" start="420" end="422" text="He"/>
+    <Entity id="2073" span_type="head" label="head" start="423" end="443" text="Brunlig&#10;von Cappelle"/>
   </Entity>
-  <Entity id="1956" span_type="ent" label="UNK.PER" start="409" end="423" text="eime cappellon">
-    <Entity id="1961" span_type="head" label="head" start="414" end="423" text="cappellon"/>
+  <Entity id="2083" span_type="ent" label="NAM.PER" start="457" end="471" text="eime cappellon">
+    <Entity id="2088" span_type="head" label="head" start="462" end="471" text="cappellon"/>
   </Entity>
-  <Entity id="1973" span_type="ent" label="NAM.ORG" start="434" end="478" text="der phrunde sant Veren altars in&#10;ettia Basel">
-    <Entity id="1978" span_type="head" label="head" start="438" end="463" text="phrunde sant Veren altars"/>
-    <Entity id="1983" span_type="desc" label="desc.unk" start="464" end="478" text="in&#10;ettia Basel">
-      <Entity id="1988" span_type="ent" label="NAM.ORG" start="467" end="478" text="ettia Basel"/>
+  <Entity id="2100" span_type="ent" label="NAM.ORG_REL" start="482" end="526" text="der phrunde sant Veren altars in&#10;ettia Basel">
+    <Entity id="2105" span_type="head" label="head" start="486" end="511" text="phrunde sant Veren altars"/>
+    <Entity id="2110" span_type="desc" label="desc.part-of" start="512" end="526" text="in&#10;ettia Basel">
+      <Entity id="2115" span_type="ent" label="NAM.ORG_REL" start="515" end="526" text="ettia Basel"/>
     </Entity>
   </Entity>
-  <Entity id="1993" span_type="ent" label="NAM.PER" start="481" end="495" text="Joh Bratteller"/>
-  <Entity id="2015" span_type="ent" label="NAM.PER" start="614" end="620" text="Hedilg"/>
-  <Entity id="2003" span_type="ent" label="NAM.PER" start="625" end="634" text="Bertzschi"/>
-  <Entity id="1998" span_type="ent" label="NAM.PER.GRP" start="635" end="641" text="Eberli"/>
+  <Entity id="2120" span_type="ent" label="NAM.PER" start="529" end="543" text="Joh Bratteller"/>
+  <Entity id="2152" span_type="value" label="MONEY" start="552" end="562" text="1 ℔ zins ȡ"/>
+  <Entity id="2142" span_type="value" label="MONEY" start="570" end="577" text="2 hunre"/>
+  <Entity id="2147" span_type="value" label="MONEY" start="578" end="583" text="2ring"/>
+  <Entity id="2162" span_type="value" label="DATE" start="596" end="603" text="Martini"/>
+  <Entity id="2167" span_type="value" label="DATE" start="609" end="623" text="an carnis hino"/>
+  <Entity id="2157" span_type="value" label="MONEY" start="628" end="630" text="5ß"/>
+  <Entity id="2172" span_type="value" label="MONEY" start="647" end="661" text="2 guldin geltz"/>
+  <Entity id="2130" span_type="ent" label="NAM.PER" start="662" end="668" text="Hedilz"/>
+  <Entity id="2125" span_type="ent" label="NAM.PER" start="673" end="689" text="Bertzschi Eberli"/>
+  <Entity id="2177" span_type="value" label="DATE" start="690" end="706" text="dnnatt&#10;Joh bapte">
+    <Entity id="2182" span_type="value" label="TIME.REC" start="690" end="696" text="dnnatt"/>
+  </Entity>
+  <Entity id="2187" span_type="value" label="MONEY" start="731" end="737" text="20gl ."/>
+  <Relation id="2093" label="heir" from_entity="2068" to_entity="2083"/>
+  <Relation id="2135" label="fam" from_entity="2130" to_entity="2125"/>
 </XML>
