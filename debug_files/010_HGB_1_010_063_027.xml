@@ -1,0 +1,41 @@
+<?xml version='1.0' encoding='UTF8'?>
+<XML xmlns:custom="http:///custom.ecore" xmlns:cas="http:///uima/cas.ecore">
+  <Entity id="1317" span_type="ent" label="NAM.ORG" start="55" end="141" text="Die Gesellschafft zu dem hochen Dolden genant zum Esel in&#10;St . Albans Vorstatt gelegen">
+    <Entity id="1322" span_type="head" label="head" start="59" end="93" text="Gesellschafft zu dem hochen Dolden"/>
+    <Entity id="1327" span_type="att" label="att.alias" start="101" end="109" text="zum Esel"/>
+    <Entity id="1332" span_type="desc" label="desc.loc" start="110" end="141" text="in&#10;St . Albans Vorstatt gelegen">
+      <Entity id="1337" span_type="ent" label="NAM.LOC_?vorstadt" start="113" end="133" text="St . Albans Vorstatt"/>
+    </Entity>
+  </Entity>
+  <Entity id="1342" span_type="ent" label="NOM.PER.ORG-REPR.GRP" start="151" end="192" text="den Pflegern des Gottshuses&#10;zu St . Alban">
+    <Entity id="1347" span_type="head" label="head" start="155" end="163" text="Pflegern"/>
+    <Entity id="1352" span_type="ent" label="NAM.ORG_REL" start="164" end="192" text="des Gottshuses&#10;zu St . Alban">
+      <Entity id="1357" span_type="head" label="head" start="168" end="192" text="Gottshuses&#10;zu St . Alban"/>
+    </Entity>
+  </Entity>
+  <Entity id="1362" span_type="value" label="MONEY" start="193" end="208" text="10 Gulden Gelts"/>
+  <Entity id="1367" span_type="value" label="TIME.REC" start="209" end="218" text="jerliches"/>
+  <Entity id="1372" span_type="ent" label="NAM.FAC" start="240" end="512" text="der obgemelten Geselschafft Hus zum hochen Dolden , sonst&#10;zum Esell genant , wie das ier Sanet Albans Vorstatt zu einer&#10;neben Hans Martin dem Rebman und zu der andern&#10;Syten neben Ursel Ersam gelegen ist , stosst hinden uff die&#10;Rynhalden , niemandenm versetzt und zinshafft">
+    <Entity id="1382" span_type="desc" label="desc.owner" start="240" end="267" text="der obgemelten Geselschafft">
+      <Entity id="1387" span_type="ent" label="NOM.ORG" start="240" end="267" text="der obgemelten Geselschafft"/>
+    </Entity>
+    <Entity id="1377" span_type="head" label="head" start="268" end="289" text="Hus zum hochen Dolden"/>
+    <Entity id="1399" span_type="att" label="att.alias" start="298" end="307" text="zum Esell"/>
+    <Entity id="1404" span_type="att" label="att.loc.pro" start="321" end="442" text="das ier Sanet Albans Vorstatt zu einer&#10;neben Hans Martin dem Rebman und zu der andern&#10;Syten neben Ursel Ersam gelegen ist">
+      <Entity id="1424" span_type="ent" label="NAM.LOC_?vorstadt" start="325" end="350" text="ier Sanet Albans Vorstatt">
+        <Entity id="1429" span_type="head" label="head" start="329" end="350" text="Sanet Albans Vorstatt"/>
+      </Entity>
+      <Entity id="1409" span_type="ent" label="NAM.PER" start="366" end="388" text="Hans Martin dem Rebman">
+        <Entity id="1419" span_type="head" label="head" start="366" end="377" text="Hans Martin"/>
+        <Entity id="1414" span_type="att" label="att.occ" start="378" end="388" text="dem Rebman"/>
+      </Entity>
+      <Entity id="1434" span_type="ent" label="NAM.PER" start="419" end="430" text="Ursel Ersam"/>
+    </Entity>
+    <Entity id="1439" span_type="desc" label="desc.loc" start="445" end="476" text="stosst hinden uff die&#10;Rynhalden">
+      <Entity id="1444" span_type="ent" label="NAM.LOC" start="463" end="476" text="die&#10;Rynhalden"/>
+    </Entity>
+    <Entity id="1449" span_type="desc" label="desc.tax" start="479" end="512" text="niemandenm versetzt und zinshafft"/>
+  </Entity>
+  <Entity id="1454" span_type="value" label="MONEY" start="519" end="528" text="200 Gld ."/>
+  <Relation id="1392" label="coref" from_entity="1387" to_entity="1317"/>
+</XML>

@@ -1,0 +1,44 @@
+<?xml version='1.0' encoding='UTF8'?>
+<XML>
+  <Text>STARTDATE 1512 Mithwochen nach Qseaney. ENDDATE
+Da hat Johannes Helbling , Spitalschriber , jnnamen des Spitals
+um versessenen zins , als dann der Spital jährl . 2 ℔. 6sh . uff
+Fridlin Molero des Schuchmachers Hus und Hofstatt hat , als
+das jnn Eschamer Vorstatt , zwischen dem Hus zum Tracken
+zu einer und Conrat Bomhart des Brotbecken Hus gelegen is ,
+dasselb , Hus gefrönt .
+</Text>
+  <Mentions>
+    <Reference mention_id="25" mention_type="NAM" mention_subtype="" entity_type="PER" numerus="SGL" specificity="SPC" tempus="PRES" start="55" end="89" head_start="55" head_end="72" head_text="Johannes Helbling"/>
+    <Reference mention_id="26" mention_type="NOM" mention_subtype="" entity_type="ORG" numerus="SGL" specificity="SPC" tempus="PRES" start="100" end="111" head_start="104" head_end="111" head_text="Spitals"/>
+    <Reference mention_id="27" mention_type="NOM" mention_subtype="" entity_type="ORG" numerus="SGL" specificity="SPC" tempus="PRES" start="143" end="153" head_start="147" head_end="153" head_text="Spital"/>
+    <Reference mention_id="28" mention_type="NOM" mention_subtype="" entity_type="LOC_FAC" numerus="SGL" specificity="SPC" tempus="PRES" start="177" end="226" head_start="210" head_end="226" head_text="Hus und Hofstatt"/>
+    <Reference mention_id="29" mention_type="NAM" mention_subtype="" entity_type="PER" numerus="SGL" specificity="SPC" tempus="PRES" start="177" end="209" head_start="177" head_end="191" head_text="Fridlin Molero"/>
+    <Reference mention_id="30" mention_type="PRO" mention_subtype="" entity_type="LOC_FAC" numerus="SGL" specificity="SPC" tempus="PRES" start="233" end="351" head_start="237" head_end="240" head_text="das"/>
+    <Reference mention_id="31" mention_type="NAM" mention_subtype="" entity_type="LOC_?vorstadt" numerus="SGL" specificity="SPC" tempus="PRES" start="245" end="262" head_start="245" head_end="262" head_text="Eschamer Vorstatt"/>
+    <Reference mention_id="32" mention_type="NAM" mention_subtype="" entity_type="LOC_FAC" numerus="SGL" specificity="SPC" tempus="PRES" start="274" end="293" head_start="278" head_end="293" head_text="Hus zum Tracken"/>
+    <Reference mention_id="33" mention_type="NOM" mention_subtype="OWNER" entity_type="LOC_FAC" numerus="SGL" specificity="SPC" tempus="PRES" start="307" end="340" head_start="337" head_end="340" head_text="Hus"/>
+    <Reference mention_id="34" mention_type="NAM" mention_subtype="" entity_type="PER" numerus="SGL" specificity="SPC" tempus="PRES" start="307" end="336" head_start="307" head_end="321" head_text="Conrat Bomhart"/>
+    <Reference mention_id="35" mention_type="NOM" mention_subtype="" entity_type="LOC_FAC" numerus="SGL" specificity="SPC" tempus="PRES" start="354" end="367" head_start="364" head_end="367" head_text="Hus"/>
+    <Attribute mention_id="36" mention_type="NOM" mention_subtype="org-job" entity_type="PER" numerus="SGL" specificity="SPC" tempus="PRES" start="75" end="89" head_start="75" head_end="89" head_text="Spitalschriber"/>
+    <Attribute mention_id="37" mention_type="NOM" mention_subtype="occ" entity_type="PER" numerus="SGL" specificity="SPC" tempus="PRES" start="192" end="209" head_start="196" head_end="209" head_text="Schuchmachers"/>
+    <Attribute mention_id="38" mention_type="NOM" mention_subtype="occ" entity_type="PER" numerus="SGL" specificity="SPC" tempus="PRES" start="322" end="336" head_start="326" head_end="336" head_text="Brotbecken"/>
+  </Mentions>
+  <Descriptors>
+    <Descriptor desc_type="owner" start="177" end="209" text="Fridlin Molero des Schuchmachers"/>
+    <Descriptor desc_type="loc" start="241" end="351" text="jnn Eschamer Vorstatt , zwischen dem Hus zum Tracken zu einer und Conrat Bomhart des Brotbecken Hus gelegen is"/>
+  </Descriptors>
+  <Values>
+    <Value value_type="TIME" start="154" end="161" text="jährl ."/>
+    <Value value_type="MONEY" start="162" end="172" text="2 ℔. 6sh ."/>
+  </Values>
+  <Relations>
+    <Relation rel_type="coref" from_mention="30" to_mention="28"/>
+    <Relation rel_type="coref" from_mention="35" to_mention="28"/>
+    <Relation rel_type="OWNER" from_mention="33" to_mention="34"/>
+    <Relation rel_type="owner" from_mention="28" to_mention="29"/>
+    <Relation rel_type="loc" from_mention="30" to_mention="31"/>
+    <Relation rel_type="loc" from_mention="30" to_mention="32"/>
+    <Relation rel_type="loc" from_mention="30" to_mention="33"/>
+  </Relations>
+</XML>

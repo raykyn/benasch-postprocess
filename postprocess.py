@@ -4,8 +4,10 @@
 
 import glob
 import json
+import os
+import re
 from lxml import etree as et
-from xml.sax.saxutils import escape
+#from xml.sax.saxutils import escape
 
 
 def create_node_tree(in_root, document_text):
@@ -35,8 +37,11 @@ def create_node_tree(in_root, document_text):
             span_type = "head"
         elif label[0] in SCHEMA_INFO["value_tags"]:
             span_type = "value"
+        elif label[0] in SCHEMA_INFO["other_tags"]:
+            # TODO: Implement deletion and moving by htr tags
+            continue
         else:
-            print(f"ERROR: Unrecognized Span Label {label[0]}!")
+            print(f"ERROR: Unrecognized Span Label '{label[0]}'!")
         # we need to check all parent nodes above if they contain the current node
         while(parent_node != work_root):
             if end <= int(parent_node.get("end")):
@@ -69,6 +74,7 @@ def process_others(other_info, mention_id):
     tempus = SCHEMA_INFO["other_fields"]["tempus"][0]
 
     for o in other_info:
+        o = o.upper()
         if o in SCHEMA_INFO["other_fields"]["numerus"]:
             numerus = o
         elif o in SCHEMA_INFO["other_fields"]["specificity"]:
@@ -80,6 +86,12 @@ def process_others(other_info, mention_id):
             exit()
 
     return numerus, spec, tempus
+
+def apply_conversions(entity_type):
+    for o, r in SCHEMA_INFO["conversions"]["entity_types"].items():
+        entity_type = re.sub(o, r, entity_type)
+
+    return entity_type
 
 old_to_new_ids = {}
 
@@ -103,6 +115,7 @@ def write_entities(out_root, work_root, document_text):
 
         # Process other types
         numerus, spec, tempus = process_others(other_types, entity.get("id"))
+        entity_type = apply_conversions(entity_type)
 
         head_elem = entity.find("Entity[@label='head']")
         if head_elem == None:
@@ -148,6 +161,8 @@ def write_entities(out_root, work_root, document_text):
 
         mention_type = "NOM" if "PRO" not in label[2:] else "PRO"
         mention_subtype = label[1]
+        if mention_subtype == "alias":
+            mention_type = "NAM"
         numerus, spec, tempus = process_others(label[2:], entity.get("id"))
 
         head_elem = entity.find("Entity[@label='head']")
@@ -197,6 +212,18 @@ def write_entities(out_root, work_root, document_text):
             text=document_text[int(desc.get("start")):int(desc.get("end"))]
             )
         
+
+def write_values(out_root, work_root, document_text):
+    value_node = et.SubElement(out_root, "Values")
+    for value in work_root.findall(".//Entity[@span_type='value']"):
+        et.SubElement(value_node, 
+            "Value",
+            value_type=value.get("label"),
+            start=value.get("start"),
+            end=value.get("end"),
+            text=document_text[int(value.get("start")):int(value.get("end"))]
+            )
+
     
 def write_relations(out_root, work_root, document_text):
     relations_node = et.SubElement(out_root, "Relations") 
@@ -268,6 +295,7 @@ def write_relations(out_root, work_root, document_text):
 
 def process_xmi(xmi_file):
     infile = et.parse(xmi_file)
+    outname = os.path.basename(xmi_file).replace(".xmi", ".xml")
     in_root = infile.getroot()
 
     text_node = in_root.find("./cas:Sofa", namespaces={"cas":"http:///uima/cas.ecore"})
@@ -277,7 +305,7 @@ def process_xmi(xmi_file):
     work_root = create_node_tree(in_root, document_text)
 
     work_tree = et.ElementTree(work_root)
-    work_tree.write('debug.xml', xml_declaration=True, pretty_print=True, encoding="utf8")
+    work_tree.write(os.path.join(DEBUGFOLDER, outname), xml_declaration=True, pretty_print=True, encoding="utf8")
 
     out_root = et.Element("XML")
 
@@ -285,17 +313,17 @@ def process_xmi(xmi_file):
     out_text = et.SubElement(out_root, "Text")
     out_text.text = document_text
     write_entities(out_root, work_root, document_text_no_breaks)
-    # TODO: Write Value Annotations
+    write_values(out_root, work_root, document_text_no_breaks)
     write_relations(out_root, work_root, document_text_no_breaks)
     # TODO: Write Events
 
-    #document_text = document_text.replace("&", "&amp;")
-    #work_root = et.fromstring("<XML>" + document_text + "</XML>")
-
     out_tree = et.ElementTree(out_root)
-    out_tree.write('output.xml', xml_declaration=True, pretty_print=True, encoding="utf8")
+    out_tree.write(os.path.join(OUTFOLDER, outname), xml_declaration=True, pretty_print=True, encoding="utf8")
+
 
 SCHEMA_INFO = None
+OUTFOLDER = "outfiles/"
+DEBUGFOLDER = "debug_files/"
 if __name__ == "__main__":
     
     with open("schema_info.json", mode="r", encoding="utf8") as inf:
@@ -304,6 +332,5 @@ if __name__ == "__main__":
     infiles = sorted(glob.glob("testfiles/*.xmi"))
 
     for infile in infiles:
-        xml_file = process_xmi(infile)
-        break
-        #write_xml(xml_file)
+        print(f"Processing {infile}.")
+        process_xmi(infile)

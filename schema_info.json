@@ -10,10 +10,19 @@
         "TIME",
         "DATE"
     ],
+    "other_tags": [
+        "htr",
+        "tax"
+    ],
     "other_fields": {
         "numerus": ["SGL", "GRP", "NEG"],
         "specificity": ["SPC", "USPC"],
         "tempus": ["PRES", "PAST", "FUT"],
         "other": ["PRO"]
+    },
+    "conversions": {
+        "entity_types": {
+            "FAC(.*)": "LOC_FAC\\1"
+        }
     }
 }

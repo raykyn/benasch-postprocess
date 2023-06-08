@@ -1,0 +1,21 @@
+<?xml version='1.0' encoding='UTF8'?>
+<XML>
+  <Text>STARTDATE vor Galli. ENDDATE
+STARTDATE 1507. ENDDATE
+Der . Schaffner des Gotzhuss zu S . Lienhart zicht
+die Badstuben genant Rünberg von versessner
+Zinsen halb widerumb an das Gotzhuss .
+</Text>
+  <Mentions>
+    <Reference mention_id="69" mention_type="NOM" mention_subtype="ORG-REPR" entity_type="PER" numerus="SGL" specificity="SPC" tempus="PRES" start="53" end="97" head_start="59" head_end="68" head_text="Schaffner"/>
+    <Reference mention_id="70" mention_type="NAM" mention_subtype="" entity_type="ORG_REL" numerus="SGL" specificity="SPC" tempus="PRES" start="73" end="97" head_start="73" head_end="97" head_text="Gotzhuss zu S . Lienhart"/>
+    <Reference mention_id="71" mention_type="NOM" mention_subtype="" entity_type="LOC_FAC" numerus="SGL" specificity="SPC" tempus="PRES" start="104" end="132" head_start="108" head_end="117" head_text="Badstuben"/>
+    <Reference mention_id="72" mention_type="NOM" mention_subtype="" entity_type="ORG_REL" numerus="SGL" specificity="SPC" tempus="PRES" start="172" end="184" head_start="176" head_end="184" head_text="Gotzhuss"/>
+    <Attribute mention_id="73" mention_type="NAM" mention_subtype="alias" entity_type="FAC" numerus="SGL" specificity="SPC" tempus="PRES" start="125" end="132" head_start="125" head_end="132" head_text="Rünberg"/>
+  </Mentions>
+  <Descriptors/>
+  <Values/>
+  <Relations>
+    <Relation rel_type="ORG-REPR" from_mention="69" to_mention="70"/>
+  </Relations>
+</XML>

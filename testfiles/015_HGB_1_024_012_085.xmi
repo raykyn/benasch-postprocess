@@ -143,7 +143,7 @@
     <custom:Span xmi:id="1690" sofa="1" begin="61" end="92" label="NOM.ORG_GOV.PART-OF"/>
     <custom:Span xmi:id="1695" sofa="1" begin="65" end="71" label="head"/>
     <custom:Span xmi:id="1700" sofa="1" begin="76" end="92" label="NAM.GPE_ORG"/>
-    <custom:Span xmi:id="1710" sofa="1" begin="83" end="86" label="delete"/>
+    <custom:Span xmi:id="1710" sofa="1" begin="83" end="86" label="htr.delete"/>
     <custom:Span xmi:id="1705" sofa="1" begin="87" end="92" label="head"/>
     <custom:Span xmi:id="1715" sofa="1" begin="105" end="142" label="NAM.PER"/>
     <custom:Span xmi:id="1720" sofa="1" begin="111" end="132" label="head"/>
