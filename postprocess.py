@@ -25,8 +25,11 @@ def create_node_tree(in_root, document_text):
     for entity, start, end in sorted_spans:
         # classify if span is entity, attribute or description
         label = entity.get('label')
+        if label == None:
+            print(f"WARNING: Empty Label in node with id {entity.get('{http://www.omg.org/XMI}id')}!")
+            label = ""
         label = label.split(".")
-        span_type = None
+        span_type = ""
         if label[0] in SCHEMA_INFO["mention_classes"]:
             span_type = "ent"
         elif label[0] == "att":
@@ -39,18 +42,23 @@ def create_node_tree(in_root, document_text):
             span_type = "value"
         elif label[0] in SCHEMA_INFO["other_tags"]:
             # TODO: Implement deletion and moving by htr tags
+            if label[0] == "unclear":
+                print(f"WARNING: Unclear Label encountered in node with id {entity.get('{http://www.omg.org/XMI}id')}!")
+            span_type = ""
             continue
         else:
             print(f"ERROR: Unrecognized Span Label '{label[0]}'!")
+            exit(1)
+        label = ".".join(label)
         # we need to check all parent nodes above if they contain the current node
         while(parent_node != work_root):
             if end <= int(parent_node.get("end")):
-                current_node = et.SubElement(parent_node, "Entity", id=entity.get("{http://www.omg.org/XMI}id"), span_type=span_type, label=entity.get('label'), start=str(start), end=str(end), text=document_text[start:end])
+                current_node = et.SubElement(parent_node, "Entity", id=entity.get("{http://www.omg.org/XMI}id"), span_type=span_type, label=label, start=str(start), end=str(end), text=document_text[start:end])
                 break
             else:
                 parent_node = parent_node.getparent()
         else:
-            current_node = et.SubElement(work_root, "Entity", id=entity.get("{http://www.omg.org/XMI}id"), span_type=span_type, label=entity.get('label'), start=str(start), end=str(end), text=document_text[start:end])
+            current_node = et.SubElement(work_root, "Entity", id=entity.get("{http://www.omg.org/XMI}id"), span_type=span_type, label=label, start=str(start), end=str(end), text=document_text[start:end])
         parent_node = current_node
     
     # We get relations from three sources: relation layer, att and desc
@@ -83,7 +91,7 @@ def process_others(other_info, mention_id):
             tempus = o
         elif o not in SCHEMA_INFO["other_fields"]["other"]:
             print(f"ERROR: Unrecognized information {o} in Mention Debug Id {mention_id}.")
-            exit()
+            exit(1)
 
     return numerus, spec, tempus
 
@@ -94,6 +102,8 @@ def apply_conversions(entity_type):
     return entity_type
 
 old_to_new_ids = {}
+mention_subtypes = set()
+desc_types = set()
 
 def write_entities(out_root, work_root, document_text):
 
@@ -112,6 +122,14 @@ def write_entities(out_root, work_root, document_text):
             if len(label) > 2:
                 mention_subtype = label[2]
                 other_types = label[3:]
+            else:
+                other_types = []
+
+        if mention_subtype:
+            mention_subtypes.add((
+                mention_subtype.lower(),
+                entity_type.lower()
+            ))
 
         # Process other types
         numerus, spec, tempus = process_others(other_types, entity.get("id"))
@@ -165,6 +183,11 @@ def write_entities(out_root, work_root, document_text):
             mention_type = "NAM"
         numerus, spec, tempus = process_others(label[2:], entity.get("id"))
 
+        mention_subtypes.add((
+            mention_subtype.lower(),
+            entity_type.lower()
+        ))
+
         head_elem = entity.find("Entity[@label='head']")
         if head_elem == None:
             # Implizierter Head
@@ -202,6 +225,10 @@ def write_entities(out_root, work_root, document_text):
         label = label.split(".")
         desc_type = label[1]
 
+        desc_types.add((
+            desc_type.lower(),
+        ))
+
         # TODO: Give this a reference to the entity that it describes
 
         et.SubElement(description_node, 
@@ -224,7 +251,7 @@ def write_values(out_root, work_root, document_text):
             text=document_text[int(value.get("start")):int(value.get("end"))]
             )
 
-    
+relation_types = set()
 def write_relations(out_root, work_root, document_text):
     relations_node = et.SubElement(out_root, "Relations") 
 
@@ -249,6 +276,11 @@ def write_relations(out_root, work_root, document_text):
         child_entities = entity.findall("./Entity[@span_type='ent']")
         
         for child_entity in child_entities:
+            relation_types.add((
+                label.lower(),
+                entity.get("label").split(".")[1].lower(),
+                child_entity.get("label").split(".")[1].lower()
+            ))
             et.SubElement(relations_node, 
                 "Relation",
                 rel_type=label,
@@ -265,8 +297,13 @@ def write_relations(out_root, work_root, document_text):
         # check if an entity is included in this span, then this is what the relationship refers to
         # if there is no entity included, it's not a relationship
         child_entities = entity.findall("./Entity[@span_type='ent']")
-        
+
         for child_entity in child_entities:
+            relation_types.add((
+                label.lower(),
+                entity.getparent().get("label").split(".")[1].lower(),
+                child_entity.get("label").split(".")[1].lower()
+            ))
             et.SubElement(relations_node, 
                 "Relation",
                 rel_type=label,
@@ -277,6 +314,9 @@ def write_relations(out_root, work_root, document_text):
     # desc work almost the same as att, but the connected id is that of the parent element instead
     for descriptor in work_root.findall(".//Entity[@span_type='desc']"):
         parent = descriptor.getparent()
+        if parent.tag == "XML":
+            print(f"WARNING: A Desc-Span is standing independently. Check span id {descriptor.get('id')}. Skipping this potential relation.")
+            continue
         label = descriptor.get('label')
         label = label.split(".")[1]
 
@@ -285,6 +325,11 @@ def write_relations(out_root, work_root, document_text):
         child_entities = descriptor.findall("./Entity[@span_type='ent']")
         
         for child_entity in child_entities:
+            relation_types.add((
+                label.lower(),
+                descriptor.getparent().get("label").split(".")[1].lower(),
+                child_entity.get("label").split(".")[1].lower()
+            ))
             et.SubElement(relations_node, 
                 "Relation",
                 rel_type=label,
@@ -293,11 +338,26 @@ def write_relations(out_root, work_root, document_text):
                 )
 
 
+def process_xmi_zip(filename, xmi_file):
+    print(f"Processing {filename}.")
+
+    in_root = et.fromstring(xmi_file)
+    outname = filename.replace(".txt", ".xml")
+
+    process_general(in_root, outname)
+
+
 def process_xmi(xmi_file):
+    print(f"Processing {xmi_file}.")
+
     infile = et.parse(xmi_file)
     outname = os.path.basename(xmi_file).replace(".xmi", ".xml")
     in_root = infile.getroot()
 
+    process_general(in_root, outname)
+
+
+def process_general(in_root, outname):
     text_node = in_root.find("./cas:Sofa", namespaces={"cas":"http:///uima/cas.ecore"})
     document_text = text_node.get("sofaString")
     document_text_no_breaks = document_text.replace("\n", " ")
@@ -317,20 +377,25 @@ def process_xmi(xmi_file):
     write_relations(out_root, work_root, document_text_no_breaks)
     # TODO: Write Events
 
+    # print(mention_subtypes)
+
     out_tree = et.ElementTree(out_root)
     out_tree.write(os.path.join(OUTFOLDER, outname), xml_declaration=True, pretty_print=True, encoding="utf8")
 
-
 SCHEMA_INFO = None
-OUTFOLDER = "outfiles/"
-DEBUGFOLDER = "debug_files/"
-if __name__ == "__main__":
-    
+def read_schema():
+    global SCHEMA_INFO
+
     with open("schema_info.json", mode="r", encoding="utf8") as inf:
         SCHEMA_INFO = json.load(inf)
+
+read_schema()
+OUTFOLDER = "outfiles/"
+DEBUGFOLDER = "debug_files/"
+
+if __name__ == "__main__":
 
     infiles = sorted(glob.glob("testfiles/*.xmi"))
 
     for infile in infiles:
-        print(f"Processing {infile}.")
         process_xmi(infile)
