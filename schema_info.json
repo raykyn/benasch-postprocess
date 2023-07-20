@@ -1,14 +1,14 @@
 {
     "mention_classes": [
-        "NAM",
-        "NOM",
-        "PRO",
-        "UNK"
+        "nam",
+        "nom",
+        "pro",
+        "unk"
     ],
     "value_tags": [
-        "MONEY",
-        "TIME",
-        "DATE"
+        "money",
+        "time",
+        "date"
     ],
     "other_tags": [
         "htr",
@@ -16,10 +16,10 @@
         "unclear"
     ],
     "other_fields": {
-        "numerus": ["SGL", "GRP", "NEG"],
-        "specificity": ["SPC", "USPC"],
-        "tempus": ["PRES", "PAST", "FUT"],
-        "other": ["PRO"]
+        "numerus": ["sgl", "grp", "neg"],
+        "specificity": ["spc", "uspc"],
+        "tempus": ["pres", "past", "fut"],
+        "other": ["pro"]
     },
     "conversions": {
         "entity_types": {

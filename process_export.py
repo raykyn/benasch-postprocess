@@ -13,10 +13,10 @@ import zipfile
 import pprint as pp
 
 # Path Info
-INFOLDER = "hgb_test"
+INFOLDER = "hgb_test_2023_07_20"
 
 # Which annotators to process, leave empty for all
-ANNOTATORS = ["kfuchs"]
+ANNOTATORS = ["admin"]
 
 
 if __name__ == "__main__":
@@ -38,7 +38,9 @@ if __name__ == "__main__":
 
             postprocess.process_xmi_zip(username + "_" + os.path.basename(filefolder), xmi)
     
+    """
     pp.pprint("Finished processing all files.")
     pp.pprint(postprocess.mention_subtypes)
     pp.pprint(postprocess.desc_types)
     pp.pprint(postprocess.relation_types)
+    """

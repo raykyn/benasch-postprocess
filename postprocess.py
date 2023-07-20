@@ -28,10 +28,14 @@ def create_node_tree(in_root, document_text):
         if label == None:
             print(f"WARNING: Empty Label in node with id {entity.get('{http://www.omg.org/XMI}id')}!")
             label = ""
-        label = label.split(".")
+        label = label.lower().split(".")
         span_type = ""
         if label[0] in SCHEMA_INFO["mention_classes"]:
             span_type = "ent"
+            if label[0] == "unk":
+                label = ["unk", "unk"]
+        elif label[0] == "lst":
+            span_type = "lst"
         elif label[0] == "att":
             span_type = "att"
         elif label[0] == "desc":
@@ -47,8 +51,8 @@ def create_node_tree(in_root, document_text):
             span_type = ""
             continue
         else:
-            print(f"ERROR: Unrecognized Span Label '{label[0]}'!")
-            exit(1)
+            print(f"ERROR: Unrecognized Span Label '{label[0]}' in annotation with id {entity.get('{http://www.omg.org/XMI}id')}!")
+            continue
         label = ".".join(label)
         # we need to check all parent nodes above if they contain the current node
         while(parent_node != work_root):
@@ -82,16 +86,17 @@ def process_others(other_info, mention_id):
     tempus = SCHEMA_INFO["other_fields"]["tempus"][0]
 
     for o in other_info:
-        o = o.upper()
         if o in SCHEMA_INFO["other_fields"]["numerus"]:
             numerus = o
         elif o in SCHEMA_INFO["other_fields"]["specificity"]:
             spec = o
         elif o in SCHEMA_INFO["other_fields"]["tempus"]:
             tempus = o
+        elif o == "":
+            # someone put two dots by mistake instead of one
+            pass
         elif o not in SCHEMA_INFO["other_fields"]["other"]:
             print(f"ERROR: Unrecognized information {o} in Mention Debug Id {mention_id}.")
-            exit(1)
 
     return numerus, spec, tempus
 
@@ -109,14 +114,58 @@ def write_entities(out_root, work_root, document_text):
 
     entities_node = et.SubElement(out_root, "Mentions")
 
+    for entity in work_root.findall(".//Entity[@span_type='lst']"):
+
+        mention_id = len(old_to_new_ids)
+        old_to_new_ids[entity.get("id")] = mention_id
+
+        label = entity.get("label").lower().split(".")
+        if len(label) > 1:
+            subtype = label[1]
+        subtype = ""
+
+        # get all child entity types
+        child_entities = entity.findall("./Entity[@span_type='ent']")
+        entity_types = ",".join(sorted(set([c.get("label").split(".")[1] for c in child_entities])))
+
+        et.SubElement(entities_node, 
+            "List",
+            mention_id=str(mention_id), 
+            subtype=subtype,
+            entity_types=entity_types,
+            start=entity.get("start"),
+            end=entity.get("end"),
+            )
+
     for entity in work_root.findall(".//Entity[@span_type='ent']"):
-        label = entity.get('label')
+        label = entity.get('label').lower()
         label = label.split(".")
 
         mention_subtype = ""
-        if label[0] == "NAM":
+
+        if label[0] == "nam":
             mention_type, entity_type = label[:2]
             other_types = label[2:]
+        elif label[0] == "pro" and len(label) == 1:
+            # this is the shortcut to get the information from a coreference.
+            # first find the relevant relation/coref, then the relevant mention
+            coref = work_root.find(f".//Relation[@from_entity='{entity.get('id')}'][@label='coref']")
+            parent = work_root.find(f".//Entity[@id='{coref.get('to_entity')}']")
+            while parent.get("label").split(".")[0] == "pro" and len(parent.get("label").split(".")) == 1:
+                # we keep searching until we find a non-abbreviated or non-PRO mention
+                coref = work_root.find(f".//Relation[@from_entity='{parent.get('id')}'][@label='coref']")
+                parent = work_root.find(f".//Entity[@id='{coref.get('to_entity')}']")
+                print("Going further!")
+            print("Found parent!")
+            # when we find the parent, we copy its entity type and ordinality, if necessary
+            parent = parent.get("label").split(".")
+            mention_type, entity_type = "pro", parent[1]
+            parent_other = parent[2:] if parent[0] == "nam" else parent[3:]
+            other_types = []
+            for el in parent_other:
+                if el in SCHEMA_INFO["other_fields"]["numerus"]:
+                    other_types = [el]
+                    break
         else:
             mention_type, entity_type = label[:2]
             if len(label) > 2:
@@ -127,8 +176,8 @@ def write_entities(out_root, work_root, document_text):
 
         if mention_subtype:
             mention_subtypes.add((
-                mention_subtype.lower(),
-                entity_type.lower()
+                mention_subtype,
+                entity_type
             ))
 
         # Process other types
@@ -169,29 +218,46 @@ def write_entities(out_root, work_root, document_text):
         
         # inherit entity type from parent
         parent = entity.getparent()
-        label = parent.get('label')
+        try:
+            label = parent.get('label').lower()
+        except AttributeError as e:
+            if parent.tag == "XML":
+                print(f"ERROR: Found Attribute with mention id {entity.get('id')} that is not child of another mention. Ignoring the attribute...")
+                continue
+            else:
+                raise e
         label = label.split(".")
-        entity_type = label[1]
+        if label[0] == "lst":
+            # if parent is a list, we need to get the entity classification
+            # from one of the REF-child elements
+            child = parent.find("./Entity[@span_type='ent']")
+            if child == None:
+                print("WARNING: Could not get entity class for attribute because LST-Element did not contain any REF-Elements! Setting entity class to UNK.")
+                entity_type = "unk"
+            else:
+                entity_type = child.get('label').lower().split(".")[1]
+        else:
+            entity_type = label[1]
 
         # get own information
-        label = entity.get('label')
+        label = entity.get('label').lower()
         label = label.split(".")
 
-        mention_type = "NOM" if "PRO" not in label[2:] else "PRO"
+        mention_type = "nom" if "pro" not in label[2:] else "pro"
         mention_subtype = label[1]
         if mention_subtype == "alias":
-            mention_type = "NAM"
+            mention_type = "nam"
         numerus, spec, tempus = process_others(label[2:], entity.get("id"))
 
         mention_subtypes.add((
-            mention_subtype.lower(),
-            entity_type.lower()
+            mention_subtype,
+            entity_type
         ))
 
         head_elem = entity.find("Entity[@label='head']")
         if head_elem == None:
             # Implizierter Head
-            print(f"Warning: Implizierter Head bei {entity.get('id')}.")
+            #print(f"Warning: Implizierter Head bei {entity.get('id')}.")
             head_start = entity.get("start")
             head_end = entity.get("end")
         else:
@@ -221,12 +287,12 @@ def write_entities(out_root, work_root, document_text):
     # NOTE: Should we only add those descriptors that are NOT also relations?
     description_node = et.SubElement(out_root, "Descriptors")    
     for desc in work_root.findall(".//Entity[@span_type='desc']"):
-        label = desc.get('label')
+        label = desc.get('label').lower()
         label = label.split(".")
         desc_type = label[1]
 
         desc_types.add((
-            desc_type.lower(),
+            desc_type,
         ))
 
         # TODO: Give this a reference to the entity that it describes
@@ -251,23 +317,26 @@ def write_values(out_root, work_root, document_text):
             text=document_text[int(value.get("start")):int(value.get("end"))]
             )
 
-relation_types = set()
+# relation_types = set()
 def write_relations(out_root, work_root, document_text):
     relations_node = et.SubElement(out_root, "Relations") 
 
     # First, the easy ones that were tagged as relations
     for relation in work_root.findall(".//Relation"):
-        et.SubElement(relations_node, 
-            "Relation",
-            rel_type=relation.get("label"),
-            from_mention=str(old_to_new_ids[relation.get("from_entity")]),
-            to_mention=str(old_to_new_ids[relation.get("to_entity")]),
-            )
+        try:
+            et.SubElement(relations_node, 
+                "Relation",
+                rel_type=relation.get("label"),
+                from_mention=str(old_to_new_ids[relation.get("from_entity")]),
+                to_mention=str(old_to_new_ids[relation.get("to_entity")]),
+                )
+        except KeyError as e:
+            print(f"ERROR: When trying to write a relation, a mention id could not be found: {e}. Maybe the relation was connected to an invalid annotation such as a 'desc.xy'?")
         
     for entity in work_root.findall(".//Entity[@span_type='ent']"):
-        label = entity.get('label')
+        label = entity.get('label').lower()
         label = label.split(".")
-        if label[0] == "NAM" or len(label) < 3:
+        if label[0] == "nam" or len(label) < 3:
             continue
         label = label[2]
 
@@ -276,11 +345,13 @@ def write_relations(out_root, work_root, document_text):
         child_entities = entity.findall("./Entity[@span_type='ent']")
         
         for child_entity in child_entities:
+            """
             relation_types.add((
                 label.lower(),
                 entity.get("label").split(".")[1].lower(),
                 child_entity.get("label").split(".")[1].lower()
             ))
+            """
             et.SubElement(relations_node, 
                 "Relation",
                 rel_type=label,
@@ -291,7 +362,7 @@ def write_relations(out_root, work_root, document_text):
     # now the implied relations from att and desc (and entities which are PRO and NOM possibly!)
     # basically, if there is another mention inside an att or a desc, we have a relation between the original mention and the one inside
     for entity in work_root.findall(".//Entity[@span_type='att']"):
-        label = entity.get('label')
+        label = entity.get('label').lower()
         label = label.split(".")[1]
 
         # check if an entity is included in this span, then this is what the relationship refers to
@@ -299,11 +370,13 @@ def write_relations(out_root, work_root, document_text):
         child_entities = entity.findall("./Entity[@span_type='ent']")
 
         for child_entity in child_entities:
+            """
             relation_types.add((
                 label.lower(),
                 entity.getparent().get("label").split(".")[1].lower(),
                 child_entity.get("label").split(".")[1].lower()
             ))
+            """
             et.SubElement(relations_node, 
                 "Relation",
                 rel_type=label,
@@ -317,7 +390,7 @@ def write_relations(out_root, work_root, document_text):
         if parent.tag == "XML":
             print(f"WARNING: A Desc-Span is standing independently. Check span id {descriptor.get('id')}. Skipping this potential relation.")
             continue
-        label = descriptor.get('label')
+        label = descriptor.get('label').lower()
         label = label.split(".")[1]
 
         # check if an entity is included in this span, then this is what the relationship refers to
@@ -325,11 +398,13 @@ def write_relations(out_root, work_root, document_text):
         child_entities = descriptor.findall("./Entity[@span_type='ent']")
         
         for child_entity in child_entities:
+            """
             relation_types.add((
                 label.lower(),
                 descriptor.getparent().get("label").split(".")[1].lower(),
                 child_entity.get("label").split(".")[1].lower()
             ))
+            """
             et.SubElement(relations_node, 
                 "Relation",
                 rel_type=label,
