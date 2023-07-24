@@ -3,12 +3,14 @@
         "nam",
         "nom",
         "pro",
+		"self",
         "unk"
     ],
     "value_tags": [
         "money",
         "time",
-        "date"
+        "date",
+		"date_range"
     ],
     "other_tags": [
         "htr",
