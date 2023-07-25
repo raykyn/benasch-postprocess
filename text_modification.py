@@ -9,6 +9,9 @@ An htr.xy tag which is not for deletion may contain tags which will be kept and 
 You may not overlap a tag into an htr.xy tag! There also should never be a reason you'd want to do that!
 """
 
+import re
+
+
 def find_textnode(in_root):
     text_node = in_root.find("./cas:Sofa", namespaces={"cas":"http:///uima/cas.ecore"})
 
@@ -150,6 +153,7 @@ def move_line_up(in_root):
         swap_line = in_root.find(f".//type5:Sentence[@end='{begin-1}']", namespaces={"type5":"http:///de/tudarmstadt/ukp/dkpro/core/api/segmentation/type.ecore"})
         if not swap_line:
             print("WARNING: When trying to move a line up, no previous line matched the boundary. Did you mark the whole line?")
+            continue
         swap_begin = int(swap_line.get("begin"))
         swap_end = int(swap_line.get("end")) + 1
         swap_length = swap_end - swap_begin
@@ -208,7 +212,51 @@ def move_line_down(in_root):
     return in_root
 
 
+def remove_headers(in_root):
+    """
+    Very project-specific. We marked document headers with STARTDATE and ENDDATE.
+    This function removes lines that are marked with these strings.
+    We also need to remove all tags that are inside these strings.
+    """
+    text_node = find_textnode(in_root)
+    document_text = text_node.get("sofaString")
+    to_remove = re.finditer(r"(STARTDATE(.*?)ENDDATE)", document_text)
+    for r in reversed(list(to_remove)):
+        print(r)
+        start = r.start()
+        end = r.end() + 1
+        length = end - start
+
+        document_text = text_node.get("sofaString")
+        document_text = document_text[:start] + document_text[end:]
+        text_node.set("sofaString", document_text)
+
+        # modify the other tags to fit the new string
+        for other in in_root.findall(".//custom:Span", namespaces={"custom":"http:///custom.ecore"}):
+            other_begin = int(other.get("begin"))
+            other_end = int(other.get("end"))
+            if other_begin >= end:
+                new_begin = other_begin - length
+                other.set("begin", str(new_begin))
+                new_end = other_end - length
+                other.set("end", str(new_end))
+
+        for other in in_root.findall(".//custom:Relation", namespaces={"custom":"http:///custom.ecore"}):
+            other_begin = int(other.get("begin"))
+            other_end = int(other.get("end"))
+            if other_begin >= end:
+                new_begin = other_begin - length
+                other.set("begin", str(new_begin))
+                new_end = other_end - length
+                other.set("end", str(new_end))
+
+    return in_root
+
+
 def modify_text(in_root):
+
+    in_root = remove_headers(in_root)
+
     in_root = delete_text(in_root)
     in_root = move_line_end(in_root)
     in_root = move_line_top(in_root)
