@@ -7,6 +7,7 @@ import json
 import os
 import re
 from lxml import etree as et
+from text_modification import modify_text
 #from xml.sax.saxutils import escape
 
 
@@ -482,6 +483,10 @@ def process_xmi(xmi_file):
 
 
 def process_general(in_root, outname):
+
+    # Modify the CAS XMI according to htr.xy tags
+    in_root = modify_text(in_root)
+
     text_node = in_root.find("./cas:Sofa", namespaces={"cas":"http:///uima/cas.ecore"})
     document_text = text_node.get("sofaString")
     document_text_no_breaks = document_text.replace("\n", " ")
