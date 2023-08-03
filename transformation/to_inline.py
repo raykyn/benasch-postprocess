@@ -7,6 +7,7 @@ For a future TEI conversion script we can largely use the same script with some 
 """
 
 import os
+import re
 from lxml import etree as et
 
 # Put in this list all nodes by xpath syntax to be converted (from root)
@@ -121,7 +122,7 @@ def process_document(docpath):
 
     oldtext = oldtext.replace("&", "&amp;")
 
-    print(oldtext)
+    #print(oldtext)
 
     #textnode = et.fromstring(oldtext, parser=et.XMLParser(recover=True))
     textnode = et.fromstring(oldtext)
