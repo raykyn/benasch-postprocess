@@ -222,7 +222,7 @@ def remove_headers(in_root):
     document_text = text_node.get("sofaString")
     to_remove = re.finditer(r"(STARTDATE(.*?)ENDDATE)", document_text)
     for r in reversed(list(to_remove)):
-        print(r)
+        #print(r)
         start = r.start()
         end = r.end() + 1
         length = end - start
@@ -254,10 +254,9 @@ def remove_headers(in_root):
 
 
 def modify_text(in_root):
+    in_root = delete_text(in_root)
 
     in_root = remove_headers(in_root)
-
-    in_root = delete_text(in_root)
     in_root = move_line_end(in_root)
     in_root = move_line_top(in_root)
     in_root = move_line_up(in_root)
