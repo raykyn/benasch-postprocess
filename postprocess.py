@@ -172,7 +172,7 @@ def pro_coref_get_entity_type(work_root, coref):
         first_child_label = parent.find("./Entity[@span_type='ent']").get("label").split(".")
         mention_type = "pro"
         other_types = ["grp"]  # lists are always groups of entities
-        if first_child_label == "pro" and len(first_child_label) == 1:
+        if first_child_label[0] == "pro" and len(first_child_label) == 1:
             children = [c for c in parent.findall("./Entity[@span_type='ent']") if len(c.get("label").split(".")) > 1]
             if children:
                 entity_type = children[0].get("label").split(".")[1]
@@ -231,7 +231,7 @@ def write_entities(out_root, work_root, document_text):
                 else:
                     mention_type, entity_type, other_types = pro_coref_get_entity_type(work_root, coref)
                     entity_types.append(entity_type)
-        entity_types = ",".join(sorted(set([c.get("label").split(".")[1] for c in child_entities])))
+        entity_types = ",".join(entity_types)
 
         et.SubElement(entities_node, 
             "List",
@@ -478,7 +478,7 @@ def write_relations(out_root, work_root, document_text):
     for descriptor in work_root.findall(".//Entity[@span_type='desc']"):
         parent = descriptor.getparent()
         if parent.tag == "XML":
-            print(f"WARNING: A Desc-Span is standing independently. Check span id {descriptor.get('id')}. Skipping this potential relation.")
+            print(f"ERROR: A Desc-Span is standing independently. Check span id {descriptor.get('id')}. Skipping this potential relation.")
             continue
         label = descriptor.get('label').lower()
         label = label.split(".")[1]
