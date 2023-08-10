@@ -167,6 +167,7 @@ def write_entities(out_root, work_root, document_text):
 
     entities_node = et.SubElement(out_root, "Mentions")
 
+    ### LISTS ###
     for entity in work_root.findall(".//Entity[@span_type='lst']"):
 
         mention_id = len(old_to_new_ids)
@@ -190,6 +191,7 @@ def write_entities(out_root, work_root, document_text):
             end=entity.get("end"),
             )
 
+    ### REFERENCES ###
     for entity in work_root.findall(".//Entity[@span_type='ent']"):
         label = entity.get('label').lower()
         label = label.split(".")
@@ -209,14 +211,18 @@ def write_entities(out_root, work_root, document_text):
                 coref = work_root.find(f".//Relation[@from_entity='{parent.get('id')}'][@label='coref']")
                 parent = work_root.find(f".//Entity[@id='{coref.get('to_entity')}']")
             # when we find the parent, we copy its entity type and ordinality, if necessary
-            parent = parent.get("label").split(".")
-            mention_type, entity_type = "pro", parent[1]
-            parent_other = parent[2:] if parent[0] == "nam" else parent[3:]
-            other_types = []
-            for el in parent_other:
-                if el in SCHEMA_INFO["other_fields"]["numerus"]:
-                    other_types = [el]
-                    break
+            parentlabel = parent.get("label").split(".")
+            if parentlabel[0] == "lst":
+                mention_type, entity_type = "pro", parent.find("./Entity[@span_type='ent']").get("label").split(".")[1]
+                other_types = ["grp"]  # lists are always groups of entities
+            else:
+                mention_type, entity_type = "pro", parentlabel[1]
+                parent_other = parentlabel[2:] if parentlabel[0] == "nam" else parentlabel[3:]
+                other_types = []
+                for el in parent_other:
+                    if el in SCHEMA_INFO["other_fields"]["numerus"]:
+                        other_types = [el]
+                        break
         else:
             mention_type, entity_type = label[:2]
             if len(label) > 2:
