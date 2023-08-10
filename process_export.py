@@ -1,9 +1,7 @@
 """
 This is a helper script working with postprocess.py to read the export folder provided by inception.
 Important: 
-All files that are "in progress" and "finished" (not "problem") marked will be processed by this script.
-Additionally, to make sure that no accidental non-annotated files make it through,
-the postprocess-Script will give a warning in case a file does not contain any annotation spans.
+We will skip any files which do not contain at least one <Span>-Node!
 """
 
 import glob
@@ -13,10 +11,10 @@ import zipfile
 import pprint as pp
 
 # Path Info
-INFOLDER = "hgb_test_2023_07_20"
+INFOLDER = "hgb_1"
 
 # Which annotators to process, leave empty for all
-ANNOTATORS = ["admin"]
+ANNOTATORS = ["kfuchs"]
 
 
 if __name__ == "__main__":

@@ -467,6 +467,12 @@ def process_xmi_zip(filename, xmi_file):
     print(f"Processing {filename}.")
 
     in_root = et.fromstring(xmi_file)
+
+    at_least_one_span = in_root.find("./custom:Span", namespaces={"custom":"http:///custom.ecore"})
+    if at_least_one_span is None:
+        # stop processing if document doesn't contain annotations
+        return
+
     outname = filename.replace(".txt", ".xml")
 
     process_general(in_root, outname)
