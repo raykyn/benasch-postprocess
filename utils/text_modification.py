@@ -18,31 +18,37 @@ def find_textnode(in_root):
     return text_node
 
 
-def fit_annotations(in_root, node, end, length):
+def fit_annotations(in_root, node, begin, end, length):
     # modify the other tags to fit the new string
     for other in in_root.findall(".//custom:Span", namespaces={"custom":"http:///custom.ecore"}):
         if other == node:
             continue
         other_begin = int(other.get("begin"))
         other_end = int(other.get("end"))
-        if other_begin > end:
+        if other_begin >= end:
             new_begin = other_begin - length
             other.set("begin", str(new_begin))
         if other_end > end:
             new_begin = other_end - length
             other.set("end", str(new_begin))
+        if other_begin >= begin and other_end <= end:
+            # tag is inside deleted part, delete tag as well
+            other.getparent().remove(other)
 
     for other in in_root.findall(".//custom:Relation", namespaces={"custom":"http:///custom.ecore"}):
         if other == node:
             continue
         other_begin = int(other.get("begin"))
         other_end = int(other.get("end"))
-        if other_begin > end:
+        if other_begin >= end:
             new_begin = other_begin - length
             other.set("begin", str(new_begin))
         if other_end > end:
             new_begin = other_end - length
             other.set("end", str(new_begin))
+        if other_begin >= begin and other_end <= end:
+            # tag is inside deleted part, delete tag as well
+            other.getparent().remove(other)
 
 
 def delete_text(in_root):
@@ -50,7 +56,7 @@ def delete_text(in_root):
 
     for node in htr_nodes:
         begin = int(node.get("begin"))
-        end = int(node.get("end"))
+        end = int(node.get("end")) + 1
         length = end - begin
         
         # remove text
@@ -59,7 +65,7 @@ def delete_text(in_root):
         document_text = document_text[:begin] + document_text[end:]
         text_node.set("sofaString", document_text)
 
-        fit_annotations(in_root, node, end, length)
+        fit_annotations(in_root, node, begin, end, length)
 
     return in_root
 
@@ -228,6 +234,7 @@ def remove_headers(in_root):
         start = r.start()
         end = r.end() + 1
         length = end - start
+        #print(length)
 
         document_text = text_node.get("sofaString")
         document_text = document_text[:start] + document_text[end:]
@@ -247,11 +254,22 @@ def remove_headers(in_root):
         for other in in_root.findall(".//custom:Span", namespaces={"custom":"http:///custom.ecore"}):
             other_begin = int(other.get("begin"))
             other_end = int(other.get("end"))
+            """
             if other_begin >= end:
                 new_begin = other_begin - length
                 other.set("begin", str(new_begin))
                 new_end = other_end - length
                 other.set("end", str(new_end))
+            """
+            if other_begin >= end:
+                new_begin = other_begin - length
+                other.set("begin", str(new_begin))
+            if other_end > end:
+                new_end = other_end - length
+                other.set("end", str(new_end))
+            if other_begin >= start and other_end <= end:
+                # tag is inside deleted part, delete tag as well
+                other.getparent().remove(other)
 
         for other in in_root.findall(".//custom:Relation", namespaces={"custom":"http:///custom.ecore"}):
             other_begin = int(other.get("begin"))
@@ -259,8 +277,12 @@ def remove_headers(in_root):
             if other_begin >= end:
                 new_begin = other_begin - length
                 other.set("begin", str(new_begin))
-                new_end = other_end - length
-                other.set("end", str(new_end))
+            if other_end > end:
+                new_begin = other_end - length
+                other.set("end", str(new_begin))
+            if other_begin >= start and other_end <= end:
+                # tag is inside deleted part, delete tag as well
+                other.getparent().remove(other)
 
     return in_root
 

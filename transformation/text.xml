@@ -1,22 +1,12 @@
 <?xml version='1.0' encoding='UTF8'?>
-<Text> <Value value_type="money">2 ℔ 14ß</Value> <Value value_type="date">uf sant Joanstag zu Sunnenwen
-dung</Value> Kouft und widerkoufig mit <Value value_type="money">54 ℔ gemeiner
-guter und genger Basler wärung</Value> , geben <Value value_type="time.rec">järlich</Value>
-<List mention_id="0" subtype="" entity_types="per"><List mention_id="1" subtype="" entity_types="per,per"><Reference mention_id="2" mention_type="nam" mention_subtype="" entity_type="per" numerus="sgl" specificity="spc" tempus="pres"><Head>Heinrich Peter</Head></Reference> und <Reference mention_id="3" mention_type="nam" mention_subtype="" entity_type="per" numerus="sgl" specificity="spc" tempus="pres"><Head>Elsbeth Freminen</Head> <Attribute mention_id="14" mention_type="nom" mention_subtype="fam" entity_type="per" numerus="sgl" specificity="spc" tempus="pres"><Reference mention_id="4" mention_type="pro" mention_subtype="" entity_type="per" numerus="sgl" specificity="spc" tempus="pres"><Head>sin</Head></Reference> <Head>eefrow</Head></Attribute></Reference>
-<Attribute mention_id="15" mention_type="nom" mention_subtype="role" entity_type="per" numerus="sgl" specificity="spc" tempus="pres"><Head>Houptverkoufer</Head></Attribute> , und <Attribute mention_id="16" mention_type="nom" mention_subtype="org-aff" entity_type="per" numerus="sgl" specificity="spc" tempus="pres"><Head>Burgen</Head> ze <Reference mention_id="5" mention_type="nam" mention_subtype="" entity_type="gpe_org" numerus="sgl" specificity="spc" tempus="pres"><Head>Basel ( Kleinen ,</Head></Reference></Attribute></List> so
-dan <Reference mention_id="6" mention_type="nam" mention_subtype="" entity_type="per" numerus="sgl" specificity="spc" tempus="pres"><Head>Hans Eglin</Head> <Attribute mention_id="17" mention_type="nom" mention_subtype="occ" entity_type="per" numerus="sgl" specificity="spc" tempus="pres">der <Head>schnider</Head></Attribute> , <Attribute mention_id="18" mention_type="nom" mention_subtype="role" entity_type="per" numerus="sgl" specificity="spc" tempus="pres"><Head>mitverkoufer</Head></Attribute></Reference></List> : von
-und ab <Reference mention_id="7" mention_type="nom" mention_subtype="" entity_type="fac" numerus="sgl" specificity="spc" tempus="pres"><Descriptor desc_type="owner"><Reference mention_id="8" mention_type="nom" mention_subtype="role" entity_type="per" numerus="grp" specificity="spc" tempus="pres">jren der <Head>Houptverkoufer</Head></Reference></Descriptor> <Head>Hus und Hofstatt</Head>
-<Descriptor desc_type="loc">wie das in <Reference mention_id="9" mention_type="nam" mention_subtype="" entity_type="gpe_loc" numerus="sgl" specificity="spc" tempus="pres">der <Head>mindern Statt Basel</Head></Reference> , einsit am
-genannt , und anderseits an <Reference mention_id="10" mention_type="nam" mention_subtype="" entity_type="fac" numerus="sgl" specificity="spc" tempus="pres">dem
-<Head>Hus zum
-Rochshus zum Roten lowen</Head> genannt</Reference> , gelegen</Descriptor> , <Descriptor desc_type="tax">zinst
-zuvor <Reference mention_id="11" mention_type="nom" mention_subtype="org-repr" entity_type="per" numerus="sgl" specificity="spc" tempus="pres">dem <Head>Stadtschribern</Head> zu <Reference mention_id="12" mention_type="nam" mention_subtype="" entity_type="gpe_org" numerus="sgl" specificity="spc" tempus="pres"><Head>mindern Basel</Head></Reference></Reference>
-<Value value_type="money">15ß</Value> bodenzins und <Reference mention_id="13" mention_type="nom" mention_subtype="" entity_type="org" numerus="sgl" specificity="spc" tempus="pres">dem <Head>Almusen</Head></Reference> <Value value_type="money">1 ℔ 3ß</Value> , ist
-mit Gold ablösig , sonst frey , ledig eygen</Descriptor></Reference> .
-391 Th . v . 18 Mitte gibt obige Zinsen
-Datum <Value value_type="date">1562</Value> .
-<Value value_type="date">Ao 1488</Value>
-Reempt <Value value_type="date">anno 1565</Value> .
-Diser brieff wyssedt <Value value_type="money">3 ℔ 4ß .</Value> Darvon gehö ¬
-ren hiehar <Value value_type="money">2 ℔ 14ß .</Value> Die übrigen <Value value_type="money">10ß</Value> gehörend
+<Text><Reference mention_id="0" mention_type="nam" mention_subtype="" entity_type="per" numerus="sgl" specificity="spc" tempus="pres"><Head>Caspar Tuner</Head> <Attribute mention_id="8" mention_type="nom" mention_subtype="role" entity_type="per" numerus="sgl" specificity="spc" tempus="pres"><Head>mitschuldner</Head></Attribute></Reference> , underpfand : <Reference mention_id="1" mention_type="nom" mention_subtype="" entity_type="fac" numerus="sgl" specificity="spc" tempus="pres">das <Head>Hus</Head>
+genant <Attribute mention_id="9" mention_type="nam" mention_subtype="alias" entity_type="fac" numerus="sgl" specificity="spc" tempus="pres"><Head>Rinow an der Rinbrug</Head></Attribute> genant nun <Attribute mention_id="10" mention_type="nam" mention_subtype="alias" entity_type="fac" numerus="sgl" specificity="spc" tempus="pres"><Head>zu der
+Sunnen</Head></Attribute> , ist <Attribute mention_id="11" mention_type="nom" mention_subtype="same" entity_type="fac" numerus="sgl" specificity="spc" tempus="pres"><Head>ein ort hus <Descriptor desc_type="loc">an <Reference mention_id="2" mention_type="nam" mention_subtype="" entity_type="loc" numerus="sgl" specificity="spc" tempus="pres"><Head>dernideren Rinow</Head></Reference></Descriptor></Head></Attribute></Reference> ,
+u . a . Liegenschaften
+Datum : Anno <Reference mention_id="3" mention_type="unk" mention_subtype="" entity_type="unk" numerus="sgl" specificity="spc" tempus="pres"><Head>39</Head></Reference> jar .
+Git nun <Reference mention_id="4" mention_type="nam" mention_subtype="" entity_type="per" numerus="sgl" specificity="spc" tempus="pres"><Head>Wernlin Meyglin</Head></Reference> .
+<Reference mention_id="5" mention_type="nam" mention_subtype="" entity_type="per" numerus="sgl" specificity="spc" tempus="pres"><Head>Niclaus Angelroth</Head></Reference> hat die <Value value_type="money">8 gld . geltz</Value> abgelöst mit
+<Value value_type="money">160 gld .</Value> und ist mit sampt andren die <Value value_type="money">10 gld . gelts</Value>
+so wir <Reference mention_id="6" mention_type="nam" mention_subtype="" entity_type="per" numerus="sgl" specificity="spc" tempus="pres"><Head>Heinrich Weyger</Head></Reference> gezinst haben , damit abgelöst .
+gestrichen .
 </Text>

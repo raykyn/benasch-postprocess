@@ -23,6 +23,27 @@ ATTRIBUTES_TO_INCLUDE = ["_ALL_"]
 ATTRIBUTES_TO_EXCLUDE = ["head_text", "text", "start", "end", "head_start", "head_end"]
 
 
+def fix_att_full_coverage(root):
+    """
+    If a att.xy covers exactly the same span as a reference in the same place,
+    there must be an error, as at least one of the two has a head missing.
+    Most likely, the att.xy should have been a desc.xy, but changing it now is too late,
+    so just drop a warning, remove the Attribute that is problematic and move on.
+    Also give the head positions to the reference.
+    """
+    ref_spans = root.findall("./Mentions/Reference")
+    att_spans = root.findall("./Mentions/Attribute")
+    for ref in ref_spans:
+        for att in att_spans:
+            if ref.get("start") == att.get("start") and ref.get("end") == att.get("end"):
+                print("ERROR: A reference and an attribute cover each other fully, meaning a head is missing. Attribute will be deleted and Reference fixed, please investigate.")
+                print(att.get("head_text"))
+                ref.set("head_start", att.get("head_start"))
+                ref.set("head_end", att.get("head_end"))
+                att.getparent().remove(att)
+    return root
+
+
 def get_node_priority(node, is_head):
     if node.tag == "Descriptor":
         return 1
@@ -94,6 +115,9 @@ def process_document(docpath):
     oldroot = et.parse(docpath).getroot()
     oldtext = oldroot.find("Text").text
 
+    # Fix the attribute instead of desc error
+    oldroot = fix_att_full_coverage(oldroot)
+
     # sort all valid elements by their position, then priority (1. end index, 2. start index, 3. tag)
     nodes = []
     for c in TO_CONVERT:
@@ -113,23 +137,29 @@ def process_document(docpath):
     #    print(n[0].get("head_text"), n[1])
 
     for node, position, is_head in nodes:
+        #print(node, position, is_head)
         if is_head:
             position = "head_" + position
         index = int(node.get(position))
+        if index > len(oldtext):
+            print("WARNING: Tag index was outside text length. This can happen when a header was annotated and removed.")
+            continue
         oldtext = oldtext[:index] + convert_tag(node, position, is_head) + oldtext[index:]
 
     oldtext = "<Text>" + oldtext + "</Text>"
 
     oldtext = oldtext.replace("&", "&amp;")
 
-    #print(oldtext)
-
-    #textnode = et.fromstring(oldtext, parser=et.XMLParser(recover=True))
-    textnode = et.fromstring(oldtext)
+    try:
+        textnode = et.fromstring(oldtext)
+    except et.XMLSyntaxError as e:
+        print(e)
+        print(oldtext.encode("utf8"))
+        textnode = et.fromstring(oldtext, parser=et.XMLParser(recover=True))
 
     return textnode
 
 
 if __name__ == "__main__":
-    textnode = process_document("../outfiles/admin_HGB_Exp_11_054_HGB_1_066_055_010.xml")
+    textnode = process_document("../outfiles/admin_068_HGB_1_161_010_009.xml")
     write_document("text.xml", textnode)

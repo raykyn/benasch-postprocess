@@ -2,3 +2,4 @@ data/
 logs/
 outfiles/*.xml
 __pycache__/
+trainingdata/*

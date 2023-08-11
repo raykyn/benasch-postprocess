@@ -13,7 +13,7 @@ By default, this script ignores Lists when determining tag depth. To change this
 """
 
 import csv
-import to_inline
+from . import to_inline
 from lxml import etree as et
 
 # Nodes without heads cannot contain other elements or they won't be processed properly!
@@ -126,6 +126,10 @@ def process_document(docpath, orders):
             filter = order["filter"]
         else:
             filter = {}
+        if "filter_strict" in order:
+            filter_strict = order["filter_strict"]
+        else:
+            filter_strict = {}
         if "ignore_lists" in order and not order["ignore_lists"]:
             ignore_lists = False
         else:
@@ -180,14 +184,20 @@ def process_document(docpath, orders):
                 to_filter.append(filter_dict)
                 tags.append(tag_dict)
             is_filtered = False
-            for f in filter:
-                if f in to_filter[0] and to_filter[0][f] not in filter[f]:
-                    is_filtered = True
-                    break
-            if is_filtered:
-                tags = "O"
-                annotations.append(tags)
-                continue
+            if tags:
+                for f in filter_strict:
+                    if f not in to_filter[0] or to_filter[0][f] not in filter_strict[f]:
+                        is_filtered = True
+                        break
+                for f in filter:
+                    # NOTE: We only filter the first level of depth currently
+                    if f in to_filter[0] and to_filter[0][f] not in filter[f]:
+                        is_filtered = True
+                        break
+                if is_filtered:
+                    tags = "O"
+                    annotations.append(tags)
+                    continue
             # attach B or I
             if tags:
                 if check_if_first(t, p, True if mode == "heads" else False):

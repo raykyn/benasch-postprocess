@@ -8,6 +8,7 @@ import os
 import re
 from lxml import etree as et
 from utils.text_modification import modify_text
+from utils.small_corrections import small_corrects
 #from xml.sax.saxutils import escape
 
 
@@ -508,14 +509,14 @@ def write_relations(out_root, work_root, document_text):
 
 
 def process_xmi_zip(filename, xmi_file):
-    print(f"Processing {filename}.")
-
     in_root = et.fromstring(xmi_file)
 
     at_least_one_span = in_root.find("./custom:Span", namespaces={"custom":"http:///custom.ecore"})
     if at_least_one_span is None:
         # stop processing if document doesn't contain annotations
         return
+
+    print(f"Processing {filename}.")
 
     outname = filename.replace(".txt", ".xml")
 
@@ -536,6 +537,9 @@ def process_general(in_root, outname):
 
     # Modify the CAS XMI according to htr.xy tags
     in_root = modify_text(in_root)
+
+    # Small Corrections
+    in_root = small_corrects(in_root)
 
     text_node = in_root.find("./cas:Sofa", namespaces={"cas":"http:///uima/cas.ecore"})
     document_text = text_node.get("sofaString")
