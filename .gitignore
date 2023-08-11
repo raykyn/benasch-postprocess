@@ -1,0 +1,4 @@
+data/
+logs/
+outfiles/*.xml
+__pycache__/
