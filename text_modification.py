@@ -151,7 +151,7 @@ def move_line_up(in_root):
         # TODO: instead of an exact match, we could simply look for the sentence element that matches most closely
         # which would be a bit more robust against misplaced annotations
         swap_line = in_root.find(f".//type5:Sentence[@end='{begin-1}']", namespaces={"type5":"http:///de/tudarmstadt/ukp/dkpro/core/api/segmentation/type.ecore"})
-        if not swap_line:
+        if swap_line is None:
             print("WARNING: When trying to move a line up, no previous line matched the boundary. Did you mark the whole line?")
             continue
         swap_begin = int(swap_line.get("begin"))
@@ -165,6 +165,8 @@ def move_line_up(in_root):
         swap_text = document_text[swap_begin:swap_end]
         new_document_text = document_text[:swap_begin] + tagged_text + swap_text + document_text[end:]
         text_node.set("sofaString", new_document_text)
+
+        
 
         # modify the other tags to fit the new string
         for other in in_root.findall(".//custom:Span", namespaces={"custom":"http:///custom.ecore"}):
@@ -232,6 +234,16 @@ def remove_headers(in_root):
         text_node.set("sofaString", document_text)
 
         # modify the other tags to fit the new string
+        # TO TEST: Not sure if the sentence movement will work perfect in some edge cases.
+        for other in in_root.findall(".//type5:Sentence", namespaces={"type5":"http:///de/tudarmstadt/ukp/dkpro/core/api/segmentation/type.ecore"}):
+            other_begin = int(other.get("begin"))
+            other_end = int(other.get("end"))
+            if other_begin >= end:
+                new_begin = other_begin - length
+                other.set("begin", str(new_begin))
+                new_end = other_end - length
+                other.set("end", str(new_end))
+
         for other in in_root.findall(".//custom:Span", namespaces={"custom":"http:///custom.ecore"}):
             other_begin = int(other.get("begin"))
             other_end = int(other.get("end"))
