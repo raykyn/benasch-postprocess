@@ -8,6 +8,8 @@ Concrete examples that should be possible to be created:
 - Get all full span tags but only their entity_class
 - Get all head span tags with mention_class + entity_class
 - Get all head span tags which are Named Entity Mentions with their entity class
+
+By default, this script ignores Lists when determining tag depth. To change this behaviour set the option ignore_lists = False in the orders.
 """
 
 import csv
@@ -124,6 +126,10 @@ def process_document(docpath, orders):
             filter = order["filter"]
         else:
             filter = {}
+        if "ignore_lists" in order and not order["ignore_lists"]:
+            ignore_lists = False
+        else:
+            ignore_lists = True
         annotations = []
 
         # mode: decide if text is taken from the full node or only the head node
@@ -134,6 +140,8 @@ def process_document(docpath, orders):
         # if depth == 1 (flat tags) we simply take the top tag
 
         for t, ancestors in zip(tokens, ancestors_list):
+            if ignore_lists:
+                ancestors = [a for a in ancestors if a.tag != "List"]
             if mode == "heads":
                 ancestors = list(reversed(ancestors))
             tags = []
@@ -226,9 +234,17 @@ if __name__ == "__main__":
                 "entity_type|desc_type|value_type": []
             },
             "depth": 1
-        }
+        },
+        {
+            "mode": "full",
+            "tags": {
+                "entity_type|desc_type|value_type|entity_types": []
+                },
+            "ignore_lists": False,
+            "depth": 1
+        },
     ]
-    token_list, annotation_cols = process_document("../outfiles/admin_001_HGB_1_002_096_007.xml", orders)
+    token_list, annotation_cols = process_document("../outfiles/admin_HGB_Exp_11_054_HGB_1_066_055_010.xml", orders)
     #process_document("../outfiles/admin_008_HGB_1_024_074_020.xml", orders)
 
     write_outfile("test.tsv", token_list, annotation_cols)
