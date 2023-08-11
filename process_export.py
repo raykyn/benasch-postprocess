@@ -11,7 +11,7 @@ import zipfile
 import pprint as pp
 
 # Path Info
-INFOLDER = "hgb_1"
+INFOLDER = "data/hgb_1"
 
 # Which annotators to process, leave empty for all
 ANNOTATORS = ["kfuchs"]

@@ -7,7 +7,7 @@ import json
 import os
 import re
 from lxml import etree as et
-from text_modification import modify_text
+from utils.text_modification import modify_text
 #from xml.sax.saxutils import escape
 
 
@@ -544,7 +544,8 @@ def process_general(in_root, outname):
     work_root = create_node_tree(in_root, document_text)
 
     work_tree = et.ElementTree(work_root)
-    work_tree.write(os.path.join(DEBUGFOLDER, outname), xml_declaration=True, pretty_print=True, encoding="utf8")
+    # For debugging seeing the trees might be helpful, so we keep the option in to write them
+    #work_tree.write(os.path.join(DEBUGFOLDER, outname), xml_declaration=True, pretty_print=True, encoding="utf8")
 
     out_root = et.Element("XML")
 
@@ -570,7 +571,7 @@ def read_schema():
 
 read_schema()
 OUTFOLDER = "outfiles/"
-DEBUGFOLDER = "debug_files/"
+DEBUGFOLDER = "debugfiles/"
 
 if __name__ == "__main__":
 
