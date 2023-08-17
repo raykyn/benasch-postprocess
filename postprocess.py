@@ -158,6 +158,7 @@ Using parent of head instead as parent of Attribute. Make sure to fix this as he
     else:
         entity_type = label[1]
 
+    entity_type = apply_conversions(entity_type)
     return entity_type
 
 
@@ -196,7 +197,8 @@ def pro_coref_get_entity_type(work_root, coref):
             if el in SCHEMA_INFO["other_fields"]["numerus"]:
                 other_types = [el]
                 break
-
+    
+    entity_type = apply_conversions(entity_type)
     return mention_type, entity_type, other_types
 
 
@@ -231,6 +233,7 @@ def write_entities(out_root, work_root, document_text):
                     entity_types.append("unk")
                 else:
                     mention_type, entity_type, other_types = pro_coref_get_entity_type(work_root, coref)
+                    entity_type = apply_conversions(entity_type)
                     entity_types.append(entity_type)
         entity_types = ",".join(entity_types)
 
@@ -326,6 +329,7 @@ def write_entities(out_root, work_root, document_text):
         if mention_subtype == "alias":
             mention_type = "nam"
         numerus, spec, tempus = process_others(label[2:], entity.get("id"))
+        entity_type = apply_conversions(entity_type)
 
         mention_subtypes.add((
             mention_subtype,

@@ -134,6 +134,12 @@ def process_document(docpath, orders):
             ignore_lists = False
         else:
             ignore_lists = True
+        if "tag_granularity" in order:
+            # tag granularity controls to which level tags are used
+            # later i'd like also the option to set this per tag
+            tag_granularity = order["tag_granularity"]
+        else:
+            tag_granularity = -1
         annotations = []
 
         # mode: decide if text is taken from the full node or only the head node
@@ -165,12 +171,17 @@ def process_document(docpath, orders):
                 filter_dict = {}
                 for o_t in ordered_tags:
                     # check if any of the tags do return something
-                    o_t = o_t.split("|")
-                    for o in o_t:
+                    split_o_t = o_t.split("|")
+                    for o in split_o_t:
                         tag = p.get(o)
                         if tag != None:
                             break
                     if tag != None:
+                        if tag_granularity != -1:
+                            tag = "_".join(tag.split("_")[:tag_granularity])
+                        if ordered_tags[o_t] and tag not in ordered_tags[o_t]:
+                            # only include the tags in the included_tags list
+                            continue
                         tag_dict[o] = tag
                 for f_t in filter:
                     # check if any of the tags do return something
@@ -181,8 +192,9 @@ def process_document(docpath, orders):
                             break
                     if tag != None:
                         filter_dict[o] = tag
-                to_filter.append(filter_dict)
-                tags.append(tag_dict)
+                if len(tag_dict) > 0:
+                    to_filter.append(filter_dict)
+                    tags.append(tag_dict)
             is_filtered = False
             if tags:
                 for f in filter_strict:

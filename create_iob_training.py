@@ -28,16 +28,28 @@ INFOLDER = "outfiles/"  # The folder where all the standoff xml are
 USER_RANKING = ["kfuchs", "admin", "bhitz"]  # left is preferred
 DATA_RATIO = [0.8, 0.1, 0.1]  # Train, Dev, Test
 OUTFOLDER = "trainingdata/"
+tags_to_include = ["date", "per", "loc", "money", "gpe", "org"]
 ORDERS = [
         {
+            "name": "ner",
             "mode": "heads",
             "filter": {
                 "mention_type": ["nam"],
             },
             "tags": {
-                "entity_type|desc_type|value_type": []
+                "entity_type|desc_type|value_type": tags_to_include
             },
-            "depth": 1
+            "depth": 1,
+            "tag_granularity": 1,
+        },
+        {
+            "name": "full_spans",
+            "mode": "full",
+            "tags": {
+                "entity_type|desc_type|value_type": tags_to_include
+                },
+            "depth": 1,
+            "tag_granularity": 1,
         },
     ]
 
@@ -96,6 +108,22 @@ def check_for_duplicates(infiles):
         print(duplicates)
 
 
+def validate_data_flair():
+    columns = {0: "text"}
+    labels = []
+    for i, order in enumerate(reversed(ORDERS)):
+        columns[i+1] = order["name"]
+        labels.append(order["name"])
+
+    corpus = ColumnCorpus(OUTFOLDER, columns,
+                          train_file="train.txt",
+                          test_file="test.txt",
+                          dev_file="dev.txt")
+
+    for label in labels:
+        label_dict = corpus.make_label_dictionary(label_type=label, add_unk=False)
+        print(label_dict)
+
 
 if __name__ == "__main__":
     infiles = glob(INFOLDER + "*.xml")
@@ -137,3 +165,10 @@ if __name__ == "__main__":
     trainfile.close()
     devfile.close()
     testfile.close()
+
+    # only use this if flair is installed
+    try:
+        from flair.datasets import ColumnCorpus
+        validate_data_flair()
+    except ImportError as e:
+        print("Did not validate IOB with flair because no flair module was found.")

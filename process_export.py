@@ -11,10 +11,10 @@ import zipfile
 import pprint as pp
 
 # Path Info
-INFOLDER = "data/hgb_2"
+INFOLDER = "data/hgb_1"
 
 # Which annotators to process, leave empty for all
-ANNOTATORS = ["bhitz"]
+ANNOTATORS = ["kfuchs"]
 
 
 if __name__ == "__main__":
