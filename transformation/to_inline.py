@@ -161,5 +161,5 @@ def process_document(docpath):
 
 
 if __name__ == "__main__":
-    textnode = process_document("../outfiles/admin_068_HGB_1_161_010_009.xml")
+    textnode = process_document("../outfiles/admin_test_inc.xml")
     write_document("text.xml", textnode)

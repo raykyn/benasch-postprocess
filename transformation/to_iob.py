@@ -13,7 +13,7 @@ By default, this script ignores Lists when determining tag depth. To change this
 """
 
 import csv
-from . import to_inline
+import to_inline
 from lxml import etree as et
 
 # Nodes without heads cannot contain other elements or they won't be processed properly!
@@ -266,7 +266,7 @@ if __name__ == "__main__":
             "depth": 1
         },
     ]
-    token_list, annotation_cols = process_document("../outfiles/admin_HGB_Exp_11_054_HGB_1_066_055_010.xml", orders)
+    token_list, annotation_cols = process_document("../outfiles/admin_test_inc.xml", orders)
     #process_document("../outfiles/admin_008_HGB_1_024_074_020.xml", orders)
 
     write_outfile("test.tsv", token_list, annotation_cols)
