@@ -110,14 +110,14 @@ def create_node_tree(in_root, document_text, start_index_dict, end_index_dict):
 def process_others(other_info, mention_id):
     numerus = SCHEMA_INFO["other_fields"]["numerus"][0]
     spec = SCHEMA_INFO["other_fields"]["specificity"][0]
-    tempus = SCHEMA_INFO["other_fields"]["tempus"][0]
+    tempus = SCHEMA_INFO["other_fields"]["tense"][0]
 
     for o in other_info:
         if o in SCHEMA_INFO["other_fields"]["numerus"]:
             numerus = o
         elif o in SCHEMA_INFO["other_fields"]["specificity"]:
             spec = o
-        elif o in SCHEMA_INFO["other_fields"]["tempus"]:
+        elif o in SCHEMA_INFO["other_fields"]["tense"]:
             tempus = o
         elif o == "":
             # someone put two dots by mistake instead of one
@@ -287,7 +287,7 @@ def write_entities(out_root, work_root):
             ))
 
         # Process other types
-        numerus, spec, tempus = process_others(other_types, entity.get("id"))
+        numerus, spec, _ = process_others(other_types, entity.get("id"))
         entity_type = apply_conversions(entity_type)
 
         head_elem = entity.find("Entity[@label='head']")
@@ -312,7 +312,6 @@ def write_entities(out_root, work_root):
             entity_type=entity_type,
             numerus=numerus,
             specificity=spec,
-            tempus=tempus,
             start=entity.get("start"),
             end=entity.get("end"),
             head_start=head_start,
@@ -335,7 +334,7 @@ def write_entities(out_root, work_root):
         mention_subtype = label[1]
         if mention_subtype == "alias":
             mention_type = "nam"
-        numerus, spec, tempus = process_others(label[2:], entity.get("id"))
+        numerus, spec, _ = process_others(label[2:], entity.get("id"))
         entity_type = apply_conversions(entity_type)
 
         mention_subtypes.add((
@@ -365,7 +364,6 @@ def write_entities(out_root, work_root):
             entity_type=entity_type,
             numerus=numerus,
             specificity=spec,
-            tempus=tempus,
             start=entity.get("start"),
             end=entity.get("end"),
             head_start=head_start,
@@ -411,16 +409,20 @@ def write_values(out_root, work_root):
             text=" ".join([t.text for t in token_list[int(value.get("start")):int(value.get("end"))]])
             )
 
-# relation_types = set()
+
 def write_relations(out_root, work_root):
     relations_node = et.SubElement(out_root, "Relations") 
 
     # First, the easy ones that were tagged as relations
     for relation in work_root.findall(".//Relation"):
+        label = relation.get("label").lower().split(".")
+        rel_type = label[0]
+        _, _, tense = process_others(label[1:], relation.get("id"))
         try:
             et.SubElement(relations_node, 
                 "Relation",
-                rel_type=relation.get("label"),
+                rel_type=rel_type,
+                tense=tense,
                 from_mention=str(old_to_new_ids[relation.get("from_entity")]),
                 to_mention=str(old_to_new_ids[relation.get("to_entity")]),
                 )
@@ -432,7 +434,8 @@ def write_relations(out_root, work_root):
         label = label.split(".")
         if label[0] == "nam" or len(label) < 3:
             continue
-        label = label[2]
+        rel_type = label[2]
+        _, _, tense = process_others(label[3:], entity.get("id"))
 
         # check if an entity is included in this span, then this is what the relationship refers to
         # if there is no entity included, it's not a relationship
@@ -442,7 +445,8 @@ def write_relations(out_root, work_root):
             try:
                 et.SubElement(relations_node, 
                     "Relation",
-                    rel_type=label,
+                    rel_type=rel_type,
+                    tense=tense,
                     from_mention=str(old_to_new_ids[entity.get("id")]),
                     to_mention=str(old_to_new_ids[child_entity.get("id")]),
                     )
@@ -453,7 +457,9 @@ def write_relations(out_root, work_root):
     # basically, if there is another mention inside an att or a desc, we have a relation between the original mention and the one inside
     for entity in work_root.findall(".//Entity[@span_type='att']"):
         label = entity.get('label').lower()
-        label = label.split(".")[1]
+        label = label.split(".")
+        rel_type = label[1]
+        _, _, tense = process_others(label[2:], entity.get("id"))
 
         # check if an entity is included in this span, then this is what the relationship refers to
         # if there is no entity included, it's not a relationship
@@ -463,7 +469,8 @@ def write_relations(out_root, work_root):
             try:
                 et.SubElement(relations_node, 
                     "Relation",
-                    rel_type=label,
+                    rel_type=rel_type,
+                    tense=tense,
                     from_mention=str(old_to_new_ids[entity.get("id")]),
                     to_mention=str(old_to_new_ids[child_entity.get("id")]),
                     )
@@ -477,7 +484,9 @@ def write_relations(out_root, work_root):
             print(f"ERROR: A Desc-Span is standing independently. Check span id {descriptor.get('id')}. Skipping this potential relation.")
             continue
         label = descriptor.get('label').lower()
-        label = label.split(".")[1]
+        label = label.split(".")
+        rel_type = label[1]
+        _, _, tense = process_others(label[2:], descriptor.get("id"))
 
         # check if an entity is included in this span, then this is what the relationship refers to
         # if there is no entity included, it's not a relationship
@@ -487,7 +496,8 @@ def write_relations(out_root, work_root):
             try:
                 et.SubElement(relations_node, 
                     "Relation",
-                    rel_type=label,
+                    rel_type=rel_type,
+                    tense=tense,
                     from_mention=str(old_to_new_ids[parent.get("id")]),
                     to_mention=str(old_to_new_ids[child_entity.get("id")]),
                     )

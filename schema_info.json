@@ -20,7 +20,7 @@
     "other_fields": {
         "numerus": ["sgl", "grp", "neg"],
         "specificity": ["spc", "uspc"],
-        "tempus": ["pres", "past", "fut"],
+        "tense": ["pres", "past", "fut"],
         "other": ["pro"]
     },
     "conversions": {
