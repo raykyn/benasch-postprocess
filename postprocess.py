@@ -9,6 +9,7 @@ import re
 from lxml import etree as et
 from utils.text_modification import modify_text
 from utils.small_corrections import small_corrects
+import pprint as pp
 #from xml.sax.saxutils import escape
 
 
@@ -31,7 +32,7 @@ def get_node_priority(node):
         return 1
 
 
-def create_node_tree(in_root, document_text):
+def create_node_tree(in_root, document_text, start_index_dict, end_index_dict):
     """
     This node tree is mostly just as a help, but the code may probably easily be adopted to port everything to a TEI-format.
     """
@@ -44,6 +45,10 @@ def create_node_tree(in_root, document_text):
     work_root = et.Element("XML", nsmap={"custom":"http:///custom.ecore", "cas":"http:///uima/cas.ecore"})
     parent_node = work_root
     for entity, start, end, _ in sorted_spans:
+        # transform character index to token index
+        token_start = start_index_dict[start]
+        token_end = end_index_dict[end]
+
         # classify if span is entity, attribute or description
         label = entity.get('label')
         if label == None:
@@ -75,15 +80,16 @@ def create_node_tree(in_root, document_text):
             print(f"ERROR: Unrecognized Span Label '{label[0]}' in annotation with id {entity.get('{http://www.omg.org/XMI}id')}!")
             continue
         label = ".".join(label)
-        # we need to check all parent nodes above if they contain the current node
+        # We need to check all parent nodes above if they contain the current node
+        # NOTE: We increase token_end by 1 to match common span annotation schemes (which usually mark a span of length 1 as x to x+1)
         while(parent_node != work_root):
-            if end <= int(parent_node.get("end")):
-                current_node = et.SubElement(parent_node, "Entity", id=entity.get("{http://www.omg.org/XMI}id"), span_type=span_type, label=label, start=str(start), end=str(end), text=document_text[start:end])
+            if token_end <= int(parent_node.get("end"))-1:
+                current_node = et.SubElement(parent_node, "Entity", id=entity.get("{http://www.omg.org/XMI}id"), span_type=span_type, label=label, start=str(token_start), end=str(token_end+1), text=document_text[start:end])
                 break
             else:
                 parent_node = parent_node.getparent()
         else:
-            current_node = et.SubElement(work_root, "Entity", id=entity.get("{http://www.omg.org/XMI}id"), span_type=span_type, label=label, start=str(start), end=str(end), text=document_text[start:end])
+            current_node = et.SubElement(work_root, "Entity", id=entity.get("{http://www.omg.org/XMI}id"), span_type=span_type, label=label, start=str(token_start), end=str(token_end+1), text=document_text[start:end])
         parent_node = current_node
     
     # We get relations from three sources: relation layer, att and desc
@@ -202,12 +208,13 @@ def pro_coref_get_entity_type(work_root, coref):
     return mention_type, entity_type, other_types
 
 
-def write_entities(out_root, work_root, document_text):
+def write_entities(out_root, work_root):
     global old_to_new_ids
 
     old_to_new_ids = {}
 
     entities_node = et.SubElement(out_root, "Mentions")
+    token_list = out_root.findall(".//T")
 
     ### LISTS ###
     for entity in work_root.findall(".//Entity[@span_type='lst']"):
@@ -310,7 +317,7 @@ def write_entities(out_root, work_root, document_text):
             end=entity.get("end"),
             head_start=head_start,
             head_end=head_end,
-            head_text=document_text[int(head_start):int(head_end)]
+            head_text=" ".join([t.text for t in token_list[int(head_start):int(head_end)]])
             )
     
     for entity in work_root.findall(".//Entity[@span_type='att']"):
@@ -363,7 +370,7 @@ def write_entities(out_root, work_root, document_text):
             end=entity.get("end"),
             head_start=head_start,
             head_end=head_end,
-            head_text=document_text[int(head_start):int(head_end)]
+            head_text=" ".join([t.text for t in token_list[int(head_start):int(head_end)]])
             )
         
     # NOTE: Should we only add those descriptors that are NOT also relations?
@@ -383,31 +390,29 @@ def write_entities(out_root, work_root, document_text):
         desc_types.add((
             desc_type,
         ))
-
-        # TODO: Give this a reference to the entity that it describes
-
         et.SubElement(description_node, 
             "Descriptor",
             desc_type=desc_type,
             start=desc.get("start"),
             end=desc.get("end"),
-            text=document_text[int(desc.get("start")):int(desc.get("end"))]
+            text=" ".join([t.text for t in token_list[int(desc.get("start")):int(desc.get("end"))]])
             )
         
 
-def write_values(out_root, work_root, document_text):
+def write_values(out_root, work_root):
     value_node = et.SubElement(out_root, "Values")
+    token_list = out_root.findall(".//T")
     for value in work_root.findall(".//Entity[@span_type='value']"):
         et.SubElement(value_node, 
             "Value",
             value_type=value.get("label"),
             start=value.get("start"),
             end=value.get("end"),
-            text=document_text[int(value.get("start")):int(value.get("end"))]
+            text=" ".join([t.text for t in token_list[int(value.get("start")):int(value.get("end"))]])
             )
 
 # relation_types = set()
-def write_relations(out_root, work_root, document_text):
+def write_relations(out_root, work_root):
     relations_node = et.SubElement(out_root, "Relations") 
 
     # First, the easy ones that were tagged as relations
@@ -434,13 +439,6 @@ def write_relations(out_root, work_root, document_text):
         child_entities = entity.findall("./Entity[@span_type='ent']")
         
         for child_entity in child_entities:
-            """
-            relation_types.add((
-                label.lower(),
-                entity.get("label").split(".")[1].lower(),
-                child_entity.get("label").split(".")[1].lower()
-            ))
-            """
             try:
                 et.SubElement(relations_node, 
                     "Relation",
@@ -462,13 +460,6 @@ def write_relations(out_root, work_root, document_text):
         child_entities = entity.findall("./Entity[@span_type='ent']")
 
         for child_entity in child_entities:
-            """
-            relation_types.add((
-                label.lower(),
-                entity.getparent().get("label").split(".")[1].lower(),
-                child_entity.get("label").split(".")[1].lower()
-            ))
-            """
             try:
                 et.SubElement(relations_node, 
                     "Relation",
@@ -493,13 +484,6 @@ def write_relations(out_root, work_root, document_text):
         child_entities = descriptor.findall("./Entity[@span_type='ent']")
         
         for child_entity in child_entities:
-            """
-            relation_types.add((
-                label.lower(),
-                descriptor.getparent().get("label").split(".")[1].lower(),
-                child_entity.get("label").split(".")[1].lower()
-            ))
-            """
             try:
                 et.SubElement(relations_node, 
                     "Relation",
@@ -509,8 +493,36 @@ def write_relations(out_root, work_root, document_text):
                     )
             except KeyError as e:
                 print(f"ERROR: When trying to write a relation, a mention id could not be found: {e}. Maybe the relation was connected to an invalid annotation such as a 'desc.xy'?")
-            
 
+
+def write_text(text_elem, text):
+    """
+    Text string is transformed into single token elements.
+    We use line elements to keep some of the original document structure intact.
+    We also return start and end dictionaries to make matching the tokens
+    to the annotations easier in the next steps.
+
+    NOTE: THIS DOES NOT PERFORM ANY "PROPER" PREPROCESSING!
+    """
+    lines = text.split("\n")
+    start_index_dict = {}
+    end_index_dict = {}
+    current_index = 0
+    j = 0
+    for i, line in enumerate(lines):
+        if not line and i+1 == len(lines):  # remove empty trailing strings
+            continue
+        line_elem = et.SubElement(text_elem, "L", line_id=str(i))
+        tokens = line.split(" ")
+        for token in tokens:
+            start_index_dict[current_index] = j
+            token_elem = et.SubElement(line_elem, "T", token_id=str(j))
+            token_elem.text = token
+            current_index += len(token)
+            end_index_dict[current_index] = j
+            current_index += 1  # for the whitespace we removed earlier
+            j += 1
+    return start_index_dict, end_index_dict
 
 def process_xmi_zip(filename, xmi_file):
     in_root = et.fromstring(xmi_file)
@@ -547,25 +559,22 @@ def process_general(in_root, outname):
 
     text_node = in_root.find("./cas:Sofa", namespaces={"cas":"http:///uima/cas.ecore"})
     document_text = text_node.get("sofaString")
-    document_text_no_breaks = document_text.replace("\n", " ")
-
-    work_root = create_node_tree(in_root, document_text)
-
-    work_tree = et.ElementTree(work_root)
-    # For debugging seeing the trees might be helpful, so we keep the option in to write them
-    #work_tree.write(os.path.join(DEBUGFOLDER, outname), xml_declaration=True, pretty_print=True, encoding="utf8")
-
-    out_root = et.Element("XML")
 
     # TODO: Write DocumentMetaData
+    out_root = et.Element("XML")
     out_text = et.SubElement(out_root, "Text")
-    out_text.text = document_text
-    write_entities(out_root, work_root, document_text_no_breaks)
-    write_values(out_root, work_root, document_text_no_breaks)
-    write_relations(out_root, work_root, document_text_no_breaks)
-    # TODO: Write Events
+    start_index_dict, end_index_dict = write_text(out_text, document_text)
 
-    # print(mention_subtypes)
+    work_root = create_node_tree(in_root, document_text, start_index_dict, end_index_dict)
+   
+    # For debugging seeing the trees might be helpful, so we keep the option in to write them
+    #work_tree = et.ElementTree(work_root)
+    #work_tree.write(os.path.join(DEBUGFOLDER, outname), xml_declaration=True, pretty_print=True, encoding="utf8")
+
+    write_entities(out_root, work_root)
+    write_values(out_root, work_root)
+    write_relations(out_root, work_root)
+    # TODO: Write Events
 
     out_tree = et.ElementTree(out_root)
     out_tree.write(os.path.join(OUTFOLDER, outname), xml_declaration=True, pretty_print=True, encoding="utf8")
@@ -578,12 +587,12 @@ def read_schema():
         SCHEMA_INFO = json.load(inf)
 
 read_schema()
-OUTFOLDER = "outfiles/"
-DEBUGFOLDER = "debugfiles/"
+OUTFOLDER = "./"
+# DEBUGFOLDER = "debugfiles/"
 
 if __name__ == "__main__":
 
-    infiles = sorted(glob.glob("testfiles/*.xmi"))
+    infiles = sorted(glob.glob("data/testdata/*.xmi"))
 
     for infile in infiles:
         process_xmi(infile)
