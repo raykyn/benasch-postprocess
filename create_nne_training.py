@@ -1,7 +1,7 @@
 import os
-from collections import defaultdict, Counter
+from collections import Counter
 from glob import glob
-import random
+import json
 from transformation.to_nne import process_document, write_outstring
 
 ### SETTINGS ###
@@ -12,16 +12,33 @@ OUTFOLDER = "trainingdata_nne/"
 
 CONFIG = {
         "add_span_type": True,  # add ref, att, val, desc ... as part of the labels
-        "tags": ["Reference", "Attribute", "Value", "Descriptor"],  # which tags should be included
-        # "attribs": ["mention_type", "entity_type", "value_type", "desc_type"],  # which info should be used in the labels
-        "attribs": [],  # which info should be used in the labels
+        "tags": ["Reference", "Attribute", "Value", "Descriptor"],  # which tags should be included, if using pretagged first layer the order of this is relevant
+        "attribs": ["entity_type", "value_type", "desc_type", "mention_subtype"],  # which info should be used in the labels
+        # "attribs": [],  # which info should be used in the labels
+        "split_labels": False,  # if this is enabled, the info about span_type, attribs, and head/context is all put into separate labels
+        "tag_granularity": 1,  # how granular should the label info be
+        "add_heads": True,  # add heads as their own labels
+        "add_heads2": False,  # add heads not as own labels, but instead as part of the official labels
+        "add_lists": False,  # add lists as their own labels
+        "assume_pretagged_heads": False,
+        "assume_pretagged_first_layer": False
+    }
+
+"""
+CONFIG = {
+        "add_span_type": False,  # add ref, att, val, desc ... as part of the labels
+        "tags": ["Reference", "Attribute", "Value"],  # which tags should be included, if using pretagged first layer the order of this is relevant
+        "attribs": ["entity_type", "value_type"],  # which info should be used in the labels
+        # "attribs": [],  # which info should be used in the labels
         "split_labels": True,  # if this is enabled, the info about span_type, attribs, and head/context is all put into separate labels
         "tag_granularity": 1,  # how granular should the label info be
         "add_heads": True,  # add heads as their own labels
         "add_heads2": False,  # add heads not as own labels, but instead as part of the official labels
-        "add_lists": True,  # add lists as their own labels
-        "assume_pretagged_heads": True
+        "add_lists": False,  # add lists as their own labels
+        "assume_pretagged_heads": False,
+        "assume_pretagged_first_layer": False
     }
+"""
 
 
 def sort_out_duplicates(infiles):
@@ -79,13 +96,19 @@ if __name__ == "__main__":
         tokens, tags = process_document(infile, CONFIG)
         outstring = write_outstring(tokens, tags)
 
-        r = random.random()
-        if r < DATA_RATIO[2]:
+        with open("consistent_data.json", mode="r", encoding="utf8") as cons:
+            consistent_data = json.load(cons)
+
+        basename = os.path.basename(infile)
+        
+        if basename in consistent_data["test"]:
             writer = testfile
-        elif r < DATA_RATIO[1] + DATA_RATIO[2]:
+        elif basename in consistent_data["dev"]:
             writer = devfile
-        else:
+        elif basename in consistent_data["train"]:
             writer = trainfile
+        else:
+            print(f"WARNING! {infile} was not found in consistent training registry!")
 
         writer.write(outstring)
         writer.write("\n")

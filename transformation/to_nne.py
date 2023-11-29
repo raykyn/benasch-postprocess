@@ -98,6 +98,23 @@ def process_document(docpath, config):
             head.insert(0, starthead)
             head.insert(len(head), endhead)
 
+    if "assume_pretagged_first_layer" in config and config["assume_pretagged_first_layer"]:
+        for tag in config["tags"]:
+            spans = texttree.findall(f".//{tag}")
+            for span in spans:
+                parent = span.getparent()
+                while parent.tag != "Text" and parent.tag not in config["tags"]:
+                    # loop until you find either a valid tag or the body element, if lists are processed, those count as well (TODO!)
+                    parent = parent.getparent()
+                if parent.tag == "Text":
+                    # only if the parent is a Text-Element we have a first-layer span
+                    starthead = et.Element("T")
+                    starthead.text = f"<{SPAN_TYPE_CONVERSION_DICT[span.tag]}>"
+                    endhead = et.Element("T")
+                    endhead.text = f"</{SPAN_TYPE_CONVERSION_DICT[span.tag]}>"
+                    span.insert(0, starthead)
+                    span.insert(len(span), endhead)
+
     tokens = texttree.findall(".//T")
     for i, token in enumerate(tokens):
         token.set("index", str(i))
@@ -140,6 +157,7 @@ def process_document(docpath, config):
         spans = texttree.findall(f".//{tag}")
         for span in spans:
             tokens = span.findall(".//T")
+
             start, end = int(tokens[0].get("index")), int(tokens[-1].get("index")) + 1
             label = []
             if "add_heads2" in config and config["add_heads2"]:
@@ -192,19 +210,20 @@ if __name__ == "__main__":
     # example order
     config = {
         "add_span_type": True,  # add ref, att, val, desc ... as part of the labels
-        "tags": ["Reference", "Attribute", "Value", "Descriptor"],  # which tags should be included
-        # "attribs": ["mention_type", "entity_type", "value_type", "desc_type"],  # which info should be used in the labels
-        "attribs": [],  # which info should be used in the labels
-        "split_labels": True,  # if this is enabled, the info about span_type, attribs, and head/context is all put into separate labels
+        "tags": ["Reference", "Attribute", "Value", "Descriptor"],  # which tags should be included, if using pretagged first layer the order of this is relevant
+        "attribs": ["entity_type", "value_type", "desc_type", "mention_subtype"],  # which info should be used in the labels
+        # "attribs": [],  # which info should be used in the labels
+        "split_labels": False,  # if this is enabled, the info about span_type, attribs, and head/context is all put into separate labels
         "tag_granularity": 1,  # how granular should the label info be
         "add_heads": True,  # add heads as their own labels
         "add_heads2": False,  # add heads not as own labels, but instead as part of the official labels
-        "add_lists": True,  # add lists as their own labels
-        "assume_pretagged_heads": True
+        "add_lists": False,  # add lists as their own labels
+        "assume_pretagged_heads": False,
+        "assume_pretagged_first_layer": False
     }
 
     # tokens, tags = process_document("../outfiles/admin_008_HGB_1_024_074_020.xml", config)
-    tokens, tags = process_document("../outfiles/admin_HGB_Exp_11_112_HGB_1_154_040_010.xml", config)
+    tokens, tags = process_document("../outfiles/admin_018_HGB_1_051_086_076.xml", config)
 
     # print(tokens, tags)
 
