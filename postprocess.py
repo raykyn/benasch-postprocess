@@ -168,9 +168,9 @@ Using parent of head instead as parent of Attribute. Make sure to fix this as he
     return entity_type
 
 
-def pro_coref_get_entity_type(work_root, coref):
+def pro_coref_get_entity_type(work_root, coref, mention_type):
     parent = work_root.find(f".//Entity[@id='{coref.get('to_entity')}']")
-    while parent.get("label").split(".")[0] == "pro" and len(parent.get("label").split(".")) == 1:
+    while parent.get("label").split(".")[0] in ["pro", "self"] and len(parent.get("label").split(".")) == 1:
         # we keep searching until we find a non-abbreviated or non-PRO mention
         coref = work_root.find(f".//Relation[@from_entity='{parent.get('id')}'][@label='coref']")
         parent = work_root.find(f".//Entity[@id='{coref.get('to_entity')}']")
@@ -178,9 +178,9 @@ def pro_coref_get_entity_type(work_root, coref):
     parentlabel = parent.get("label").split(".")
     if parentlabel[0] == "lst":
         first_child_label = parent.find("./Entity[@span_type='ent']").get("label").split(".")
-        mention_type = "pro"
+        mention_type = mention_type
         other_types = ["grp"]  # lists are always groups of entities
-        if first_child_label[0] == "pro" and len(first_child_label) == 1:
+        if first_child_label[0] in ["pro", "self"] and len(first_child_label) == 1:
             children = [c for c in parent.findall("./Entity[@span_type='ent']") if len(c.get("label").split(".")) > 1]
             if children:
                 entity_type = children[0].get("label").split(".")[1]
@@ -190,13 +190,13 @@ def pro_coref_get_entity_type(work_root, coref):
                 if coref is None:
                     entity_type = "unk"
                 else:
-                    _, entity_type, _ = pro_coref_get_entity_type(work_root, coref)
+                    _, entity_type, _ = pro_coref_get_entity_type(work_root, coref, mention_type)
                 # TODO: Test if this works, if we ever need this usecase
                 #print("WARNING: A coreference to a list was encountered only containing PROs with coreferences. The resolution of this is yet to be implemented. Entity type of the list will be set to UNK.")
         else:
             entity_type = first_child_label[1]
     else:
-        mention_type, entity_type = "pro", parentlabel[1]
+        mention_type, entity_type = mention_type, parentlabel[1]
         parent_other = parentlabel[2:] if parentlabel[0] == "nam" else parentlabel[3:]
         other_types = []
         for el in parent_other:
@@ -232,14 +232,14 @@ def write_entities(out_root, work_root):
         entity_types = []
         for child in child_entities:
             label = child.get("label").split(".")
-            if label[0] != "pro" or len(label) > 1:
+            if label[0] not in ["pro", "self"] or len(label) > 1:
                 entity_types.append(label[1])
             else:
                 coref = work_root.find(f".//Relation[@from_entity='{child.get('id')}'][@label='coref']")
                 if coref is None:
                     entity_types.append("unk")
                 else:
-                    mention_type, entity_type, other_types = pro_coref_get_entity_type(work_root, coref)
+                    mention_type, entity_type, other_types = pro_coref_get_entity_type(work_root, coref, label[0])
                     entity_type = apply_conversions(entity_type)
                     entity_types.append(entity_type)
         entity_types = ",".join(entity_types)
@@ -263,15 +263,15 @@ def write_entities(out_root, work_root):
         if label[0] == "nam":
             mention_type, entity_type = label[:2]
             other_types = label[2:]
-        elif label[0] == "pro" and len(label) == 1:
+        elif label[0] in ["pro", "self"] and len(label) == 1:
             # this is the shortcut to get the information from a coreference.
             # first find the relevant relation/coref, then the relevant mention
             coref = work_root.find(f".//Relation[@from_entity='{entity.get('id')}'][@label='coref']")
             if coref is None:
                 print(f"ERROR: PRO mention with id {entity.get('id')} encountered with no further tags, maybe a forgotten coreference is the problem? Setting entity_type to UNK to skip.")
-                mention_type, entity_type = "pro", "unk"
+                mention_type, entity_type = label[0], "unk"
             else:
-                mention_type, entity_type, other_types = pro_coref_get_entity_type(work_root, coref)
+                mention_type, entity_type, other_types = pro_coref_get_entity_type(work_root, coref, label[0])
         else:
             mention_type, entity_type = label[:2]
             if len(label) > 2:
