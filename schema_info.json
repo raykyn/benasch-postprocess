@@ -18,8 +18,8 @@
         "unclear"
     ],
     "other_fields": {
-        "numerus": ["sgl", "grp"],
-        "specificity": ["spc", "uspc", "neg"],
+        "numerus": ["sgl", "grp", "neg"],
+        "specificity": ["spc", "uspc"],
         "tempus": ["pres", "past", "fut"],
         "other": ["pro"]
     },
