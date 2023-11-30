@@ -28,6 +28,8 @@ def get_node_priority(node):
         return 1
     if l == "desc":
         return 0
+    #elif l == "head":
+    #    return 2
     else:
         return 1
 
@@ -45,10 +47,6 @@ def create_node_tree(in_root, document_text, start_index_dict, end_index_dict):
     work_root = et.Element("XML", nsmap={"custom":"http:///custom.ecore", "cas":"http:///uima/cas.ecore"})
     parent_node = work_root
     for entity, start, end, _ in sorted_spans:
-        # transform character index to token index
-        token_start = start_index_dict[start]
-        token_end = end_index_dict[end]
-
         # classify if span is entity, attribute or description
         label = entity.get('label')
         if label == None:
@@ -80,6 +78,22 @@ def create_node_tree(in_root, document_text, start_index_dict, end_index_dict):
             print(f"ERROR: Unrecognized Span Label '{label[0]}' in annotation with id {entity.get('{http://www.omg.org/XMI}id')}!")
             continue
         label = ".".join(label)
+
+        # transform character index to token index
+        token_start = start_index_dict[start]
+        try:
+            token_end = end_index_dict[end]
+        except KeyError:
+            # Inception performs an implicit tokenization, which allows annotations
+            # to be set outside our own preprocessing. This can lead to annotations
+            # ending inside tokens as defined by our preprocessing/system
+            # to circumvent this problem, we simply stretch the tag to the end of the token
+            while end not in end_index_dict:
+                end += 1
+            token_end = end_index_dict[end]
+            
+            print(f"WARNING: An annotation ended inside a token. Check this error manually for annotation with id {entity.get('{http://www.omg.org/XMI}id')}!")
+
         # We need to check all parent nodes above if they contain the current node
         # NOTE: We increase token_end by 1 to match common span annotation schemes (which usually mark a span of length 1 as x to x+1)
         while(parent_node != work_root):
@@ -95,11 +109,16 @@ def create_node_tree(in_root, document_text, start_index_dict, end_index_dict):
     # We get relations from three sources: relation layer, att and desc
     relations = in_root.findall(".//custom:Relation", namespaces={"custom":"http:///custom.ecore"})
     for relation in relations:
+        if relation.get("label") is None:
+            print(f"ERROR: Missing label for a relation {relation.get('{http://www.omg.org/XMI}id')}!")
+            continue
+        else:
+            label = relation.get("label")
         current_node = et.SubElement(
             work_root, 
             "Relation", 
             id=relation.get("{http://www.omg.org/XMI}id"), 
-            label=relation.get("label"),
+            label=label,
             from_entity=relation.get("Governor"),
             to_entity=relation.get("Dependent"),
             )
@@ -170,10 +189,15 @@ Using parent of head instead as parent of Attribute. Make sure to fix this as he
 
 def pro_coref_get_entity_type(work_root, coref, mention_type):
     parent = work_root.find(f".//Entity[@id='{coref.get('to_entity')}']")
+    if parent.get("span_type") == "head":
+        parent = parent.getparent()
     while parent.get("label").split(".")[0] in ["pro", "self"] and len(parent.get("label").split(".")) == 1:
         # we keep searching until we find a non-abbreviated or non-PRO mention
         coref = work_root.find(f".//Relation[@from_entity='{parent.get('id')}'][@label='coref']")
         parent = work_root.find(f".//Entity[@id='{coref.get('to_entity')}']")
+        # a catch in case a coref was placed to a head instead of the parent tag
+        if parent.get("span_type") == "head":
+            parent = parent.getparent()
     # when we find the parent, we copy its entity type and ordinality, if necessary
     parentlabel = parent.get("label").split(".")
     if parentlabel[0] == "lst":
@@ -597,7 +621,7 @@ def read_schema():
         SCHEMA_INFO = json.load(inf)
 
 read_schema()
-OUTFOLDER = "./"
+OUTFOLDER = "./outfiles/"
 # DEBUGFOLDER = "debugfiles/"
 
 if __name__ == "__main__":
