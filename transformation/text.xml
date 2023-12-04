@@ -1,3 +1,79 @@
 <?xml version='1.0' encoding='UTF8'?>
-<Text><Reference mention_type="nam" entity_type="per"><Head>Hermann Meyer</Head> <Descriptor desc_type="loc">von <Reference mention_type="nam" entity_type="gpe_loc"><Head>Delsberg</Head></Reference></Descriptor>, <Attribute mention_type="nom" entity_type="per"><Reference mention_type="nom" entity_type="org_gov">des <Head>Stadtgerichts</Head></Reference> <Head>Amtmann</Head></Attribute>, <Attribute mention_type="nom" entity_type="per"><Head>Bürger</Head> zu <Reference mention_type="nam" entity_type="gpe_org"><Head>Basel</Head></Reference></Attribute></Reference>
-</Text>
+<Text><T token_id="0">in</T>
+      <Reference mention_id="1" mention_type="nam" mention_subtype="" entity_type="loc_fac_rel" numerus="sgl" specificity="spc"><Head><T token_id="1">sant</T>
+      <T token_id="2">Ulrii</T>
+      </Head></Reference><T token_id="3">.</T>
+    <Value value_type="date"><T token_id="4">1582</T>
+      </Value><Reference mention_id="2" mention_type="nam" mention_subtype="" entity_type="per" numerus="sgl" specificity="spc"><T token_id="5">Herr</T>
+      <Head><T token_id="6">Carol</T>
+      <T token_id="7">Glesser</T>
+      </Head><Attribute mention_id="7" mention_type="nom" mention_subtype="org-job" entity_type="per" numerus="sgl" specificity="spc"><Head><T token_id="8">Obervogt</T>
+      </Head><Descriptor desc_type="loc"><T token_id="9">uff</T>
+      <Reference mention_id="3" mention_type="nam" mention_subtype="" entity_type="gpe_org" numerus="sgl" specificity="spc"><Head><T token_id="10">Waldenburg</T>
+      </Head></Reference></Descriptor></Attribute></Reference><T token_id="11">,</T>
+      <T token_id="12">gibt</T>
+      <T token_id="13">mehr</T>
+    <T token_id="14">ab</T>
+      <Reference mention_id="4" mention_type="nam" mention_subtype="" entity_type="loc_fac" numerus="sgl" specificity="spc"><Descriptor desc_type="owner"><Reference mention_id="5" mention_type="pro" mention_subtype="" entity_type="per" numerus="sgl" specificity="spc"><Head><T token_id="15">seinem</T>
+      </Head></Reference></Descriptor><Head><T token_id="16">Haus</T>
+      <T token_id="17">und</T>
+      <T token_id="18">Gartten</T>
+      <T token_id="19">zum</T>
+      <T token_id="20">Paradys</T>
+      </Head></Reference><T token_id="21">,</T>
+      <Value value_type="money"><T token_id="22">4</T>
+      <T token_id="23">sh</T>
+      <T token_id="24">.</T>
+      </Value><Value value_type="money"><T token_id="25">2</T>
+      <T token_id="26">hüener</T>
+    </Value><T token_id="27">und</T>
+      <T token_id="28">zu</T>
+      <T token_id="29">erschatz</T>
+      <Value value_type="money"><T token_id="30">5</T>
+      <T token_id="31">sh</T>
+      <T token_id="32">.</T>
+    </Value><T token_id="33">Ebenso</T>
+      <T token_id="34">.</T>
+      <List mention_id="0" subtype="" entity_types=""><Value value_type="date"><T token_id="35">1583</T>
+      </Value><T token_id="36">.</T>
+      <Value value_type="date"><T token_id="37">1584</T>
+      </Value><T token_id="38">.</T>
+      <Value value_type="date"><T token_id="39">1585</T>
+      </Value><T token_id="40">.</T>
+      <Value value_type="date"><T token_id="41">1586</T>
+      </Value><T token_id="42">.</T>
+      <Value value_type="date"><T token_id="43">1587</T>
+      </Value><T token_id="44">.</T>
+      <Value value_type="date"><T token_id="45">1588</T>
+      </Value><T token_id="46">.</T>
+      <Value value_type="date"><T token_id="47">1589</T>
+      </Value><T token_id="48">.</T>
+      <Value value_type="date"><T token_id="49">1590</T>
+      </Value><T token_id="50">.</T>
+      <Value value_type="date"><T token_id="51">1591</T>
+      </Value><T token_id="52">.</T>
+      <Value value_type="date"><T token_id="53">1592</T>
+      </Value><T token_id="54">.</T>
+      <Value value_type="date"><T token_id="55">1593</T>
+      </Value><T token_id="56">.</T>
+      <Value value_type="date"><T token_id="57">1594</T>
+      </Value><T token_id="58">.</T>
+    <T token_id="59">Ebenso</T>
+      <T token_id="60">.</T>
+      <Value value_type="date"><T token_id="61">1595</T>
+      </Value><T token_id="62">.</T>
+      <Value value_type="date"><T token_id="63">1596</T>
+      </Value></List><T token_id="64">.</T>
+    <Value value_type="date"><T token_id="65">1597</T>
+      </Value><T token_id="66">.</T>
+      <Reference mention_id="6" mention_type="nam" mention_subtype="" entity_type="per" numerus="sgl" specificity="spc"><T token_id="67">Herr</T>
+      <Head><T token_id="68">Samuel</T>
+      <T token_id="69">Marschal</T>
+      </Head><Attribute mention_id="8" mention_type="nom" mention_subtype="occ" entity_type="per" numerus="sgl" specificity="spc"><T token_id="70">der</T>
+      <Head><T token_id="71">Orgaist</T>
+      </Head></Attribute></Reference><T token_id="72">gibt</T>
+      <T token_id="73">nun</T>
+      <T token_id="74">den</T>
+      <T token_id="75">zins</T>
+      <T token_id="76">.</T>
+    </Text>

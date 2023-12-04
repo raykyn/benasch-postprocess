@@ -44,51 +44,19 @@ def fix_att_full_coverage(root):
     return root
 
 
-def get_node_priority(node, is_head):
-    if node.tag == "Descriptor":
-        return 1
-    elif is_head:
-        return -1
-    else:
-        return 0
-    
-
-def get_attribute_string(node):
+def add_attributes(elem, node):
     if "_ALL_" in ATTRIBUTES_TO_INCLUDE:
-        attributes = node.attrib
-        for att in ATTRIBUTES_TO_EXCLUDE:
-            if att in attributes:
-                del attributes[att]
-        attributes = [f'{att}="{value}"' for att, value in attributes.items()]
+        for att, value in node.attrib.items():
+            if att in ATTRIBUTES_TO_EXCLUDE:
+                continue
+            elem.set(att, value)
     elif not ATTRIBUTES_TO_INCLUDE:
-        return ""
+        return
     else:
-        attributes = []
         for att in ATTRIBUTES_TO_INCLUDE:
             value = node.get(att)
             if value != None:
-                attributes.append(f'{att}="{value}"')
-
-    if not attributes:
-        return ""
-
-    return " " + " ".join(attributes)
-
-    
-def convert_tag(node, position, is_head):
-    if is_head:
-        if position == "head_end":
-            newstring = "</Head>"
-        else:
-            newstring = "<Head>"
-        return newstring
-
-    if position == "end":
-        newstring = "</" + node.tag + ">"
-    else:
-        newstring = "<" + node.tag + get_attribute_string(node) + ">"
-
-    return newstring
+                elem.set(att, value)
 
 
 def write_document(docpath, node):
@@ -96,24 +64,21 @@ def write_document(docpath, node):
     tree.write(docpath, xml_declaration=True, pretty_print=True, encoding="utf8")
 
 
-def sort_function(elem):
-    node, pos, is_head = elem
-    if is_head:
-        start = "head_start"
-        end = "head_end"
+def get_node_priority(node):
+    if node.tag == "Descriptor":
+        return 1
     else:
-        start = "start"
-        end = "end"
+        return 0
 
-    if pos == "end":
-        return (-int(node.get(end)), int(node.get(start)), -get_node_priority(node, is_head))
-    else:
-        return (-int(node.get(start)), int(node.get(end)), get_node_priority(node, is_head))
+
+def sort_function(elem):
+    node_length = int(elem.get("end")) - int(elem.get("start"))
+    return (node_length, get_node_priority(elem))
 
 
 def process_document(docpath):
     oldroot = et.parse(docpath).getroot()
-    oldtext = oldroot.find("Text").text
+    tokens = oldroot.findall(".//T")
 
     # Fix the attribute instead of desc error
     oldroot = fix_att_full_coverage(oldroot)
@@ -122,44 +87,41 @@ def process_document(docpath):
     nodes = []
     for c in TO_CONVERT:
         no = oldroot.findall(c)
-        for n in no:
-            # add two elements, one for opening the bracket, one for closing it
-            nodes.append((n, "start", False))
-            nodes.append((n, "end", False))
+        nodes.extend(no)
 
-            # if there's heads, we also need to add those
-            if "head_start" in n.attrib:
-                nodes.append((n, "start", True))
-                nodes.append((n, "end", True))
+    root = et.Element("Text")
 
     nodes = sorted(nodes, key=lambda x: sort_function(x))
-    #for n in nodes:
-    #    print(n[0].get("head_text"), n[1])
+    for token in tokens:
+        root.append(token)
 
-    for node, position, is_head in nodes:
-        #print(node, position, is_head)
-        if is_head:
-            position = "head_" + position
-        index = int(node.get(position))
-        if index > len(oldtext):
-            print("WARNING: Tag index was outside text length. This can happen when a header was annotated and removed.")
-            continue
-        oldtext = oldtext[:index] + convert_tag(node, position, is_head) + oldtext[index:]
+    for node in nodes:
+        incl_tokens = tokens[int(node.get("start")):int(node.get("end"))]
+        elem = et.SubElement(root, node.tag)
+        add_attributes(elem, node)
+        for token in incl_tokens:
+            child = token
+            parent = child.getparent()
+            while parent.tag != "Text" and parent != elem:
+                child = parent
+                parent = child.getparent()
+            if parent != elem:
+                root.insert(root.index(child), elem)
+                elem.append(child)
+        
+        # if element contains a head, we need to append that
+        if "head_start" in node.attrib and node.get("head_start"):
+            incl_tokens = tokens[int(node.get("head_start")):int(node.get("head_end"))]
+            head_elem = et.SubElement(elem, "Head")
+            elem.insert(elem.index(incl_tokens[0]), head_elem)
+            for token in incl_tokens:
+                head_elem.append(token)
 
-    oldtext = "<Text>" + oldtext + "</Text>"
+    # print(et.tostring(root, pretty_print=True))
 
-    oldtext = oldtext.replace("&", "&amp;")
-
-    try:
-        textnode = et.fromstring(oldtext)
-    except et.XMLSyntaxError as e:
-        print(e)
-        print(oldtext.encode("utf8"))
-        textnode = et.fromstring(oldtext, parser=et.XMLParser(recover=True))
-
-    return textnode
+    return root
 
 
 if __name__ == "__main__":
-    textnode = process_document("../outfiles/admin_test_inc.xml")
+    textnode = process_document("../outfiles/admin_018_HGB_1_051_086_076.xml")
     write_document("text.xml", textnode)
