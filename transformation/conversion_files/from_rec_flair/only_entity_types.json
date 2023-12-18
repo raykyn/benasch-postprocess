@@ -1,0 +1,92 @@
+{
+    "categories": [
+        "Mentions",
+        "Descriptors",
+        "Values",
+        "Relations"
+    ],
+    "category_defaults": {
+        "Mentions": {
+            "tag": "Reference",
+            "attribs": {
+                "mention_id": "0",
+                "mention_type": "unk",
+                "mention_subtype": "unk",
+                "entity_type": "unk",
+                "numerus": "unk",
+                "specificity": "unk"
+            }
+        },
+        "Descriptors": {
+            "tag": "Descriptor",
+            "attribs": {
+                "desc_type": "unk"
+            }
+        },
+        "Values": {
+            "tag": "Value",
+            "attribs": {
+                "value_type": "unk"
+            }
+        },
+        "Relations": {
+            "tag": "Relation",
+            "attribs": {
+                "rel_type": "unk",
+                "tense": "unk"
+            }
+        }
+    },
+    "label_category": {
+        "per": "Mentions",
+        "org": "Mentions",
+        "loc": "Mentions",
+        "gpe": "Mentions",
+        "date": "Values",
+        "money": "Values",
+        "time.rec": "Values",
+        "time": "Values",
+        "head": "head"
+    },
+    "ignore_labels": [
+        "unk"
+    ],
+    "labels_full": {
+        "per": {
+            "has_head": true,
+            "entity_type": "per"
+        },
+        "org": {
+            "has_head": true,
+            "entity_type": "org"
+        },
+        "loc": {
+            "has_head": true,
+            "entity_type": "loc"
+        },
+        "gpe": {
+            "has_head": true,
+            "entity_type": "gpe"
+        },
+        "date": {
+            "has_head": false,
+            "value_type": "date"
+        },
+        "money": {
+            "has_head": false,
+            "value_type": "money"
+        },
+        "time.rec": {
+            "has_head": false,
+            "value_type": "time.rec"
+        },
+        "time": {
+            "has_head": false,
+            "value_type": "time"
+        },
+        "head": {
+            "has_head": false,
+            "special": "head"
+        }
+    }
+}
