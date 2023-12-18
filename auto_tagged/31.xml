@@ -1,0 +1,54 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<XML>
+  <Text>
+    <L line_id="0">
+      <T token_id="0">St</T>
+      <T token_id="1">.</T>
+      <T token_id="2">Peter</T>
+      <T token_id="3">gestattet</T>
+      <T token_id="4">dem</T>
+      <T token_id="5">Wernher</T>
+      <T token_id="6">Wölfflin</T>
+      <T token_id="7">3</T>
+      <T token_id="8">Schilling</T>
+      <T token_id="9">zinspfennig</T>
+      <T token_id="10">,</T>
+      <T token_id="11">so</T>
+      <T token_id="12">das</T>
+      <T token_id="13">Stift</T>
+      <T token_id="14">von</T>
+      <T token_id="15">seinem</T>
+      <T token_id="16">haus</T>
+      <T token_id="17">zu</T>
+      <T token_id="18">dem</T>
+      <T token_id="19">weissen</T>
+      <T token_id="20">Adler</T>
+      <T token_id="21">genannt</T>
+      <T token_id="22">hinter</T>
+      <T token_id="23">dem</T>
+      <T token_id="24">Blumen</T>
+      <T token_id="25">gelegen</T>
+      <T token_id="26">,</T>
+      <T token_id="27">mit</T>
+      <T token_id="28">6</T>
+      <T token_id="29">℔</T>
+      <T token_id="30">ablösen</T>
+      <T token_id="31">dar</T>
+      <T token_id="32">¬</T>
+    </L>
+  </Text>
+  <Mentions>
+    <Reference mention_id="0" mention_type="unk" mention_subtype="unk" entity_type="per" numerus="unk" specificity="unk" start="4" end="7" head_start="5" head_end="7" head_text="Wernher Wölfflin"/>
+    <Reference mention_id="1" mention_type="unk" mention_subtype="unk" entity_type="org" numerus="unk" specificity="unk" start="12" end="14" head_start="13" head_end="14" head_text="Stift"/>
+    <Reference mention_id="2" mention_type="unk" mention_subtype="unk" entity_type="loc" numerus="unk" specificity="unk" start="15" end="26" head_start="16" head_end="17" head_text="haus"/>
+    <Reference mention_id="3" mention_type="unk" mention_subtype="unk" entity_type="per" numerus="unk" specificity="unk" start="15" end="16" head_start="15" head_end="16" head_text="seinem"/>
+    <Reference mention_id="4" mention_type="unk" mention_subtype="unk" entity_type="loc" numerus="unk" specificity="unk" start="17" end="21" head_start="17" head_end="21" head_text="zu dem weissen Adler"/>
+    <Reference mention_id="5" mention_type="unk" mention_subtype="unk" entity_type="loc" numerus="unk" specificity="unk" start="23" end="25" head_start="24" head_end="25" head_text="Blumen"/>
+  </Mentions>
+  <Descriptors/>
+  <Values>
+    <Value value_type="money" start="7" end="10" text="3 Schilling zinspfennig"/>
+    <Value value_type="money" start="28" end="30" text="6 ℔"/>
+  </Values>
+  <Relations/>
+</XML>

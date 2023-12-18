@@ -1,0 +1,91 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<XML>
+  <Text>
+    <L line_id="0">
+      <T token_id="0">Of</T>
+      <T token_id="1">Hans</T>
+      <T token_id="2">Rudolff</T>
+      <T token_id="3">Deboys</T>
+      <T token_id="4">jetzundt</T>
+      <T token_id="5">zu</T>
+      <T token_id="6">Biel</T>
+      <T token_id="7">gesessen</T>
+      <T token_id="8">,</T>
+      <T token_id="9">u</T>
+      <T token_id="10">.</T>
+      <T token_id="11">Elspetha</T>
+      <T token_id="12">Werdenbergin</T>
+      <T token_id="13">seiner</T>
+      <T token_id="14">Ehessl</T>
+      <T token_id="15">.</T>
+      <T token_id="16">Hus</T>
+      <T token_id="17">und</T>
+      <T token_id="18">Hofstatt</T>
+      <T token_id="19">gegen</T>
+      <T token_id="20">der</T>
+      <T token_id="21">Reischscholen</T>
+      <T token_id="22">über</T>
+      <T token_id="23">gelegen</T>
+      <T token_id="24">und</T>
+      <T token_id="25">zum</T>
+      <T token_id="26">Agstein</T>
+      <T token_id="27">genant</T>
+      <T token_id="28">ist</T>
+      <T token_id="29">so</T>
+      <T token_id="30">uff</T>
+      <T token_id="31">anruffen</T>
+      <T token_id="32">Rusmann</T>
+      <T token_id="33">Fürfelders</T>
+      <T token_id="34">des</T>
+      <T token_id="35">gwandtmanns</T>
+      <T token_id="36">gfrönt</T>
+      <T token_id="37">und</T>
+      <T token_id="38">vergantet</T>
+      <T token_id="39">.</T>
+      <T token_id="40">worden</T>
+      <T token_id="41">,</T>
+      <T token_id="42">verbieten</T>
+      <T token_id="43">:</T>
+      <T token_id="44">Esaias</T>
+      <T token_id="45">Salb</T>
+      <T token_id="46">der</T>
+      <T token_id="47">Moler</T>
+      <T token_id="48">hus</T>
+      <T token_id="49">...</T>
+      <T token_id="50">200</T>
+      <T token_id="51">℔.</T>
+      <T token_id="52">u</T>
+      <T token_id="53">.</T>
+      <T token_id="54">s</T>
+      <T token_id="55">.</T>
+      <T token_id="56">w</T>
+      <T token_id="57">.</T>
+      <T token_id="58">u</T>
+      <T token_id="59">.</T>
+      <T token_id="60">s</T>
+      <T token_id="61">.</T>
+      <T token_id="62">w</T>
+      <T token_id="63">.</T>
+    </L>
+  </Text>
+  <Mentions>
+    <Reference mention_id="0" mention_type="unk" mention_subtype="unk" entity_type="per" numerus="unk" specificity="unk" start="1" end="8" head_start="1" head_end="4" head_text="Hans Rudolff Deboys"/>
+    <Reference mention_id="1" mention_type="unk" mention_subtype="unk" entity_type="per" numerus="unk" specificity="unk" start="4" end="7" head_start="" head_end="" head_text="NO_HEAD_FOUND"/>
+    <Reference mention_id="2" mention_type="unk" mention_subtype="unk" entity_type="gpe" numerus="unk" specificity="unk" start="6" end="7" head_start="6" head_end="7" head_text="Biel"/>
+    <Reference mention_id="3" mention_type="unk" mention_subtype="unk" entity_type="per" numerus="unk" specificity="unk" start="11" end="15" head_start="11" head_end="13" head_text="Elspetha Werdenbergin"/>
+    <Reference mention_id="4" mention_type="unk" mention_subtype="unk" entity_type="per" numerus="unk" specificity="unk" start="13" end="15" head_start="14" head_end="15" head_text="Ehessl"/>
+    <Reference mention_id="5" mention_type="unk" mention_subtype="unk" entity_type="per" numerus="unk" specificity="unk" start="13" end="14" head_start="13" head_end="14" head_text="seiner"/>
+    <Reference mention_id="6" mention_type="unk" mention_subtype="unk" entity_type="loc" numerus="unk" specificity="unk" start="16" end="29" head_start="16" head_end="19" head_text="Hus und Hofstatt"/>
+    <Reference mention_id="7" mention_type="unk" mention_subtype="unk" entity_type="loc" numerus="unk" specificity="unk" start="20" end="22" head_start="21" head_end="22" head_text="Reischscholen"/>
+    <Reference mention_id="8" mention_type="unk" mention_subtype="unk" entity_type="loc" numerus="unk" specificity="unk" start="25" end="27" head_start="25" head_end="27" head_text="zum Agstein"/>
+    <Reference mention_id="9" mention_type="unk" mention_subtype="unk" entity_type="per" numerus="unk" specificity="unk" start="32" end="36" head_start="32" head_end="34" head_text="Rusmann Fürfelders"/>
+    <Reference mention_id="10" mention_type="unk" mention_subtype="unk" entity_type="per" numerus="unk" specificity="unk" start="34" end="36" head_start="35" head_end="36" head_text="gwandtmanns"/>
+    <Reference mention_id="11" mention_type="unk" mention_subtype="unk" entity_type="per" numerus="unk" specificity="unk" start="44" end="48" head_start="44" head_end="46" head_text="Esaias Salb"/>
+    <Reference mention_id="12" mention_type="unk" mention_subtype="unk" entity_type="per" numerus="unk" specificity="unk" start="46" end="48" head_start="47" head_end="48" head_text="Moler"/>
+  </Mentions>
+  <Descriptors/>
+  <Values>
+    <Value value_type="money" start="50" end="52" text="200 ℔."/>
+  </Values>
+  <Relations/>
+</XML>

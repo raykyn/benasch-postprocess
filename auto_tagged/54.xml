@@ -1,0 +1,129 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<XML>
+  <Text>
+    <L line_id="0">
+      <T token_id="0">Auf</T>
+      <T token_id="1">weil</T>
+      <T token_id="2">.</T>
+      <T token_id="3">Daniel</T>
+      <T token_id="4">Dierris</T>
+      <T token_id="5">des</T>
+      <T token_id="6">Goldarbeiters</T>
+      <T token_id="7">Behausung</T>
+      <T token_id="8">bey</T>
+      <T token_id="9">st</T>
+      <T token_id="10">.</T>
+      <T token_id="11">Johannsen</T>
+      <T token_id="12">Schwibogen</T>
+      <T token_id="13">,</T>
+      <T token_id="14">hinden</T>
+      <T token_id="15">auf</T>
+      <T token_id="16">den</T>
+      <T token_id="17">Rhein</T>
+      <T token_id="18">stossend</T>
+      <T token_id="19">,</T>
+      <T token_id="20">haben</T>
+      <T token_id="21">sich</T>
+      <T token_id="22">angeben</T>
+      <T token_id="23">und</T>
+      <T token_id="24">einschreiben</T>
+      <T token_id="25">lassen</T>
+      <T token_id="26">.</T>
+      <T token_id="27">Frauw</T>
+      <T token_id="28">Elisabeth</T>
+      <T token_id="29">Adriannin</T>
+      <T token_id="30">,</T>
+      <T token_id="31">Jacob</T>
+      <T token_id="32">Wyberts</T>
+      <T token_id="33">Eheweib</T>
+      <T token_id="34">weger</T>
+      <T token_id="35">der</T>
+      <T token_id="36">Zugs</T>
+      <T token_id="37">derechtigkeit</T>
+      <T token_id="38">,</T>
+      <T token_id="39">dass</T>
+      <T token_id="40">sie</T>
+      <T token_id="41">nämblich</T>
+      <T token_id="42">solche</T>
+      <T token_id="43">Behausung</T>
+      <T token_id="44">ziehen</T>
+      <T token_id="45">wolle</T>
+      <T token_id="46">.</T>
+      <T token_id="47">Item</T>
+      <T token_id="48">Peter</T>
+      <T token_id="49">und</T>
+      <T token_id="50">Frantz</T>
+      <T token_id="51">Dierri</T>
+      <T token_id="52">die</T>
+      <T token_id="53">Verkäufer</T>
+      <T token_id="54">als</T>
+      <T token_id="55">Vogt</T>
+      <T token_id="56">sein</T>
+      <T token_id="57">Daniel</T>
+      <T token_id="58">Dierris</T>
+      <T token_id="59">sel</T>
+      <T token_id="60">.</T>
+      <T token_id="61">Rhinder</T>
+      <T token_id="62">,</T>
+      <T token_id="63">wollen</T>
+      <T token_id="64">den</T>
+      <T token_id="65">Kauf</T>
+      <T token_id="66">nicht</T>
+      <T token_id="67">gelten</T>
+      <T token_id="68">lassen</T>
+      <T token_id="69">,</T>
+      <T token_id="70">wen</T>
+      <T token_id="71">Augustin</T>
+      <T token_id="72">Schnell</T>
+      <T token_id="73">der</T>
+      <T token_id="74">Keufer</T>
+      <T token_id="75">die</T>
+      <T token_id="76">Behausung</T>
+      <T token_id="77">für</T>
+      <T token_id="78">jemand</T>
+      <T token_id="79">ander</T>
+      <T token_id="80">¬</T>
+      <T token_id="81">als</T>
+      <T token_id="82">für</T>
+      <T token_id="83">sich</T>
+      <T token_id="84">selbst</T>
+      <T token_id="85">erkaufft</T>
+      <T token_id="86">habe</T>
+      <T token_id="87">und</T>
+      <T token_id="88">er</T>
+      <T token_id="89">solches</T>
+      <T token_id="90">mit</T>
+      <T token_id="91">einem</T>
+      <T token_id="92">leiblichen</T>
+      <T token_id="93">Eydt</T>
+      <T token_id="94">bestehdigen</T>
+      <T token_id="95">müsse</T>
+      <T token_id="96">.</T>
+    </L>
+  </Text>
+  <Mentions>
+    <Reference mention_id="0" mention_type="unk" mention_subtype="unk" entity_type="loc" numerus="unk" specificity="unk" start="3" end="19" head_start="7" head_end="8" head_text="Behausung"/>
+    <Reference mention_id="1" mention_type="unk" mention_subtype="unk" entity_type="per" numerus="unk" specificity="unk" start="3" end="7" head_start="3" head_end="5" head_text="Daniel Dierris"/>
+    <Reference mention_id="2" mention_type="unk" mention_subtype="unk" entity_type="per" numerus="unk" specificity="unk" start="5" end="7" head_start="6" head_end="7" head_text="Goldarbeiters"/>
+    <Reference mention_id="3" mention_type="unk" mention_subtype="unk" entity_type="loc" numerus="unk" specificity="unk" start="9" end="13" head_start="9" head_end="13" head_text="st . Johannsen Schwibogen"/>
+    <Reference mention_id="4" mention_type="unk" mention_subtype="unk" entity_type="loc" numerus="unk" specificity="unk" start="16" end="18" head_start="17" head_end="18" head_text="Rhein"/>
+    <Reference mention_id="5" mention_type="unk" mention_subtype="unk" entity_type="per" numerus="unk" specificity="unk" start="27" end="34" head_start="28" head_end="30" head_text="Elisabeth Adriannin"/>
+    <Reference mention_id="6" mention_type="unk" mention_subtype="unk" entity_type="per" numerus="unk" specificity="unk" start="31" end="34" head_start="33" head_end="34" head_text="Eheweib"/>
+    <Reference mention_id="7" mention_type="unk" mention_subtype="unk" entity_type="per" numerus="unk" specificity="unk" start="31" end="33" head_start="31" head_end="33" head_text="Jacob Wyberts"/>
+    <Reference mention_id="8" mention_type="unk" mention_subtype="unk" entity_type="per" numerus="unk" specificity="unk" start="40" end="41" head_start="40" head_end="41" head_text="sie"/>
+    <Reference mention_id="9" mention_type="unk" mention_subtype="unk" entity_type="loc" numerus="unk" specificity="unk" start="42" end="44" head_start="43" head_end="44" head_text="Behausung"/>
+    <Reference mention_id="10" mention_type="unk" mention_subtype="unk" entity_type="per" numerus="unk" specificity="unk" start="48" end="49" head_start="48" head_end="49" head_text="Peter"/>
+    <Reference mention_id="11" mention_type="unk" mention_subtype="unk" entity_type="per" numerus="unk" specificity="unk" start="50" end="52" head_start="50" head_end="52" head_text="Frantz Dierri"/>
+    <Reference mention_id="12" mention_type="unk" mention_subtype="unk" entity_type="per" numerus="unk" specificity="unk" start="52" end="54" head_start="53" head_end="54" head_text="Verkäufer"/>
+    <Reference mention_id="13" mention_type="unk" mention_subtype="unk" entity_type="per" numerus="unk" specificity="unk" start="55" end="62" head_start="55" head_end="56" head_text="Vogt"/>
+    <Reference mention_id="14" mention_type="unk" mention_subtype="unk" entity_type="per" numerus="unk" specificity="unk" start="56" end="61" head_start="57" head_end="59" head_text="Daniel Dierris"/>
+    <Reference mention_id="15" mention_type="unk" mention_subtype="unk" entity_type="per" numerus="unk" specificity="unk" start="56" end="57" head_start="56" head_end="57" head_text="sein"/>
+    <Reference mention_id="16" mention_type="unk" mention_subtype="unk" entity_type="per" numerus="unk" specificity="unk" start="71" end="73" head_start="71" head_end="73" head_text="Augustin Schnell"/>
+    <Reference mention_id="17" mention_type="unk" mention_subtype="unk" entity_type="per" numerus="unk" specificity="unk" start="73" end="75" head_start="74" head_end="75" head_text="Keufer"/>
+    <Reference mention_id="18" mention_type="unk" mention_subtype="unk" entity_type="per" numerus="unk" specificity="unk" start="83" end="84" head_start="83" head_end="84" head_text="sich"/>
+    <Reference mention_id="19" mention_type="unk" mention_subtype="unk" entity_type="per" numerus="unk" specificity="unk" start="88" end="89" head_start="88" head_end="89" head_text="er"/>
+  </Mentions>
+  <Descriptors/>
+  <Values/>
+  <Relations/>
+</XML>

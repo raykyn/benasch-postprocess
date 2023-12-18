@@ -1,0 +1,151 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<XML>
+  <Text>
+    <L line_id="0">
+      <T token_id="0">Joachin</T>
+      <T token_id="1">eltorower</T>
+      <T token_id="2">der</T>
+      <T token_id="3">deschenmacher</T>
+      <T token_id="4">u</T>
+      <T token_id="5">.</T>
+      <T token_id="6">seine</T>
+      <T token_id="7">Frau</T>
+      <T token_id="8">Julins</T>
+      <T token_id="9">,</T>
+      <T token_id="10">verkaufen</T>
+      <T token_id="11">an</T>
+      <T token_id="12">Ennelin</T>
+      <T token_id="13">Gebhartin</T>
+      <T token_id="14">jetzt</T>
+      <T token_id="15">Mr</T>
+      <T token_id="16">.</T>
+      <T token_id="17">Clausen</T>
+      <T token_id="18">segkingers</T>
+      <T token_id="19">ewirtin</T>
+      <T token_id="20">2</T>
+      <T token_id="21">1</T>
+      <T token_id="22">/</T>
+      <T token_id="23">2</T>
+      <T token_id="24">fl</T>
+      <T token_id="25">.</T>
+      <T token_id="26">gelts</T>
+      <T token_id="27">,</T>
+      <T token_id="28">abaren</T>
+      <T token_id="29">Huse</T>
+      <T token_id="30">&amp;</T>
+      <T token_id="31">Hofstatt</T>
+      <T token_id="32">genant</T>
+      <T token_id="33">Angelberg</T>
+      <T token_id="34">gelegen</T>
+      <T token_id="35">am</T>
+      <T token_id="36">Kornmerckt</T>
+      <T token_id="37">,</T>
+      <T token_id="38">zwuschent</T>
+      <T token_id="39">Hartmanns</T>
+      <T token_id="40">des</T>
+      <T token_id="41">seklers</T>
+      <T token_id="42">uff</T>
+      <T token_id="43">ein</T>
+      <T token_id="44">,</T>
+      <T token_id="45">ư</T>
+      <T token_id="46">dem</T>
+      <T token_id="47">Huse</T>
+      <T token_id="48">genant</T>
+      <T token_id="49">Oppenhein</T>
+      <T token_id="50">andersite</T>
+      <T token_id="51">,</T>
+      <T token_id="52">ist</T>
+      <T token_id="53">erbe</T>
+      <T token_id="54">von</T>
+      <T token_id="55">dem</T>
+      <T token_id="56">Spital</T>
+      <T token_id="57">dem</T>
+      <T token_id="58">jährl</T>
+      <T token_id="59">.</T>
+      <T token_id="60">davon</T>
+      <T token_id="61">gehörent</T>
+      <T token_id="62">2</T>
+      <T token_id="63">1</T>
+      <T token_id="64">/</T>
+      <T token_id="65">2</T>
+      <T token_id="66">℔</T>
+      <T token_id="67">ze</T>
+      <T token_id="68">zinse</T>
+      <T token_id="69">,</T>
+      <T token_id="70">5</T>
+      <T token_id="71">sh</T>
+      <T token_id="72">erschatz</T>
+      <T token_id="73">,</T>
+      <T token_id="74">sodan</T>
+      <T token_id="75">aber</T>
+      <T token_id="76">demselben</T>
+      <T token_id="77">Spital</T>
+      <T token_id="78">3</T>
+      <T token_id="79">fl</T>
+      <T token_id="80">.</T>
+      <T token_id="81">widerk</T>
+      <T token_id="82">mit</T>
+      <T token_id="83">45</T>
+      <T token_id="84">fl</T>
+      <T token_id="85">.</T>
+      <T token_id="86">sodan</T>
+      <T token_id="87">hand</T>
+      <T token_id="88">die</T>
+      <T token_id="89">closterfrauen</T>
+      <T token_id="90">ze</T>
+      <T token_id="91">Clingental</T>
+      <T token_id="92">auch</T>
+      <T token_id="93">daruf</T>
+      <T token_id="94">Jährl</T>
+      <T token_id="95">3</T>
+      <T token_id="96">fl</T>
+      <T token_id="97">widerk</T>
+      <T token_id="98">.</T>
+      <T token_id="99">mit</T>
+      <T token_id="100">45</T>
+      <T token_id="101">fl</T>
+      <T token_id="102">.</T>
+      <T token_id="103">sonstfrei</T>
+      <T token_id="104">um</T>
+      <T token_id="105">50</T>
+      <T token_id="106">fl</T>
+      <T token_id="107">widerk</T>
+      <T token_id="108">.</T>
+    </L>
+  </Text>
+  <Mentions>
+    <Reference mention_id="0" mention_type="unk" mention_subtype="unk" entity_type="per" numerus="unk" specificity="unk" start="0" end="4" head_start="0" head_end="2" head_text="Joachin eltorower"/>
+    <Reference mention_id="1" mention_type="unk" mention_subtype="unk" entity_type="per" numerus="unk" specificity="unk" start="2" end="4" head_start="3" head_end="4" head_text="deschenmacher"/>
+    <Reference mention_id="2" mention_type="unk" mention_subtype="unk" entity_type="per" numerus="unk" specificity="unk" start="6" end="9" head_start="8" head_end="9" head_text="Julins"/>
+    <Reference mention_id="3" mention_type="unk" mention_subtype="unk" entity_type="per" numerus="unk" specificity="unk" start="6" end="8" head_start="7" head_end="8" head_text="Frau"/>
+    <Reference mention_id="4" mention_type="unk" mention_subtype="unk" entity_type="per" numerus="unk" specificity="unk" start="6" end="7" head_start="6" head_end="7" head_text="seine"/>
+    <Reference mention_id="5" mention_type="unk" mention_subtype="unk" entity_type="per" numerus="unk" specificity="unk" start="12" end="14" head_start="12" head_end="14" head_text="Ennelin Gebhartin"/>
+    <Reference mention_id="6" mention_type="unk" mention_subtype="unk" entity_type="per" numerus="unk" specificity="unk" start="15" end="20" head_start="19" head_end="20" head_text="ewirtin"/>
+    <Reference mention_id="7" mention_type="unk" mention_subtype="unk" entity_type="per" numerus="unk" specificity="unk" start="15" end="19" head_start="17" head_end="19" head_text="Clausen segkingers"/>
+    <Reference mention_id="8" mention_type="unk" mention_subtype="unk" entity_type="loc" numerus="unk" specificity="unk" start="28" end="104" head_start="29" head_end="32" head_text="Huse &amp; Hofstatt"/>
+    <Reference mention_id="9" mention_type="unk" mention_subtype="unk" entity_type="loc" numerus="unk" specificity="unk" start="33" end="34" head_start="33" head_end="34" head_text="Angelberg"/>
+    <Reference mention_id="10" mention_type="unk" mention_subtype="unk" entity_type="loc" numerus="unk" specificity="unk" start="35" end="37" head_start="36" head_end="37" head_text="Kornmerckt"/>
+    <Reference mention_id="11" mention_type="unk" mention_subtype="unk" entity_type="per" numerus="unk" specificity="unk" start="39" end="42" head_start="39" head_end="40" head_text="Hartmanns"/>
+    <Reference mention_id="12" mention_type="unk" mention_subtype="unk" entity_type="per" numerus="unk" specificity="unk" start="40" end="42" head_start="41" head_end="42" head_text="seklers"/>
+    <Reference mention_id="13" mention_type="unk" mention_subtype="unk" entity_type="loc" numerus="unk" specificity="unk" start="46" end="50" head_start="47" head_end="48" head_text="Huse"/>
+    <Reference mention_id="14" mention_type="unk" mention_subtype="unk" entity_type="loc" numerus="unk" specificity="unk" start="49" end="50" head_start="49" head_end="50" head_text="Oppenhein"/>
+    <Reference mention_id="15" mention_type="unk" mention_subtype="unk" entity_type="org" numerus="unk" specificity="unk" start="55" end="57" head_start="56" head_end="57" head_text="Spital"/>
+    <Reference mention_id="16" mention_type="unk" mention_subtype="unk" entity_type="per" numerus="unk" specificity="unk" start="57" end="58" head_start="57" head_end="58" head_text="dem"/>
+    <Reference mention_id="17" mention_type="unk" mention_subtype="unk" entity_type="org" numerus="unk" specificity="unk" start="76" end="78" head_start="77" head_end="78" head_text="Spital"/>
+    <Reference mention_id="18" mention_type="unk" mention_subtype="unk" entity_type="org" numerus="unk" specificity="unk" start="88" end="92" head_start="89" head_end="92" head_text="closterfrauen ze Clingental"/>
+  </Mentions>
+  <Descriptors/>
+  <Values>
+    <Value value_type="money" start="20" end="27" text="2 1 / 2 fl . gelts"/>
+    <Value value_type="time.rec" start="58" end="59" text="jährl"/>
+    <Value value_type="money" start="62" end="67" text="2 1 / 2 ℔"/>
+    <Value value_type="money" start="70" end="72" text="5 sh"/>
+    <Value value_type="money" start="78" end="81" text="3 fl ."/>
+    <Value value_type="money" start="83" end="86" text="45 fl ."/>
+    <Value value_type="time.rec" start="94" end="95" text="Jährl"/>
+    <Value value_type="money" start="95" end="97" text="3 fl"/>
+    <Value value_type="money" start="100" end="103" text="45 fl ."/>
+    <Value value_type="money" start="105" end="107" text="50 fl"/>
+  </Values>
+  <Relations/>
+</XML>

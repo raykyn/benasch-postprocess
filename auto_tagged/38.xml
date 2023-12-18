@@ -1,0 +1,70 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<XML>
+  <Text>
+    <L line_id="0">
+      <T token_id="0">Da</T>
+      <T token_id="1">hatt</T>
+      <T token_id="2">Heinrich</T>
+      <T token_id="3">Keller</T>
+      <T token_id="4">der</T>
+      <T token_id="5">Camerer</T>
+      <T token_id="6">der</T>
+      <T token_id="7">Bruderschafft</T>
+      <T token_id="8">zu</T>
+      <T token_id="9">sant</T>
+      <T token_id="10">Johanns</T>
+      <T token_id="11">uff</T>
+      <T token_id="12">Burg</T>
+      <T token_id="13">,</T>
+      <T token_id="14">das</T>
+      <T token_id="15">Hus</T>
+      <T token_id="16">genannt</T>
+      <T token_id="17">Pauli</T>
+      <T token_id="18">Herdenns</T>
+      <T token_id="19">zwüschen</T>
+      <T token_id="20">Mr</T>
+      <T token_id="21">.</T>
+      <T token_id="22">Thoman</T>
+      <T token_id="23">dem</T>
+      <T token_id="24">Brotbeken</T>
+      <T token_id="25">und</T>
+      <T token_id="26">dem</T>
+      <T token_id="27">Hus</T>
+      <T token_id="28">zum</T>
+      <T token_id="29">Falken</T>
+      <T token_id="30">an</T>
+      <T token_id="31">den</T>
+      <T token_id="32">Steinen</T>
+      <T token_id="33">gelegen</T>
+      <T token_id="34">und</T>
+      <T token_id="35">Gerwers</T>
+      <T token_id="36">Hus</T>
+      <T token_id="37">genannt</T>
+      <T token_id="38">,</T>
+      <T token_id="39">umb</T>
+      <T token_id="40">Missbauw</T>
+      <T token_id="41">und</T>
+      <T token_id="42">versessenen</T>
+      <T token_id="43">zins</T>
+      <T token_id="44">,</T>
+      <T token_id="45">gefrönt</T>
+      <T token_id="46">.</T>
+    </L>
+  </Text>
+  <Mentions>
+    <Reference mention_id="0" mention_type="unk" mention_subtype="unk" entity_type="per" numerus="unk" specificity="unk" start="2" end="13" head_start="2" head_end="4" head_text="Heinrich Keller"/>
+    <Reference mention_id="1" mention_type="unk" mention_subtype="unk" entity_type="per" numerus="unk" specificity="unk" start="4" end="13" head_start="5" head_end="6" head_text="Camerer"/>
+    <Reference mention_id="2" mention_type="unk" mention_subtype="unk" entity_type="org" numerus="unk" specificity="unk" start="6" end="13" head_start="7" head_end="13" head_text="Bruderschafft zu sant Johanns uff Burg"/>
+    <Reference mention_id="3" mention_type="unk" mention_subtype="unk" entity_type="loc" numerus="unk" specificity="unk" start="14" end="38" head_start="15" head_end="16" head_text="Hus"/>
+    <Reference mention_id="4" mention_type="unk" mention_subtype="unk" entity_type="loc" numerus="unk" specificity="unk" start="17" end="19" head_start="17" head_end="19" head_text="Pauli Herdenns"/>
+    <Reference mention_id="5" mention_type="unk" mention_subtype="unk" entity_type="per" numerus="unk" specificity="unk" start="20" end="25" head_start="22" head_end="23" head_text="Thoman"/>
+    <Reference mention_id="6" mention_type="unk" mention_subtype="unk" entity_type="per" numerus="unk" specificity="unk" start="23" end="25" head_start="24" head_end="25" head_text="Brotbeken"/>
+    <Reference mention_id="7" mention_type="unk" mention_subtype="unk" entity_type="loc" numerus="unk" specificity="unk" start="26" end="33" head_start="27" head_end="30" head_text="Hus zum Falken"/>
+    <Reference mention_id="8" mention_type="unk" mention_subtype="unk" entity_type="loc" numerus="unk" specificity="unk" start="31" end="33" head_start="32" head_end="33" head_text="Steinen"/>
+    <Reference mention_id="9" mention_type="unk" mention_subtype="unk" entity_type="loc" numerus="unk" specificity="unk" start="35" end="37" head_start="36" head_end="37" head_text="Hus"/>
+    <Reference mention_id="10" mention_type="unk" mention_subtype="unk" entity_type="per" numerus="unk" specificity="unk" start="35" end="36" head_start="35" head_end="36" head_text="Gerwers"/>
+  </Mentions>
+  <Descriptors/>
+  <Values/>
+  <Relations/>
+</XML>

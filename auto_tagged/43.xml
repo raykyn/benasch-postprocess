@@ -1,0 +1,41 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<XML>
+  <Text>
+    <L line_id="0">
+      <T token_id="0">Lienhart</T>
+      <T token_id="1">Kreps</T>
+      <T token_id="2">uff</T>
+      <T token_id="3">Phi</T>
+      <T token_id="4">.</T>
+      <T token_id="5">lippi</T>
+      <T token_id="6">und</T>
+      <T token_id="7">Jacobi</T>
+      <T token_id="8">vom</T>
+      <T token_id="9">hus</T>
+      <T token_id="10">zum</T>
+      <T token_id="11">Reff</T>
+      <T token_id="12">4</T>
+      <T token_id="13">℔</T>
+      <T token_id="14">der</T>
+      <T token_id="15">Capplanen</T>
+      <T token_id="16">zins</T>
+      <T token_id="17">.</T>
+      <T token_id="18">1528</T>
+      <T token_id="19">primus</T>
+      <T token_id="20">census</T>
+      <T token_id="21">.</T>
+    </L>
+  </Text>
+  <Mentions>
+    <Reference mention_id="0" mention_type="unk" mention_subtype="unk" entity_type="per" numerus="unk" specificity="unk" start="0" end="2" head_start="0" head_end="2" head_text="Lienhart Kreps"/>
+    <Reference mention_id="1" mention_type="unk" mention_subtype="unk" entity_type="loc" numerus="unk" specificity="unk" start="8" end="12" head_start="9" head_end="12" head_text="hus zum Reff"/>
+  </Mentions>
+  <Descriptors/>
+  <Values>
+    <Value value_type="date" start="2" end="6" text="uff Phi . lippi"/>
+    <Value value_type="date" start="7" end="8" text="Jacobi"/>
+    <Value value_type="money" start="12" end="14" text="4 ℔"/>
+    <Value value_type="date" start="18" end="19" text="1528"/>
+  </Values>
+  <Relations/>
+</XML>

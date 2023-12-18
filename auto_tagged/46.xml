@@ -1,0 +1,137 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<XML>
+  <Text>
+    <L line_id="0">
+      <T token_id="0">Schultheissen</T>
+      <T token_id="1">-</T>
+      <T token_id="2">Urkunde</T>
+      <T token_id="3">.</T>
+      <T token_id="4">Her</T>
+      <T token_id="5">Jost</T>
+      <T token_id="6">Bruger</T>
+      <T token_id="7">von</T>
+      <T token_id="8">Schapfefhein</T>
+      <T token_id="9">,</T>
+      <T token_id="10">Cappelan</T>
+      <T token_id="11">unser</T>
+      <T token_id="12">Frowen</T>
+      <T token_id="13">Altar</T>
+      <T token_id="14">zu</T>
+      <T token_id="15">Pheffingen</T>
+      <T token_id="16">,</T>
+      <T token_id="17">frochut</T>
+      <T token_id="18">alle</T>
+      <T token_id="19">die</T>
+      <T token_id="20">Recht</T>
+      <T token_id="21">,</T>
+      <T token_id="22">die</T>
+      <T token_id="23">Eberlin</T>
+      <T token_id="24">Hafengissser</T>
+      <T token_id="25">Burger</T>
+      <T token_id="26">zu</T>
+      <T token_id="27">Basel</T>
+      <T token_id="28">,</T>
+      <T token_id="29">und</T>
+      <T token_id="30">Gred</T>
+      <T token_id="31">sin</T>
+      <T token_id="32">eliche</T>
+      <T token_id="33">Wirtin</T>
+      <T token_id="34">hattend</T>
+      <T token_id="35">an</T>
+      <T token_id="36">dem</T>
+      <T token_id="37">Krtharesgalteharten</T>
+      <T token_id="38">genant</T>
+      <T token_id="39">Valkners</T>
+      <T token_id="40">Gart</T>
+      <T token_id="41">gelegen</T>
+      <T token_id="42">in</T>
+      <T token_id="43">der</T>
+      <T token_id="44">Stat</T>
+      <T token_id="45">zu</T>
+      <T token_id="46">uinren</T>
+      <T token_id="47">Basel</T>
+      <T token_id="48">einsit</T>
+      <T token_id="49">an</T>
+      <T token_id="50">der</T>
+      <T token_id="51">Zehend</T>
+      <T token_id="52">Trotten</T>
+      <T token_id="53">,</T>
+      <T token_id="54">zer</T>
+      <T token_id="55">andren</T>
+      <T token_id="56">Siten</T>
+      <T token_id="57">an</T>
+      <T token_id="58">der</T>
+      <T token_id="59">Kartiser</T>
+      <T token_id="60">Gart</T>
+      <T token_id="61">und</T>
+      <T token_id="62">stosset</T>
+      <T token_id="63">an</T>
+      <T token_id="64">die</T>
+      <T token_id="65">Kilchgass</T>
+      <T token_id="66">und</T>
+      <T token_id="67">undenan</T>
+      <T token_id="68">an</T>
+      <T token_id="69">Wasneg</T>
+      <T token_id="70">,</T>
+      <T token_id="71">von</T>
+      <T token_id="72">der</T>
+      <T token_id="73">versessenen</T>
+      <T token_id="74">Zinsen</T>
+      <T token_id="75">wegen</T>
+      <T token_id="76">,</T>
+      <T token_id="77">so</T>
+      <T token_id="78">si</T>
+      <T token_id="79">im</T>
+      <T token_id="80">geben</T>
+      <T token_id="81">sol</T>
+      <T token_id="82">tend</T>
+      <T token_id="83">von</T>
+      <T token_id="84">dem</T>
+      <T token_id="85">Garten</T>
+      <T token_id="86">,</T>
+      <T token_id="87">und</T>
+      <T token_id="88">ersteigert</T>
+      <T token_id="89">ihn</T>
+      <T token_id="90">um</T>
+      <T token_id="91">3</T>
+      <T token_id="92">sh</T>
+      <T token_id="93">.</T>
+      <T token_id="94">1</T>
+      <T token_id="95">℔.</T>
+      <T token_id="96">Rückseite</T>
+      <T token_id="97">nichts</T>
+      <T token_id="98">Väheres</T>
+      <T token_id="99">.</T>
+    </L>
+  </Text>
+  <Mentions>
+    <Reference mention_id="0" mention_type="unk" mention_subtype="unk" entity_type="per" numerus="unk" specificity="unk" start="4" end="16" head_start="5" head_end="7" head_text="Jost Bruger"/>
+    <Reference mention_id="1" mention_type="unk" mention_subtype="unk" entity_type="gpe" numerus="unk" specificity="unk" start="8" end="9" head_start="8" head_end="9" head_text="Schapfefhein"/>
+    <Reference mention_id="2" mention_type="unk" mention_subtype="unk" entity_type="per" numerus="unk" specificity="unk" start="10" end="16" head_start="10" head_end="11" head_text="Cappelan"/>
+    <Reference mention_id="3" mention_type="unk" mention_subtype="unk" entity_type="org" numerus="unk" specificity="unk" start="11" end="16" head_start="11" head_end="16" head_text="unser Frowen Altar zu Pheffingen"/>
+    <Reference mention_id="4" mention_type="unk" mention_subtype="unk" entity_type="per" numerus="unk" specificity="unk" start="23" end="28" head_start="23" head_end="25" head_text="Eberlin Hafengissser"/>
+    <Reference mention_id="5" mention_type="unk" mention_subtype="unk" entity_type="per" numerus="unk" specificity="unk" start="25" end="28" head_start="25" head_end="26" head_text="Burger"/>
+    <Reference mention_id="6" mention_type="unk" mention_subtype="unk" entity_type="gpe" numerus="unk" specificity="unk" start="27" end="28" head_start="27" head_end="28" head_text="Basel"/>
+    <Reference mention_id="7" mention_type="unk" mention_subtype="unk" entity_type="per" numerus="unk" specificity="unk" start="30" end="34" head_start="30" head_end="31" head_text="Gred"/>
+    <Reference mention_id="8" mention_type="unk" mention_subtype="unk" entity_type="per" numerus="unk" specificity="unk" start="31" end="34" head_start="32" head_end="34" head_text="eliche Wirtin"/>
+    <Reference mention_id="9" mention_type="unk" mention_subtype="unk" entity_type="per" numerus="unk" specificity="unk" start="31" end="32" head_start="31" head_end="32" head_text="sin"/>
+    <Reference mention_id="10" mention_type="unk" mention_subtype="unk" entity_type="loc" numerus="unk" specificity="unk" start="36" end="70" head_start="37" head_end="38" head_text="Krtharesgalteharten"/>
+    <Reference mention_id="11" mention_type="unk" mention_subtype="unk" entity_type="loc" numerus="unk" specificity="unk" start="39" end="41" head_start="40" head_end="41" head_text="Gart"/>
+    <Reference mention_id="12" mention_type="unk" mention_subtype="unk" entity_type="per" numerus="unk" specificity="unk" start="39" end="40" head_start="39" head_end="40" head_text="Valkners"/>
+    <Reference mention_id="13" mention_type="unk" mention_subtype="unk" entity_type="gpe" numerus="unk" specificity="unk" start="43" end="48" head_start="46" head_end="48" head_text="uinren Basel"/>
+    <Reference mention_id="14" mention_type="unk" mention_subtype="unk" entity_type="loc" numerus="unk" specificity="unk" start="50" end="53" head_start="51" head_end="53" head_text="Zehend Trotten"/>
+    <Reference mention_id="15" mention_type="unk" mention_subtype="unk" entity_type="loc" numerus="unk" specificity="unk" start="58" end="61" head_start="60" head_end="61" head_text="Gart"/>
+    <Reference mention_id="16" mention_type="unk" mention_subtype="unk" entity_type="per" numerus="unk" specificity="unk" start="58" end="60" head_start="59" head_end="60" head_text="Kartiser"/>
+    <Reference mention_id="17" mention_type="unk" mention_subtype="unk" entity_type="loc" numerus="unk" specificity="unk" start="64" end="66" head_start="65" head_end="66" head_text="Kilchgass"/>
+    <Reference mention_id="18" mention_type="unk" mention_subtype="unk" entity_type="loc" numerus="unk" specificity="unk" start="69" end="70" head_start="69" head_end="70" head_text="Wasneg"/>
+    <Reference mention_id="19" mention_type="unk" mention_subtype="unk" entity_type="per" numerus="unk" specificity="unk" start="78" end="79" head_start="78" head_end="79" head_text="si"/>
+    <Reference mention_id="20" mention_type="unk" mention_subtype="unk" entity_type="per" numerus="unk" specificity="unk" start="79" end="80" head_start="79" head_end="80" head_text="im"/>
+    <Reference mention_id="21" mention_type="unk" mention_subtype="unk" entity_type="loc" numerus="unk" specificity="unk" start="84" end="86" head_start="85" head_end="86" head_text="Garten"/>
+    <Reference mention_id="22" mention_type="unk" mention_subtype="unk" entity_type="loc" numerus="unk" specificity="unk" start="89" end="90" head_start="89" head_end="90" head_text="ihn"/>
+  </Mentions>
+  <Descriptors/>
+  <Values>
+    <Value value_type="money" start="91" end="96" text="3 sh . 1 ℔."/>
+  </Values>
+  <Relations/>
+</XML>

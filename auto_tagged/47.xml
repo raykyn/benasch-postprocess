@@ -1,0 +1,81 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<XML>
+  <Text>
+    <L line_id="0">
+      <T token_id="0">Kaufs</T>
+      <T token_id="1">-</T>
+      <T token_id="2">Publikation</T>
+      <T token_id="3">.</T>
+      <T token_id="4">Es</T>
+      <T token_id="5">verkaufen</T>
+      <T token_id="6">weil</T>
+      <T token_id="7">.</T>
+      <T token_id="8">herren</T>
+      <T token_id="9">Niclaus</T>
+      <T token_id="10">Thurneysen</T>
+      <T token_id="11">sel</T>
+      <T token_id="12">.</T>
+      <T token_id="13">des</T>
+      <T token_id="14">Gerichts</T>
+      <T token_id="15">u</T>
+      <T token_id="16">.</T>
+      <T token_id="17">grossen</T>
+      <T token_id="18">Raths</T>
+      <T token_id="19">Erben</T>
+      <T token_id="20">an</T>
+      <T token_id="21">herrn</T>
+      <T token_id="22">Johann</T>
+      <T token_id="23">Rudolf</T>
+      <T token_id="24">Stückelberger</T>
+      <T token_id="25">den</T>
+      <T token_id="26">Gasthof</T>
+      <T token_id="27">zem</T>
+      <T token_id="28">Schaf</T>
+      <T token_id="29">etc</T>
+      <T token_id="30">sodann</T>
+      <T token_id="31">:</T>
+      <T token_id="32">eine</T>
+      <T token_id="33">Scheuren</T>
+      <T token_id="34">und</T>
+      <T token_id="35">Stallung</T>
+      <T token_id="36">gegenüber</T>
+      <T token_id="37">,</T>
+      <T token_id="38">auch</T>
+      <T token_id="39">an</T>
+      <T token_id="40">der</T>
+      <T token_id="41">Rebgasse</T>
+      <T token_id="42">,</T>
+      <T token_id="43">einerseits</T>
+      <T token_id="44">neben</T>
+      <T token_id="45">St</T>
+      <T token_id="46">.</T>
+      <T token_id="47">Clarahof</T>
+      <T token_id="48">und</T>
+      <T token_id="49">anderseits</T>
+      <T token_id="50">neben</T>
+      <T token_id="51">Caspar</T>
+      <T token_id="52">Sig</T>
+      <T token_id="53">¬</T>
+      <T token_id="54">frid</T>
+      <T token_id="55">dem</T>
+      <T token_id="56">Wessbeck</T>
+      <T token_id="57">liegend</T>
+      <T token_id="58">.</T>
+    </L>
+  </Text>
+  <Mentions>
+    <Reference mention_id="0" mention_type="unk" mention_subtype="unk" entity_type="per" numerus="unk" specificity="unk" start="6" end="20" head_start="19" head_end="20" head_text="Erben"/>
+    <Reference mention_id="1" mention_type="unk" mention_subtype="unk" entity_type="per" numerus="unk" specificity="unk" start="6" end="19" head_start="9" head_end="11" head_text="Niclaus Thurneysen"/>
+    <Reference mention_id="2" mention_type="unk" mention_subtype="unk" entity_type="per" numerus="unk" specificity="unk" start="13" end="15" head_start="14" head_end="15" head_text="Gerichts"/>
+    <Reference mention_id="3" mention_type="unk" mention_subtype="unk" entity_type="per" numerus="unk" specificity="unk" start="21" end="29" head_start="22" head_end="25" head_text="Johann Rudolf Stückelberger"/>
+    <Reference mention_id="4" mention_type="unk" mention_subtype="unk" entity_type="per" numerus="unk" specificity="unk" start="25" end="29" head_start="26" head_end="29" head_text="Gasthof zem Schaf"/>
+    <Reference mention_id="5" mention_type="unk" mention_subtype="unk" entity_type="loc" numerus="unk" specificity="unk" start="32" end="58" head_start="33" head_end="36" head_text="Scheuren und Stallung"/>
+    <Reference mention_id="6" mention_type="unk" mention_subtype="unk" entity_type="loc" numerus="unk" specificity="unk" start="40" end="42" head_start="41" head_end="42" head_text="Rebgasse"/>
+    <Reference mention_id="7" mention_type="unk" mention_subtype="unk" entity_type="loc" numerus="unk" specificity="unk" start="45" end="48" head_start="45" head_end="48" head_text="St . Clarahof"/>
+    <Reference mention_id="8" mention_type="unk" mention_subtype="unk" entity_type="per" numerus="unk" specificity="unk" start="51" end="57" head_start="51" head_end="55" head_text="Caspar Sig ¬ frid"/>
+    <Reference mention_id="9" mention_type="unk" mention_subtype="unk" entity_type="per" numerus="unk" specificity="unk" start="55" end="57" head_start="56" head_end="57" head_text="Wessbeck"/>
+  </Mentions>
+  <Descriptors/>
+  <Values/>
+  <Relations/>
+</XML>

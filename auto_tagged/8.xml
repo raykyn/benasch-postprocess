@@ -1,0 +1,152 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<XML>
+  <Text>
+    <L line_id="0">
+      <T token_id="0">Andres</T>
+      <T token_id="1">Stoltz</T>
+      <T token_id="2">sel</T>
+      <T token_id="3">Hl</T>
+      <T token_id="4">.</T>
+      <T token_id="5">Ratsknecht</T>
+      <T token_id="6">uf</T>
+      <T token_id="7">dem</T>
+      <T token_id="8">Richthuse</T>
+      <T token_id="9">verkauft</T>
+      <T token_id="10">an</T>
+      <T token_id="11">Michel</T>
+      <T token_id="12">Schöneck</T>
+      <T token_id="13">den</T>
+      <T token_id="14">Winleger</T>
+      <T token_id="15">u</T>
+      <T token_id="16">.</T>
+      <T token_id="17">seine</T>
+      <T token_id="18">Frau</T>
+      <T token_id="19">Enneli</T>
+      <T token_id="20">,</T>
+      <T token_id="21">das</T>
+      <T token_id="22">Hus</T>
+      <T token_id="23">u</T>
+      <T token_id="24">.</T>
+      <T token_id="25">Hofstatt</T>
+      <T token_id="26">genannt</T>
+      <T token_id="27">zum</T>
+      <T token_id="28">Mören</T>
+      <T token_id="29">,</T>
+      <T token_id="30">in</T>
+      <T token_id="31">der</T>
+      <T token_id="32">wyssengassen</T>
+      <T token_id="33">,</T>
+      <T token_id="34">zwüschen</T>
+      <T token_id="35">dem</T>
+      <T token_id="36">Hus</T>
+      <T token_id="37">Sonnenberg</T>
+      <T token_id="38">zu</T>
+      <T token_id="39">einer</T>
+      <T token_id="40">,</T>
+      <T token_id="41">u</T>
+      <T token_id="42">.</T>
+      <T token_id="43">Heinrich</T>
+      <T token_id="44">David</T>
+      <T token_id="45">des</T>
+      <T token_id="46">Kaufmanns</T>
+      <T token_id="47">Stal</T>
+      <T token_id="48">zur</T>
+      <T token_id="49">andern</T>
+      <T token_id="50">sydten</T>
+      <T token_id="51">gelegen</T>
+      <T token_id="52">ist</T>
+      <T token_id="53">,</T>
+      <T token_id="54">zinst</T>
+      <T token_id="55">dem</T>
+      <T token_id="56">Spital</T>
+      <T token_id="57">in</T>
+      <T token_id="58">der</T>
+      <T token_id="59">Barfüsser</T>
+      <T token_id="60">schaffnerye</T>
+      <T token_id="61">von</T>
+      <T token_id="62">eig</T>
+      <T token_id="63">.</T>
+      <T token_id="64">alle</T>
+      <T token_id="65">fronfasten</T>
+      <T token_id="66">5</T>
+      <T token_id="67">sh</T>
+      <T token_id="68">.</T>
+      <T token_id="69">u</T>
+      <T token_id="70">.</T>
+      <T token_id="71">14</T>
+      <T token_id="72">Pfeffer</T>
+      <T token_id="73">ze</T>
+      <T token_id="74">wysung</T>
+      <T token_id="75">,</T>
+      <T token_id="76">u</T>
+      <T token_id="77">.</T>
+      <T token_id="78">5sh</T>
+      <T token_id="79">.</T>
+      <T token_id="80">zu</T>
+      <T token_id="81">erschatz</T>
+      <T token_id="82">,</T>
+      <T token_id="83">ut</T>
+      <T token_id="84">consensit</T>
+      <T token_id="85">Jacobus</T>
+      <T token_id="86">Roman</T>
+      <T token_id="87">Scula</T>
+      <T token_id="88">hoppit</T>
+      <T token_id="89">.</T>
+      <T token_id="90">sodan</T>
+      <T token_id="91">sol</T>
+      <T token_id="92">man</T>
+      <T token_id="93">darab</T>
+      <T token_id="94">geben</T>
+      <T token_id="95">1</T>
+      <T token_id="96">℔</T>
+      <T token_id="97">abl</T>
+      <T token_id="98">.</T>
+      <T token_id="99">zinses</T>
+      <T token_id="100">,</T>
+      <T token_id="101">Jr</T>
+      <T token_id="102">.</T>
+      <T token_id="103">Morand</T>
+      <T token_id="104">von</T>
+      <T token_id="105">Brunen</T>
+      <T token_id="106">,</T>
+      <T token_id="107">sonst</T>
+      <T token_id="108">frei</T>
+      <T token_id="109">,</T>
+      <T token_id="110">um</T>
+      <T token_id="111">18</T>
+      <T token_id="112">℔.</T>
+    </L>
+  </Text>
+  <Mentions>
+    <Reference mention_id="0" mention_type="unk" mention_subtype="unk" entity_type="per" numerus="unk" specificity="unk" start="0" end="9" head_start="0" head_end="2" head_text="Andres Stoltz"/>
+    <Reference mention_id="1" mention_type="unk" mention_subtype="unk" entity_type="per" numerus="unk" specificity="unk" start="2" end="6" head_start="3" head_end="6" head_text="Hl . Ratsknecht"/>
+    <Reference mention_id="2" mention_type="unk" mention_subtype="unk" entity_type="loc" numerus="unk" specificity="unk" start="7" end="9" head_start="8" head_end="9" head_text="Richthuse"/>
+    <Reference mention_id="3" mention_type="unk" mention_subtype="unk" entity_type="per" numerus="unk" specificity="unk" start="11" end="15" head_start="11" head_end="13" head_text="Michel Schöneck"/>
+    <Reference mention_id="4" mention_type="unk" mention_subtype="unk" entity_type="per" numerus="unk" specificity="unk" start="13" end="15" head_start="14" head_end="15" head_text="Winleger"/>
+    <Reference mention_id="5" mention_type="unk" mention_subtype="unk" entity_type="per" numerus="unk" specificity="unk" start="17" end="20" head_start="19" head_end="20" head_text="Enneli"/>
+    <Reference mention_id="6" mention_type="unk" mention_subtype="unk" entity_type="per" numerus="unk" specificity="unk" start="17" end="19" head_start="18" head_end="19" head_text="Frau"/>
+    <Reference mention_id="7" mention_type="unk" mention_subtype="unk" entity_type="per" numerus="unk" specificity="unk" start="17" end="18" head_start="17" head_end="18" head_text="seine"/>
+    <Reference mention_id="8" mention_type="unk" mention_subtype="unk" entity_type="loc" numerus="unk" specificity="unk" start="21" end="109" head_start="22" head_end="26" head_text="Hus u . Hofstatt"/>
+    <Reference mention_id="9" mention_type="unk" mention_subtype="unk" entity_type="loc" numerus="unk" specificity="unk" start="27" end="29" head_start="27" head_end="29" head_text="zum Mören"/>
+    <Reference mention_id="10" mention_type="unk" mention_subtype="unk" entity_type="loc" numerus="unk" specificity="unk" start="31" end="33" head_start="32" head_end="33" head_text="wyssengassen"/>
+    <Reference mention_id="11" mention_type="unk" mention_subtype="unk" entity_type="loc" numerus="unk" specificity="unk" start="35" end="38" head_start="36" head_end="38" head_text="Hus Sonnenberg"/>
+    <Reference mention_id="12" mention_type="unk" mention_subtype="unk" entity_type="loc" numerus="unk" specificity="unk" start="43" end="48" head_start="47" head_end="48" head_text="Stal"/>
+    <Reference mention_id="13" mention_type="unk" mention_subtype="unk" entity_type="per" numerus="unk" specificity="unk" start="43" end="47" head_start="43" head_end="45" head_text="Heinrich David"/>
+    <Reference mention_id="14" mention_type="unk" mention_subtype="unk" entity_type="per" numerus="unk" specificity="unk" start="45" end="47" head_start="46" head_end="47" head_text="Kaufmanns"/>
+    <Reference mention_id="15" mention_type="unk" mention_subtype="unk" entity_type="org" numerus="unk" specificity="unk" start="55" end="57" head_start="56" head_end="57" head_text="Spital"/>
+    <Reference mention_id="16" mention_type="unk" mention_subtype="unk" entity_type="org" numerus="unk" specificity="unk" start="58" end="61" head_start="59" head_end="61" head_text="Barfüsser schaffnerye"/>
+    <Reference mention_id="17" mention_type="unk" mention_subtype="unk" entity_type="per" numerus="unk" specificity="unk" start="85" end="89" head_start="85" head_end="87" head_text="Jacobus Roman"/>
+    <Reference mention_id="18" mention_type="unk" mention_subtype="unk" entity_type="per" numerus="unk" specificity="unk" start="87" end="89" head_start="87" head_end="89" head_text="Scula hoppit"/>
+    <Reference mention_id="19" mention_type="unk" mention_subtype="unk" entity_type="per" numerus="unk" specificity="unk" start="101" end="106" head_start="103" head_end="106" head_text="Morand von Brunen"/>
+  </Mentions>
+  <Descriptors/>
+  <Values>
+    <Value value_type="date" start="64" end="66" text="alle fronfasten"/>
+    <Value value_type="money" start="66" end="69" text="5 sh ."/>
+    <Value value_type="money" start="71" end="73" text="14 Pfeffer"/>
+    <Value value_type="money" start="78" end="80" text="5sh ."/>
+    <Value value_type="money" start="95" end="97" text="1 ℔"/>
+    <Value value_type="money" start="111" end="113" text="18 ℔"/>
+  </Values>
+  <Relations/>
+</XML>
