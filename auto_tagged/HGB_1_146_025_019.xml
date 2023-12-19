@@ -1,0 +1,116 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<XML>
+  <Metadata><FileDesc><Title>HGB_1_146_025_019.xml</Title></FileDesc><SettingDesc><Time>1535</Time></SettingDesc><ChangeLog><Change when="2023-12-18" who="IP">Postprocessing of automatically annotated document. Annotation was performed by using Flair Recursive Algorithm developed by IP, using model exp_A.</Change></ChangeLog></Metadata><Text>
+    <L line_id="0">
+      <T token_id="0">Elsin</T>
+      <T token_id="1">Schützlin</T>
+      <T token_id="2">,</T>
+      <T token_id="3">von</T>
+      <T token_id="4">Hasslen</T>
+      <T token_id="5">,</T>
+      <T token_id="6">wonhaft</T>
+      <T token_id="7">zu</T>
+      <T token_id="8">Lutenbach</T>
+      <T token_id="9">,</T>
+      <T token_id="10">verkauft</T>
+      <T token_id="11">an</T>
+      <T token_id="12">Lorentz</T>
+      <T token_id="13">Vest</T>
+      <T token_id="14">den</T>
+      <T token_id="15">Kornmesser</T>
+      <T token_id="16">,</T>
+      <T token_id="17">und</T>
+      <T token_id="18">seine</T>
+      <T token_id="19">Frau</T>
+      <T token_id="20">Eynbett</T>
+      <T token_id="21">,</T>
+      <T token_id="22">das</T>
+      <T token_id="23">Hus</T>
+      <T token_id="24">u</T>
+      <T token_id="25">.</T>
+      <T token_id="26">Hofstatt</T>
+      <T token_id="27">by</T>
+      <T token_id="28">dem</T>
+      <T token_id="29">Vischmerckt</T>
+      <T token_id="30">hinuff</T>
+      <T token_id="31">,</T>
+      <T token_id="32">an</T>
+      <T token_id="33">der</T>
+      <T token_id="34">nüwen</T>
+      <T token_id="35">Strass</T>
+      <T token_id="36">,</T>
+      <T token_id="37">underhalp</T>
+      <T token_id="38">der</T>
+      <T token_id="39">Merkatzen</T>
+      <T token_id="40">,</T>
+      <T token_id="41">zwüschen</T>
+      <T token_id="42">den</T>
+      <T token_id="43">Hüsern</T>
+      <T token_id="44">zum</T>
+      <T token_id="45">rotten</T>
+      <T token_id="46">Schwertt</T>
+      <T token_id="47">,</T>
+      <T token_id="48">und</T>
+      <T token_id="49">dem</T>
+      <T token_id="50">fünstern</T>
+      <T token_id="51">Schwynbogen</T>
+      <T token_id="52">glegen</T>
+      <T token_id="53">,</T>
+      <T token_id="54">u</T>
+      <T token_id="55">.</T>
+      <T token_id="56">zu</T>
+      <T token_id="57">der</T>
+      <T token_id="58">Wag</T>
+      <T token_id="59">genannt</T>
+      <T token_id="60">ist</T>
+      <T token_id="61">,</T>
+      <T token_id="62">sum</T>
+      <T token_id="63">20</T>
+      <T token_id="64">℔.</T>
+      <T token_id="65">zinst</T>
+      <T token_id="66">jährl</T>
+      <T token_id="67">.</T>
+      <T token_id="68">der</T>
+      <T token_id="69">Petersstift</T>
+      <T token_id="70">1</T>
+      <T token_id="71">℔</T>
+      <T token_id="72">4</T>
+      <T token_id="73">sh</T>
+      <T token_id="74">.</T>
+      <T token_id="75">widerkl</T>
+      <T token_id="76">.</T>
+      <T token_id="77">gült</T>
+      <T token_id="78">,</T>
+      <T token_id="79">sonst</T>
+      <T token_id="80">frei</T>
+      <T token_id="81">.</T>
+    </L>
+  </Text>
+  <Mentions>
+    <Reference mention_id="0" mention_type="unk" mention_subtype="unk" entity_type="per" numerus="unk" specificity="unk" start="0" end="9" head_start="0" head_end="2" head_text="Elsin Schützlin"/>
+    <Reference mention_id="1" mention_type="unk" mention_subtype="unk" entity_type="gpe" numerus="unk" specificity="unk" start="4" end="5" head_start="4" head_end="5" head_text="Hasslen"/>
+    <Reference mention_id="2" mention_type="unk" mention_subtype="unk" entity_type="per" numerus="unk" specificity="unk" start="6" end="9" head_start="" head_end="" head_text="NO_HEAD_FOUND"/>
+    <Reference mention_id="3" mention_type="unk" mention_subtype="unk" entity_type="gpe" numerus="unk" specificity="unk" start="8" end="9" head_start="8" head_end="9" head_text="Lutenbach"/>
+    <Reference mention_id="4" mention_type="unk" mention_subtype="unk" entity_type="per" numerus="unk" specificity="unk" start="12" end="16" head_start="12" head_end="14" head_text="Lorentz Vest"/>
+    <Reference mention_id="5" mention_type="unk" mention_subtype="unk" entity_type="per" numerus="unk" specificity="unk" start="14" end="16" head_start="15" head_end="16" head_text="Kornmesser"/>
+    <Reference mention_id="6" mention_type="unk" mention_subtype="unk" entity_type="per" numerus="unk" specificity="unk" start="18" end="21" head_start="20" head_end="21" head_text="Eynbett"/>
+    <Reference mention_id="7" mention_type="unk" mention_subtype="unk" entity_type="per" numerus="unk" specificity="unk" start="18" end="20" head_start="19" head_end="20" head_text="Frau"/>
+    <Reference mention_id="8" mention_type="unk" mention_subtype="unk" entity_type="per" numerus="unk" specificity="unk" start="18" end="19" head_start="18" head_end="19" head_text="seine"/>
+    <Reference mention_id="9" mention_type="unk" mention_subtype="unk" entity_type="loc" numerus="unk" specificity="unk" start="22" end="61" head_start="23" head_end="27" head_text="Hus u . Hofstatt"/>
+    <Reference mention_id="10" mention_type="unk" mention_subtype="unk" entity_type="loc" numerus="unk" specificity="unk" start="28" end="30" head_start="29" head_end="30" head_text="Vischmerckt"/>
+    <Reference mention_id="11" mention_type="unk" mention_subtype="unk" entity_type="loc" numerus="unk" specificity="unk" start="33" end="36" head_start="34" head_end="36" head_text="nüwen Strass"/>
+    <Reference mention_id="12" mention_type="unk" mention_subtype="unk" entity_type="loc" numerus="unk" specificity="unk" start="38" end="40" head_start="39" head_end="40" head_text="Merkatzen"/>
+    <Reference mention_id="13" mention_type="unk" mention_subtype="unk" entity_type="loc" numerus="unk" specificity="unk" start="42" end="52" head_start="43" head_end="44" head_text="Hüsern"/>
+    <Reference mention_id="14" mention_type="unk" mention_subtype="unk" entity_type="loc" numerus="unk" specificity="unk" start="44" end="47" head_start="44" head_end="47" head_text="zum rotten Schwertt"/>
+    <Reference mention_id="15" mention_type="unk" mention_subtype="unk" entity_type="loc" numerus="unk" specificity="unk" start="49" end="52" head_start="50" head_end="52" head_text="fünstern Schwynbogen"/>
+    <Reference mention_id="16" mention_type="unk" mention_subtype="unk" entity_type="loc" numerus="unk" specificity="unk" start="56" end="59" head_start="56" head_end="59" head_text="zu der Wag"/>
+    <Reference mention_id="17" mention_type="unk" mention_subtype="unk" entity_type="org" numerus="unk" specificity="unk" start="68" end="70" head_start="69" head_end="70" head_text="Petersstift"/>
+  </Mentions>
+  <Descriptors/>
+  <Values>
+    <Value value_type="money" start="63" end="65" text="20 ℔"/>
+    <Value value_type="time.rec" start="66" end="68" text="jährl ."/>
+    <Value value_type="money" start="70" end="75" text="1 ℔ 4 sh ."/>
+  </Values>
+  <Relations/>
+</XML>

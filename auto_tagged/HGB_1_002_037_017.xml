@@ -1,0 +1,81 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<XML>
+  <Metadata><FileDesc><Title>HGB_1_002_037_017.xml</Title></FileDesc><SettingDesc><Time>1511</Time></SettingDesc><ChangeLog><Change when="2023-12-18" who="IP">Postprocessing of automatically annotated document. Annotation was performed by using Flair Recursive Algorithm developed by IP, using model exp_A.</Change></ChangeLog></Metadata><Text>
+    <L line_id="0">
+      <T token_id="0">Diebolt</T>
+      <T token_id="1">Rüly</T>
+      <T token_id="2">der</T>
+      <T token_id="3">Küffer</T>
+      <T token_id="4">,</T>
+      <T token_id="5">ư</T>
+      <T token_id="6">seine</T>
+      <T token_id="7">Frau</T>
+      <T token_id="8">Agnes</T>
+      <T token_id="9">,</T>
+      <T token_id="10">haben</T>
+      <T token_id="11">ein</T>
+      <T token_id="12">ander</T>
+      <T token_id="13">gewidmet</T>
+      <T token_id="14">jr</T>
+      <T token_id="15">hus</T>
+      <T token_id="16">&amp;</T>
+      <T token_id="17">hofstatt</T>
+      <T token_id="18">mit</T>
+      <T token_id="19">stallung</T>
+      <T token_id="20">u</T>
+      <T token_id="21">.</T>
+      <T token_id="22">dem</T>
+      <T token_id="23">gertli</T>
+      <T token_id="24">darhnider</T>
+      <T token_id="25">,</T>
+      <T token_id="26">in</T>
+      <T token_id="27">Eschemervorstatt</T>
+      <T token_id="28">,</T>
+      <T token_id="29">zwüschen</T>
+      <T token_id="30">Caspar</T>
+      <T token_id="31">Heiligen</T>
+      <T token_id="32">u</T>
+      <T token_id="33">.</T>
+      <T token_id="34">wil</T>
+      <T token_id="35">.</T>
+      <T token_id="36">Hans</T>
+      <T token_id="37">Kersins</T>
+      <T token_id="38">sel</T>
+      <T token_id="39">huser</T>
+      <T token_id="40">,</T>
+      <T token_id="41">zucht</T>
+      <T token_id="42">hinden</T>
+      <T token_id="43">uff</T>
+      <T token_id="44">der</T>
+      <T token_id="45">Wits</T>
+      <T token_id="46">zum</T>
+      <T token_id="47">Rappen</T>
+      <T token_id="48">garten</T>
+      <T token_id="49">,</T>
+      <T token_id="50">u</T>
+      <T token_id="51">.</T>
+      <T token_id="52">andere</T>
+      <T token_id="53">Güter</T>
+      <T token_id="54">,</T>
+    </L>
+  </Text>
+  <Mentions>
+    <Reference mention_id="0" mention_type="unk" mention_subtype="unk" entity_type="per" numerus="unk" specificity="unk" start="0" end="4" head_start="0" head_end="2" head_text="Diebolt Rüly"/>
+    <Reference mention_id="1" mention_type="unk" mention_subtype="unk" entity_type="per" numerus="unk" specificity="unk" start="2" end="4" head_start="3" head_end="4" head_text="Küffer"/>
+    <Reference mention_id="2" mention_type="unk" mention_subtype="unk" entity_type="per" numerus="unk" specificity="unk" start="6" end="9" head_start="8" head_end="9" head_text="Agnes"/>
+    <Reference mention_id="3" mention_type="unk" mention_subtype="unk" entity_type="per" numerus="unk" specificity="unk" start="6" end="8" head_start="7" head_end="8" head_text="Frau"/>
+    <Reference mention_id="4" mention_type="unk" mention_subtype="unk" entity_type="per" numerus="unk" specificity="unk" start="6" end="7" head_start="6" head_end="7" head_text="seine"/>
+    <Reference mention_id="5" mention_type="unk" mention_subtype="unk" entity_type="loc" numerus="unk" specificity="unk" start="14" end="49" head_start="15" head_end="18" head_text="hus &amp; hofstatt"/>
+    <Reference mention_id="6" mention_type="unk" mention_subtype="unk" entity_type="per" numerus="unk" specificity="unk" start="14" end="15" head_start="14" head_end="15" head_text="jr"/>
+    <Reference mention_id="7" mention_type="unk" mention_subtype="unk" entity_type="loc" numerus="unk" specificity="unk" start="19" end="20" head_start="19" head_end="20" head_text="stallung"/>
+    <Reference mention_id="8" mention_type="unk" mention_subtype="unk" entity_type="loc" numerus="unk" specificity="unk" start="22" end="24" head_start="23" head_end="24" head_text="gertli"/>
+    <Reference mention_id="9" mention_type="unk" mention_subtype="unk" entity_type="loc" numerus="unk" specificity="unk" start="27" end="28" head_start="27" head_end="28" head_text="Eschemervorstatt"/>
+    <Reference mention_id="10" mention_type="unk" mention_subtype="unk" entity_type="per" numerus="unk" specificity="unk" start="30" end="32" head_start="30" head_end="32" head_text="Caspar Heiligen"/>
+    <Reference mention_id="11" mention_type="unk" mention_subtype="unk" entity_type="loc" numerus="unk" specificity="unk" start="34" end="40" head_start="39" head_end="40" head_text="huser"/>
+    <Reference mention_id="12" mention_type="unk" mention_subtype="unk" entity_type="per" numerus="unk" specificity="unk" start="36" end="39" head_start="36" head_end="38" head_text="Hans Kersins"/>
+    <Reference mention_id="13" mention_type="unk" mention_subtype="unk" entity_type="loc" numerus="unk" specificity="unk" start="44" end="49" head_start="45" head_end="49" head_text="Wits zum Rappen garten"/>
+  </Mentions>
+  <Descriptors/>
+  <Values/>
+  <Relations/>
+</XML>

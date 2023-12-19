@@ -89,7 +89,13 @@ def process_document(docpath):
         no = oldroot.findall(c)
         nodes.extend(no)
 
-    root = et.Element("Text")
+    toproot = et.Element("XML")
+    metadata = oldroot.find("Metadata")
+    if metadata is not None:
+        metadata.tag = "Header"
+        toproot.append(metadata)
+
+    root = et.SubElement(toproot, "Body")
 
     nodes = sorted(nodes, key=lambda x: sort_function(x))
     for token in tokens:
@@ -102,7 +108,7 @@ def process_document(docpath):
         for token in incl_tokens:
             child = token
             parent = child.getparent()
-            while parent.tag != "Text" and parent != elem:
+            while parent.tag != "Body" and parent != elem:
                 child = parent
                 parent = child.getparent()
             if parent != elem:
@@ -119,9 +125,17 @@ def process_document(docpath):
 
     # print(et.tostring(root, pretty_print=True))
 
-    return root
+    return toproot
 
 
 if __name__ == "__main__":
-    textnode = process_document("../outfiles/admin_018_HGB_1_051_086_076.xml")
-    write_document("text.xml", textnode)
+    #textnode = process_document("../outfiles/admin_018_HGB_1_051_086_076.xml")
+    #write_document("text.xml", textnode)
+    import glob
+    import os
+
+    outfolder = "../auto_tagged_inline/"
+    for infile in glob.glob("../auto_tagged/*.xml"):
+        inline = process_document(infile)
+        write_document(outfolder + os.path.basename(infile), inline)
+        

@@ -1,0 +1,162 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<XML>
+  <Metadata><FileDesc><Title>HGB_1_013_013_008.xml</Title></FileDesc><SettingDesc><Time>1383</Time></SettingDesc><ChangeLog><Change when="2023-12-18" who="IP">Postprocessing of automatically annotated document. Annotation was performed by using Flair Recursive Algorithm developed by IP, using model exp_A.</Change></ChangeLog></Metadata><Text>
+    <L line_id="0">
+      <T token_id="0">Schultheissen</T>
+      <T token_id="1">Urkunde</T>
+      <T token_id="2">.</T>
+      <T token_id="3">Hugelin</T>
+      <T token_id="4">Trenlin</T>
+      <T token_id="5">von</T>
+      <T token_id="6">Löffen</T>
+      <T token_id="7">,</T>
+      <T token_id="8">Burger</T>
+      <T token_id="9">von</T>
+      <T token_id="10">Basel</T>
+      <T token_id="11">und</T>
+      <T token_id="12">Jungfro</T>
+      <T token_id="13">¬</T>
+      <T token_id="14">Engen</T>
+      <T token_id="15">von</T>
+      <T token_id="16">Löffen</T>
+      <T token_id="17">sin</T>
+      <T token_id="18">Mume</T>
+      <T token_id="19">verkaufen</T>
+      <T token_id="20">der</T>
+      <T token_id="21">Bruderschaft</T>
+      <T token_id="22">ze</T>
+      <T token_id="23">sant</T>
+      <T token_id="24">Johans</T>
+      <T token_id="25">uf</T>
+      <T token_id="26">Burg</T>
+      <T token_id="27">ze</T>
+      <T token_id="28">Basel</T>
+      <T token_id="29">,</T>
+      <T token_id="30">der</T>
+      <T token_id="31">Stifte</T>
+      <T token_id="32">ze</T>
+      <T token_id="33">sant</T>
+      <T token_id="34">Peter</T>
+      <T token_id="35">ze</T>
+      <T token_id="36">Basel</T>
+      <T token_id="37">und</T>
+      <T token_id="38">dem</T>
+      <T token_id="39">Closter</T>
+      <T token_id="40">zen</T>
+      <T token_id="41">Barfüssen</T>
+      <T token_id="42">ze</T>
+      <T token_id="43">Basel</T>
+      <T token_id="44">die</T>
+      <T token_id="45">3</T>
+      <T token_id="46">℔</T>
+      <T token_id="47">Geltz</T>
+      <T token_id="48">¬</T>
+      <T token_id="49">Zinses</T>
+      <T token_id="50">,</T>
+      <T token_id="51">4</T>
+      <T token_id="52">Ring</T>
+      <T token_id="53">Wisung</T>
+      <T token_id="54">und</T>
+      <T token_id="55">1</T>
+      <T token_id="56">/</T>
+      <T token_id="57">2</T>
+      <T token_id="58">℔</T>
+      <T token_id="59">Pfeffers</T>
+      <T token_id="60">Erschatz</T>
+      <T token_id="61">,</T>
+      <T token_id="62">so</T>
+      <T token_id="63">si</T>
+      <T token_id="64">haben</T>
+      <T token_id="65">,</T>
+      <T token_id="66">uf</T>
+      <T token_id="67">Johans</T>
+      <T token_id="68">von</T>
+      <T token_id="69">Watilr</T>
+      <T token_id="70">sel</T>
+      <T token_id="71">.</T>
+      <T token_id="72">Hofstat</T>
+      <T token_id="73">und</T>
+      <T token_id="74">uf</T>
+      <T token_id="75">dem</T>
+      <T token_id="76">hindern</T>
+      <T token_id="77">Höflin</T>
+      <T token_id="78">,</T>
+      <T token_id="79">so</T>
+      <T token_id="80">gelegen</T>
+      <T token_id="81">ist</T>
+      <T token_id="82">ze</T>
+      <T token_id="83">Basel</T>
+      <T token_id="84">in</T>
+      <T token_id="85">der</T>
+      <T token_id="86">Statt</T>
+      <T token_id="87">by</T>
+      <T token_id="88">sant</T>
+      <T token_id="89">Andres</T>
+      <T token_id="90">Capelle</T>
+      <T token_id="91">,</T>
+      <T token_id="92">zwischent</T>
+      <T token_id="93">Conratz</T>
+      <T token_id="94">Hüllers</T>
+      <T token_id="95">Huse</T>
+      <T token_id="96">und</T>
+      <T token_id="97">Conrat</T>
+      <T token_id="98">von</T>
+      <T token_id="99">Efringen</T>
+      <T token_id="100">sel</T>
+      <T token_id="101">.</T>
+      <T token_id="102">Hofstat</T>
+      <T token_id="103">,</T>
+      <T token_id="104">denselben</T>
+      <T token_id="105">Zins</T>
+      <T token_id="106">jerlichs</T>
+      <T token_id="107">da</T>
+      <T token_id="108">von</T>
+      <T token_id="109">git</T>
+      <T token_id="110">Conrat</T>
+      <T token_id="111">Huller</T>
+      <T token_id="112">für</T>
+      <T token_id="113">lidig</T>
+      <T token_id="114">eigen</T>
+      <T token_id="115">,</T>
+      <T token_id="116">umb</T>
+      <T token_id="117">50</T>
+      <T token_id="118">Guldin</T>
+      <T token_id="119">.</T>
+    </L>
+  </Text>
+  <Mentions>
+    <Reference mention_id="0" mention_type="unk" mention_subtype="unk" entity_type="per" numerus="unk" specificity="unk" start="3" end="11" head_start="3" head_end="5" head_text="Hugelin Trenlin"/>
+    <Reference mention_id="1" mention_type="unk" mention_subtype="unk" entity_type="gpe" numerus="unk" specificity="unk" start="6" end="7" head_start="6" head_end="7" head_text="Löffen"/>
+    <Reference mention_id="2" mention_type="unk" mention_subtype="unk" entity_type="per" numerus="unk" specificity="unk" start="8" end="11" head_start="8" head_end="9" head_text="Burger"/>
+    <Reference mention_id="3" mention_type="unk" mention_subtype="unk" entity_type="gpe" numerus="unk" specificity="unk" start="10" end="11" head_start="10" head_end="11" head_text="Basel"/>
+    <Reference mention_id="4" mention_type="unk" mention_subtype="unk" entity_type="per" numerus="unk" specificity="unk" start="12" end="19" head_start="12" head_end="17" head_text="Jungfro ¬ Engen von Löffen"/>
+    <Reference mention_id="5" mention_type="unk" mention_subtype="unk" entity_type="per" numerus="unk" specificity="unk" start="17" end="19" head_start="18" head_end="19" head_text="Mume"/>
+    <Reference mention_id="6" mention_type="unk" mention_subtype="unk" entity_type="per" numerus="unk" specificity="unk" start="17" end="18" head_start="17" head_end="18" head_text="sin"/>
+    <Reference mention_id="7" mention_type="unk" mention_subtype="unk" entity_type="org" numerus="unk" specificity="unk" start="20" end="29" head_start="21" head_end="29" head_text="Bruderschaft ze sant Johans uf Burg ze Basel"/>
+    <Reference mention_id="8" mention_type="unk" mention_subtype="unk" entity_type="org" numerus="unk" specificity="unk" start="30" end="37" head_start="31" head_end="35" head_text="Stifte ze sant Peter"/>
+    <Reference mention_id="9" mention_type="unk" mention_subtype="unk" entity_type="gpe" numerus="unk" specificity="unk" start="36" end="37" head_start="36" head_end="37" head_text="Basel"/>
+    <Reference mention_id="10" mention_type="unk" mention_subtype="unk" entity_type="org" numerus="unk" specificity="unk" start="38" end="44" head_start="40" head_end="42" head_text="zen Barfüssen"/>
+    <Reference mention_id="11" mention_type="unk" mention_subtype="unk" entity_type="gpe" numerus="unk" specificity="unk" start="43" end="44" head_start="43" head_end="44" head_text="Basel"/>
+    <Reference mention_id="12" mention_type="unk" mention_subtype="unk" entity_type="per" numerus="unk" specificity="unk" start="63" end="64" head_start="63" head_end="64" head_text="si"/>
+    <Reference mention_id="13" mention_type="unk" mention_subtype="unk" entity_type="loc" numerus="unk" specificity="unk" start="67" end="115" head_start="72" head_end="73" head_text="Hofstat"/>
+    <Reference mention_id="14" mention_type="unk" mention_subtype="unk" entity_type="per" numerus="unk" specificity="unk" start="67" end="72" head_start="67" head_end="70" head_text="Johans von Watilr"/>
+    <Reference mention_id="15" mention_type="unk" mention_subtype="unk" entity_type="loc" numerus="unk" specificity="unk" start="75" end="78" head_start="76" head_end="78" head_text="hindern Höflin"/>
+    <Reference mention_id="16" mention_type="unk" mention_subtype="unk" entity_type="gpe" numerus="unk" specificity="unk" start="82" end="84" head_start="83" head_end="84" head_text="Basel"/>
+    <Reference mention_id="17" mention_type="unk" mention_subtype="unk" entity_type="gpe" numerus="unk" specificity="unk" start="85" end="87" head_start="86" head_end="87" head_text="Statt"/>
+    <Reference mention_id="18" mention_type="unk" mention_subtype="unk" entity_type="loc" numerus="unk" specificity="unk" start="88" end="91" head_start="88" head_end="91" head_text="sant Andres Capelle"/>
+    <Reference mention_id="19" mention_type="unk" mention_subtype="unk" entity_type="loc" numerus="unk" specificity="unk" start="93" end="96" head_start="95" head_end="96" head_text="Huse"/>
+    <Reference mention_id="20" mention_type="unk" mention_subtype="unk" entity_type="per" numerus="unk" specificity="unk" start="93" end="95" head_start="93" head_end="95" head_text="Conratz Hüllers"/>
+    <Reference mention_id="21" mention_type="unk" mention_subtype="unk" entity_type="loc" numerus="unk" specificity="unk" start="97" end="103" head_start="102" head_end="103" head_text="Hofstat"/>
+    <Reference mention_id="22" mention_type="unk" mention_subtype="unk" entity_type="per" numerus="unk" specificity="unk" start="97" end="102" head_start="97" head_end="100" head_text="Conrat von Efringen"/>
+    <Reference mention_id="23" mention_type="unk" mention_subtype="unk" entity_type="per" numerus="unk" specificity="unk" start="110" end="112" head_start="110" head_end="112" head_text="Conrat Huller"/>
+  </Mentions>
+  <Descriptors/>
+  <Values>
+    <Value value_type="money" start="45" end="47" text="3 ℔"/>
+    <Value value_type="money" start="51" end="53" text="4 Ring"/>
+    <Value value_type="money" start="55" end="60" text="1 / 2 ℔ Pfeffers"/>
+    <Value value_type="time.rec" start="106" end="107" text="jerlichs"/>
+    <Value value_type="money" start="117" end="119" text="50 Guldin"/>
+  </Values>
+  <Relations/>
+</XML>

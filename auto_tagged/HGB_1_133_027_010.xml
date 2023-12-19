@@ -1,0 +1,155 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<XML>
+  <Metadata><FileDesc><Title>HGB_1_133_027_010.xml</Title></FileDesc><SettingDesc><Time>1461</Time></SettingDesc><ChangeLog><Change when="2023-12-18" who="IP">Postprocessing of automatically annotated document. Annotation was performed by using Flair Recursive Algorithm developed by IP, using model exp_A.</Change></ChangeLog></Metadata><Text>
+    <L line_id="0">
+      <T token_id="0">Da</T>
+      <T token_id="1">hat</T>
+      <T token_id="2">ze</T>
+      <T token_id="3">kaufen</T>
+      <T token_id="4">geben</T>
+      <T token_id="5">Mr</T>
+      <T token_id="6">.</T>
+      <T token_id="7">Jacob</T>
+      <T token_id="8">von</T>
+      <T token_id="9">Wicker</T>
+      <T token_id="10">der</T>
+      <T token_id="11">bartscherer</T>
+      <T token_id="12">,</T>
+      <T token_id="13">Walthern</T>
+      <T token_id="14">von</T>
+      <T token_id="15">Leidich</T>
+      <T token_id="16">ouch</T>
+      <T token_id="17">dem</T>
+      <T token_id="18">barfscherer</T>
+      <T token_id="19">,</T>
+      <T token_id="20">u</T>
+      <T token_id="21">.</T>
+      <T token_id="22">Greden</T>
+      <T token_id="23">Ennelin</T>
+      <T token_id="24">siner</T>
+      <T token_id="25">Ewirtin</T>
+      <T token_id="26">,</T>
+      <T token_id="27">das</T>
+      <T token_id="28">Hus</T>
+      <T token_id="29">&amp;</T>
+      <T token_id="30">Hofstatt</T>
+      <T token_id="31">genant</T>
+      <T token_id="32">zem</T>
+      <T token_id="33">Vogelgesange</T>
+      <T token_id="34">als</T>
+      <T token_id="35">das</T>
+      <T token_id="36">oben</T>
+      <T token_id="37">an</T>
+      <T token_id="38">den</T>
+      <T token_id="39">Swellen</T>
+      <T token_id="40">gelegen</T>
+      <T token_id="41">ist</T>
+      <T token_id="42">,</T>
+      <T token_id="43">einsit</T>
+      <T token_id="44">neben</T>
+      <T token_id="45">dem</T>
+      <T token_id="46">Hus</T>
+      <T token_id="47">zem</T>
+      <T token_id="48">Horn</T>
+      <T token_id="49">u</T>
+      <T token_id="50">andersite</T>
+      <T token_id="51">neben</T>
+      <T token_id="52">dem</T>
+      <T token_id="53">Huse</T>
+      <T token_id="54">zem</T>
+      <T token_id="55">nidern</T>
+      <T token_id="56">vogelgesang</T>
+      <T token_id="57">,</T>
+      <T token_id="58">zinset</T>
+      <T token_id="59">jährl</T>
+      <T token_id="60">.</T>
+      <T token_id="61">voneig</T>
+      <T token_id="62">.</T>
+      <T token_id="63">dem</T>
+      <T token_id="64">Spital</T>
+      <T token_id="65">15sh</T>
+      <T token_id="66">.</T>
+      <T token_id="67">die</T>
+      <T token_id="68">100</T>
+      <T token_id="69">fl</T>
+      <T token_id="70">.</T>
+      <T token_id="71">sol</T>
+      <T token_id="72">der</T>
+      <T token_id="73">Käufer</T>
+      <T token_id="74">bezalen</T>
+      <T token_id="75">nemb</T>
+      <T token_id="76">.</T>
+      <T token_id="77">den</T>
+      <T token_id="78">herren</T>
+      <T token_id="79">s</T>
+      <T token_id="80">.</T>
+      <T token_id="81">Martin</T>
+      <T token_id="82">60</T>
+      <T token_id="83">fl</T>
+      <T token_id="84">oder</T>
+      <T token_id="85">jnen</T>
+      <T token_id="86">die</T>
+      <T token_id="87">verzinnsen</T>
+      <T token_id="88">mit</T>
+      <T token_id="89">3</T>
+      <T token_id="90">fl</T>
+      <T token_id="91">.</T>
+      <T token_id="92">ư</T>
+      <T token_id="93">dem</T>
+      <T token_id="94">Spital</T>
+      <T token_id="95">20fl</T>
+      <T token_id="96">.</T>
+      <T token_id="97">oder</T>
+      <T token_id="98">die</T>
+      <T token_id="99">mit</T>
+      <T token_id="100">2fl</T>
+      <T token_id="101">gelt</T>
+      <T token_id="102">verzinsen</T>
+      <T token_id="103">,</T>
+      <T token_id="104">die</T>
+      <T token_id="105">abrigen</T>
+      <T token_id="106">5</T>
+      <T token_id="107">fl</T>
+      <T token_id="108">.</T>
+      <T token_id="109">sint</T>
+      <T token_id="110">bezalt</T>
+      <T token_id="111">.</T>
+      <T token_id="112">sum</T>
+      <T token_id="113">108</T>
+      <T token_id="114">fl</T>
+      <T token_id="115">.</T>
+    </L>
+  </Text>
+  <Mentions>
+    <Reference mention_id="0" mention_type="unk" mention_subtype="unk" entity_type="per" numerus="unk" specificity="unk" start="5" end="12" head_start="7" head_end="10" head_text="Jacob von Wicker"/>
+    <Reference mention_id="1" mention_type="unk" mention_subtype="unk" entity_type="per" numerus="unk" specificity="unk" start="10" end="12" head_start="11" head_end="12" head_text="bartscherer"/>
+    <Reference mention_id="2" mention_type="unk" mention_subtype="unk" entity_type="per" numerus="unk" specificity="unk" start="13" end="19" head_start="13" head_end="16" head_text="Walthern von Leidich"/>
+    <Reference mention_id="3" mention_type="unk" mention_subtype="unk" entity_type="per" numerus="unk" specificity="unk" start="17" end="19" head_start="18" head_end="19" head_text="barfscherer"/>
+    <Reference mention_id="4" mention_type="unk" mention_subtype="unk" entity_type="per" numerus="unk" specificity="unk" start="22" end="26" head_start="22" head_end="24" head_text="Greden Ennelin"/>
+    <Reference mention_id="5" mention_type="unk" mention_subtype="unk" entity_type="per" numerus="unk" specificity="unk" start="24" end="26" head_start="25" head_end="26" head_text="Ewirtin"/>
+    <Reference mention_id="6" mention_type="unk" mention_subtype="unk" entity_type="per" numerus="unk" specificity="unk" start="24" end="25" head_start="24" head_end="25" head_text="siner"/>
+    <Reference mention_id="7" mention_type="unk" mention_subtype="unk" entity_type="loc" numerus="unk" specificity="unk" start="27" end="67" head_start="28" head_end="31" head_text="Hus &amp; Hofstatt"/>
+    <Reference mention_id="8" mention_type="unk" mention_subtype="unk" entity_type="loc" numerus="unk" specificity="unk" start="32" end="34" head_start="32" head_end="34" head_text="zem Vogelgesange"/>
+    <Reference mention_id="9" mention_type="unk" mention_subtype="unk" entity_type="loc" numerus="unk" specificity="unk" start="35" end="40" head_start="36" head_end="37" head_text="oben"/>
+    <Reference mention_id="10" mention_type="unk" mention_subtype="unk" entity_type="loc" numerus="unk" specificity="unk" start="38" end="40" head_start="39" head_end="40" head_text="Swellen"/>
+    <Reference mention_id="11" mention_type="unk" mention_subtype="unk" entity_type="loc" numerus="unk" specificity="unk" start="45" end="49" head_start="46" head_end="49" head_text="Hus zem Horn"/>
+    <Reference mention_id="12" mention_type="unk" mention_subtype="unk" entity_type="loc" numerus="unk" specificity="unk" start="52" end="57" head_start="53" head_end="57" head_text="Huse zem nidern vogelgesang"/>
+    <Reference mention_id="13" mention_type="unk" mention_subtype="unk" entity_type="org" numerus="unk" specificity="unk" start="63" end="65" head_start="64" head_end="65" head_text="Spital"/>
+    <Reference mention_id="14" mention_type="unk" mention_subtype="unk" entity_type="org" numerus="unk" specificity="unk" start="72" end="74" head_start="73" head_end="74" head_text="Käufer"/>
+    <Reference mention_id="15" mention_type="unk" mention_subtype="unk" entity_type="org" numerus="unk" specificity="unk" start="77" end="82" head_start="79" head_end="82" head_text="s . Martin"/>
+    <Reference mention_id="16" mention_type="unk" mention_subtype="unk" entity_type="org" numerus="unk" specificity="unk" start="93" end="95" head_start="94" head_end="95" head_text="Spital"/>
+  </Mentions>
+  <Descriptors/>
+  <Values>
+    <Value value_type="time.rec" start="59" end="60" text="jährl"/>
+    <Value value_type="money" start="65" end="67" text="15sh ."/>
+    <Value value_type="money" start="68" end="71" text="100 fl ."/>
+    <Value value_type="money" start="82" end="84" text="60 fl"/>
+    <Value value_type="money" start="89" end="92" text="3 fl ."/>
+    <Value value_type="money" start="95" end="97" text="20fl ."/>
+    <Value value_type="money" start="100" end="102" text="2fl gelt"/>
+    <Value value_type="money" start="106" end="109" text="5 fl ."/>
+    <Value value_type="money" start="113" end="116" text="108 fl ."/>
+  </Values>
+  <Relations/>
+</XML>

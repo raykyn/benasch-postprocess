@@ -1,0 +1,61 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<XML>
+  <Metadata><FileDesc><Title>HGB_1_227_042_010.xml</Title></FileDesc><SettingDesc><Time>1454</Time></SettingDesc><ChangeLog><Change when="2023-12-18" who="IP">Postprocessing of automatically annotated document. Annotation was performed by using Flair Recursive Algorithm developed by IP, using model exp_A.</Change></ChangeLog></Metadata><Text>
+    <L line_id="0">
+      <T token_id="0">in</T>
+      <T token_id="1">der</T>
+      <T token_id="2">cleinen</T>
+      <T token_id="3">stat</T>
+      <T token_id="4">.</T>
+      <T token_id="5">1454</T>
+      <T token_id="6">.</T>
+      <T token_id="7">Die</T>
+      <T token_id="8">Michlen</T>
+      <T token_id="9">git</T>
+      <T token_id="10">3½</T>
+      <T token_id="11">sh</T>
+      <T token_id="12">.</T>
+      <T token_id="13">uff</T>
+      <T token_id="14">Zivocavit</T>
+      <T token_id="15">von</T>
+      <T token_id="16">Heitz</T>
+      <T token_id="17">.</T>
+      <T token_id="18">mann</T>
+      <T token_id="19">Michlen</T>
+      <T token_id="20">Hus</T>
+      <T token_id="21">.</T>
+      <T token_id="22">Ebenso</T>
+      <T token_id="23">.</T>
+      <T token_id="24">1455</T>
+      <T token_id="25">.</T>
+      <T token_id="26">1456</T>
+      <T token_id="27">fehlt</T>
+      <T token_id="28">.</T>
+      <T token_id="29">1457</T>
+      <T token_id="30">.</T>
+      <T token_id="31">Halbherr</T>
+      <T token_id="32">git</T>
+      <T token_id="33">yetz</T>
+      <T token_id="34">den</T>
+      <T token_id="35">zins</T>
+      <T token_id="36">.</T>
+    </L>
+  </Text>
+  <Mentions>
+    <Reference mention_id="0" mention_type="unk" mention_subtype="unk" entity_type="gpe" numerus="unk" specificity="unk" start="1" end="4" head_start="2" head_end="4" head_text="cleinen stat"/>
+    <Reference mention_id="1" mention_type="unk" mention_subtype="unk" entity_type="per" numerus="unk" specificity="unk" start="7" end="9" head_start="8" head_end="9" head_text="Michlen"/>
+    <Reference mention_id="2" mention_type="unk" mention_subtype="unk" entity_type="loc" numerus="unk" specificity="unk" start="16" end="21" head_start="20" head_end="21" head_text="Hus"/>
+    <Reference mention_id="3" mention_type="unk" mention_subtype="unk" entity_type="per" numerus="unk" specificity="unk" start="16" end="20" head_start="16" head_end="20" head_text="Heitz . mann Michlen"/>
+    <Reference mention_id="4" mention_type="unk" mention_subtype="unk" entity_type="per" numerus="unk" specificity="unk" start="31" end="32" head_start="31" head_end="32" head_text="Halbherr"/>
+  </Mentions>
+  <Descriptors/>
+  <Values>
+    <Value value_type="date" start="5" end="6" text="1454"/>
+    <Value value_type="money" start="10" end="13" text="3½ sh ."/>
+    <Value value_type="date" start="13" end="15" text="uff Zivocavit"/>
+    <Value value_type="date" start="24" end="25" text="1455"/>
+    <Value value_type="date" start="26" end="27" text="1456"/>
+    <Value value_type="date" start="29" end="30" text="1457"/>
+  </Values>
+  <Relations/>
+</XML>

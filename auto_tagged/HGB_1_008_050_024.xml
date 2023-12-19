@@ -1,0 +1,100 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<XML>
+  <Metadata><FileDesc><Title>HGB_1_008_050_024.xml</Title></FileDesc><SettingDesc><Time>1553</Time></SettingDesc><ChangeLog><Change when="2023-12-18" who="IP">Postprocessing of automatically annotated document. Annotation was performed by using Flair Recursive Algorithm developed by IP, using model exp_A.</Change></ChangeLog></Metadata><Text>
+    <L line_id="0">
+      <T token_id="0">1553</T>
+      <T token_id="1">.</T>
+      <T token_id="2">Hans</T>
+      <T token_id="3">Eckli</T>
+      <T token_id="4">.</T>
+      <T token_id="5">1554</T>
+      <T token_id="6">.</T>
+      <T token_id="7">Baschon</T>
+      <T token_id="8">Eckli</T>
+      <T token_id="9">1565</T>
+      <T token_id="10">:</T>
+      <T token_id="11">Erben</T>
+      <T token_id="12">,</T>
+      <T token_id="13">gitt</T>
+      <T token_id="14">von</T>
+      <T token_id="15">sinem</T>
+      <T token_id="16">Huss</T>
+      <T token_id="17">in</T>
+      <T token_id="18">den</T>
+      <T token_id="19">Millenen</T>
+      <T token_id="20">,</T>
+      <T token_id="21">2</T>
+      <T token_id="22">ß</T>
+      <T token_id="23">.</T>
+      <T token_id="24">1</T>
+      <T token_id="25">Vassnachth</T>
+      <T token_id="26">.</T>
+      <T token_id="27">,</T>
+      <T token_id="28">1</T>
+      <T token_id="29">Hewerth</T>
+      <T token_id="30">.</T>
+      <T token_id="31">Ebenso</T>
+      <T token_id="32">.</T>
+      <T token_id="33">1556</T>
+      <T token_id="34">.</T>
+      <T token_id="35">1557</T>
+      <T token_id="36">.</T>
+      <T token_id="37">1558</T>
+      <T token_id="38">.</T>
+      <T token_id="39">1559</T>
+      <T token_id="40">.</T>
+      <T token_id="41">1560</T>
+      <T token_id="42">.</T>
+      <T token_id="43">1561</T>
+      <T token_id="44">.</T>
+      <T token_id="45">1562</T>
+      <T token_id="46">.</T>
+      <T token_id="47">1563</T>
+      <T token_id="48">.</T>
+      <T token_id="49">1564</T>
+      <T token_id="50">.</T>
+      <T token_id="51">1565</T>
+      <T token_id="52">.</T>
+      <T token_id="53">1586</T>
+      <T token_id="54">.</T>
+      <T token_id="55">1567</T>
+      <T token_id="56">.</T>
+      <T token_id="57">1568</T>
+      <T token_id="58">.</T>
+      <T token_id="59">1569</T>
+      <T token_id="60">.</T>
+    </L>
+  </Text>
+  <Mentions>
+    <Reference mention_id="0" mention_type="unk" mention_subtype="unk" entity_type="per" numerus="unk" specificity="unk" start="2" end="4" head_start="2" head_end="4" head_text="Hans Eckli"/>
+    <Reference mention_id="1" mention_type="unk" mention_subtype="unk" entity_type="per" numerus="unk" specificity="unk" start="7" end="9" head_start="7" head_end="9" head_text="Baschon Eckli"/>
+    <Reference mention_id="2" mention_type="unk" mention_subtype="unk" entity_type="per" numerus="unk" specificity="unk" start="11" end="12" head_start="11" head_end="12" head_text="Erben"/>
+    <Reference mention_id="3" mention_type="unk" mention_subtype="unk" entity_type="loc" numerus="unk" specificity="unk" start="15" end="20" head_start="16" head_end="17" head_text="Huss"/>
+    <Reference mention_id="4" mention_type="unk" mention_subtype="unk" entity_type="per" numerus="unk" specificity="unk" start="15" end="16" head_start="15" head_end="16" head_text="sinem"/>
+    <Reference mention_id="5" mention_type="unk" mention_subtype="unk" entity_type="loc" numerus="unk" specificity="unk" start="18" end="20" head_start="19" head_end="20" head_text="Millenen"/>
+  </Mentions>
+  <Descriptors/>
+  <Values>
+    <Value value_type="date" start="0" end="1" text="1553"/>
+    <Value value_type="date" start="5" end="6" text="1554"/>
+    <Value value_type="date" start="9" end="10" text="1565"/>
+    <Value value_type="money" start="21" end="24" text="2 ß ."/>
+    <Value value_type="money" start="24" end="27" text="1 Vassnachth ."/>
+    <Value value_type="money" start="28" end="31" text="1 Hewerth ."/>
+    <Value value_type="date" start="33" end="34" text="1556"/>
+    <Value value_type="date" start="35" end="36" text="1557"/>
+    <Value value_type="date" start="37" end="38" text="1558"/>
+    <Value value_type="date" start="39" end="40" text="1559"/>
+    <Value value_type="date" start="41" end="42" text="1560"/>
+    <Value value_type="date" start="43" end="44" text="1561"/>
+    <Value value_type="date" start="45" end="46" text="1562"/>
+    <Value value_type="date" start="47" end="48" text="1563"/>
+    <Value value_type="date" start="49" end="50" text="1564"/>
+    <Value value_type="date" start="51" end="52" text="1565"/>
+    <Value value_type="date" start="53" end="54" text="1586"/>
+    <Value value_type="date" start="55" end="56" text="1567"/>
+    <Value value_type="date" start="57" end="58" text="1568"/>
+    <Value value_type="date" start="59" end="60" text="1569"/>
+  </Values>
+  <Relations/>
+</XML>

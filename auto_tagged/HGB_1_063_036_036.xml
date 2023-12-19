@@ -1,0 +1,81 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<XML>
+  <Metadata><FileDesc><Title>HGB_1_063_036_036.xml</Title></FileDesc><SettingDesc><Time>1472</Time></SettingDesc><ChangeLog><Change when="2023-12-18" who="IP">Postprocessing of automatically annotated document. Annotation was performed by using Flair Recursive Algorithm developed by IP, using model exp_A.</Change></ChangeLog></Metadata><Text>
+    <L line_id="0">
+      <T token_id="0">Fronfastenzinse</T>
+      <T token_id="1">.</T>
+      <T token_id="2">Item</T>
+      <T token_id="3">von</T>
+      <T token_id="4">dem</T>
+      <T token_id="5">hus</T>
+      <T token_id="6">zem</T>
+      <T token_id="7">Bapst</T>
+      <T token_id="8">under</T>
+      <T token_id="9">den</T>
+      <T token_id="10">Gerwern</T>
+      <T token_id="11">4</T>
+      <T token_id="12">1</T>
+      <T token_id="13">/</T>
+      <T token_id="14">2ß</T>
+      <T token_id="15">,</T>
+      <T token_id="16">1</T>
+      <T token_id="17">1</T>
+      <T token_id="18">/</T>
+      <T token_id="19">2</T>
+      <T token_id="20">ȡ</T>
+      <T token_id="21">4</T>
+      <T token_id="22">ring</T>
+      <T token_id="23">wisung</T>
+      <T token_id="24">und</T>
+      <T token_id="25">5ß</T>
+      <T token_id="26">erschatz</T>
+      <T token_id="27">das</T>
+      <T token_id="28">git</T>
+      <T token_id="29">1473</T>
+      <T token_id="30">,</T>
+      <T token_id="31">1474</T>
+      <T token_id="32">,</T>
+      <T token_id="33">1475</T>
+      <T token_id="34">,</T>
+      <T token_id="35">1476</T>
+      <T token_id="36">fehlen</T>
+      <T token_id="37">.</T>
+      <T token_id="38">1477</T>
+      <T token_id="39">wie</T>
+      <T token_id="40">oben</T>
+      <T token_id="41">mit</T>
+      <T token_id="42">dem</T>
+      <T token_id="43">Zusatz</T>
+      <T token_id="44">:</T>
+      <T token_id="45">gent</T>
+      <T token_id="46">Cleinemans</T>
+      <T token_id="47">erben</T>
+      <T token_id="48">,</T>
+      <T token_id="49">1478</T>
+      <T token_id="50">-</T>
+      <T token_id="51">1484</T>
+      <T token_id="52">fehlen</T>
+      <T token_id="53">.</T>
+    </L>
+  </Text>
+  <Mentions>
+    <Reference mention_id="0" mention_type="unk" mention_subtype="unk" entity_type="loc" numerus="unk" specificity="unk" start="4" end="11" head_start="5" head_end="8" head_text="hus zem Bapst"/>
+    <Reference mention_id="1" mention_type="unk" mention_subtype="unk" entity_type="loc" numerus="unk" specificity="unk" start="9" end="11" head_start="10" head_end="11" head_text="Gerwern"/>
+    <Reference mention_id="2" mention_type="unk" mention_subtype="unk" entity_type="per" numerus="unk" specificity="unk" start="46" end="48" head_start="47" head_end="48" head_text="erben"/>
+    <Reference mention_id="3" mention_type="unk" mention_subtype="unk" entity_type="per" numerus="unk" specificity="unk" start="46" end="47" head_start="46" head_end="47" head_text="Cleinemans"/>
+  </Mentions>
+  <Descriptors/>
+  <Values>
+    <Value value_type="money" start="11" end="15" text="4 1 / 2ß"/>
+    <Value value_type="money" start="16" end="21" text="1 1 / 2 ȡ"/>
+    <Value value_type="money" start="21" end="23" text="4 ring"/>
+    <Value value_type="money" start="25" end="26" text="5ß"/>
+    <Value value_type="date" start="29" end="30" text="1473"/>
+    <Value value_type="date" start="31" end="32" text="1474"/>
+    <Value value_type="date" start="33" end="34" text="1475"/>
+    <Value value_type="date" start="35" end="36" text="1476"/>
+    <Value value_type="date" start="38" end="39" text="1477"/>
+    <Value value_type="date" start="49" end="52" text="1478 - 1484"/>
+  </Values>
+  <Relations/>
+</XML>

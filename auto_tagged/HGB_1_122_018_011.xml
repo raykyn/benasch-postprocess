@@ -1,0 +1,146 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<XML>
+  <Metadata><FileDesc><Title>HGB_1_122_018_011.xml</Title></FileDesc><SettingDesc><Time>1399</Time></SettingDesc><ChangeLog><Change when="2023-12-18" who="IP">Postprocessing of automatically annotated document. Annotation was performed by using Flair Recursive Algorithm developed by IP, using model exp_A.</Change></ChangeLog></Metadata><Text>
+    <L line_id="0">
+      <T token_id="0">Raths</T>
+      <T token_id="1">Urkunde</T>
+      <T token_id="2">.</T>
+      <T token_id="3">Burgermeister</T>
+      <T token_id="4">und</T>
+      <T token_id="5">Rat</T>
+      <T token_id="6">der</T>
+      <T token_id="7">Statt</T>
+      <T token_id="8">Basel</T>
+      <T token_id="9">geben</T>
+      <T token_id="10">dem</T>
+      <T token_id="11">Closter</T>
+      <T token_id="12">ze</T>
+      <T token_id="13">Clingental</T>
+      <T token_id="14">nach</T>
+      <T token_id="15">dem</T>
+      <T token_id="16">Tode</T>
+      <T token_id="17">des</T>
+      <T token_id="18">bisherigen</T>
+      <T token_id="19">Trägers</T>
+      <T token_id="20">Johans</T>
+      <T token_id="21">Biberlins</T>
+      <T token_id="22">Richarten</T>
+      <T token_id="23">von</T>
+      <T token_id="24">Hiltelingen</T>
+      <T token_id="25">,</T>
+      <T token_id="26">der</T>
+      <T token_id="27">Stat</T>
+      <T token_id="28">Schriber</T>
+      <T token_id="29">zu</T>
+      <T token_id="30">minren</T>
+      <T token_id="31">Basel</T>
+      <T token_id="32">ze</T>
+      <T token_id="33">einem</T>
+      <T token_id="34">Träger</T>
+      <T token_id="35">und</T>
+      <T token_id="36">Usrichter</T>
+      <T token_id="37">der</T>
+      <T token_id="38">Zinsen</T>
+      <T token_id="39">ab</T>
+      <T token_id="40">der</T>
+      <T token_id="41">Hofstatt</T>
+      <T token_id="42">,</T>
+      <T token_id="43">die</T>
+      <T token_id="44">man</T>
+      <T token_id="45">etwenne</T>
+      <T token_id="46">nampt</T>
+      <T token_id="47">Waldemburg</T>
+      <T token_id="48">,</T>
+      <T token_id="49">so</T>
+      <T token_id="50">gelegen</T>
+      <T token_id="51">ist</T>
+      <T token_id="52">in</T>
+      <T token_id="53">der</T>
+      <T token_id="54">Statt</T>
+      <T token_id="55">Basel</T>
+      <T token_id="56">in</T>
+      <T token_id="57">dem</T>
+      <T token_id="58">Kornmergt</T>
+      <T token_id="59">nebent</T>
+      <T token_id="60">dem</T>
+      <T token_id="61">Huse</T>
+      <T token_id="62">zem</T>
+      <T token_id="63">Hassen</T>
+      <T token_id="64">,</T>
+      <T token_id="65">da</T>
+      <T token_id="66">nu</T>
+      <T token_id="67">das</T>
+      <T token_id="68">Richthuse</T>
+      <T token_id="69">zu</T>
+      <T token_id="70">einem</T>
+      <T token_id="71">Teil</T>
+      <T token_id="72">uf</T>
+      <T token_id="73">Stat</T>
+      <T token_id="74">,</T>
+      <T token_id="75">die</T>
+      <T token_id="76">inen</T>
+      <T token_id="77">das</T>
+      <T token_id="78">Closter</T>
+      <T token_id="79">vor</T>
+      <T token_id="80">Ziten</T>
+      <T token_id="81">ze</T>
+      <T token_id="82">einem</T>
+      <T token_id="83">Erbe</T>
+      <T token_id="84">verlichen</T>
+      <T token_id="85">hat</T>
+      <T token_id="86">um</T>
+      <T token_id="87">3</T>
+      <T token_id="88">℔.</T>
+      <T token_id="89">Zinspfg</T>
+      <T token_id="90">.</T>
+      <T token_id="91">ze</T>
+      <T token_id="92">Zinse</T>
+      <T token_id="93">1</T>
+      <T token_id="94">℔.</T>
+      <T token_id="95">Theffers</T>
+      <T token_id="96">zu</T>
+      <T token_id="97">Wisung</T>
+      <T token_id="98">,</T>
+      <T token_id="99">und</T>
+      <T token_id="100">3</T>
+      <T token_id="101">℔.</T>
+      <T token_id="102">ze</T>
+      <T token_id="103">Erschatz</T>
+      <T token_id="104">,</T>
+      <T token_id="105">wenne</T>
+      <T token_id="106">sich</T>
+      <T token_id="107">die</T>
+      <T token_id="108">Hand</T>
+      <T token_id="109">verwandelt</T>
+      <T token_id="110">,</T>
+      <T token_id="111">Rückseite</T>
+      <T token_id="112">nichts</T>
+      <T token_id="113">.</T>
+    </L>
+  </Text>
+  <Mentions>
+    <Reference mention_id="0" mention_type="unk" mention_subtype="unk" entity_type="org" numerus="unk" specificity="unk" start="3" end="9" head_start="3" head_end="9" head_text="Burgermeister und Rat der Statt Basel"/>
+    <Reference mention_id="1" mention_type="unk" mention_subtype="unk" entity_type="org" numerus="unk" specificity="unk" start="10" end="14" head_start="12" head_end="14" head_text="ze Clingental"/>
+    <Reference mention_id="2" mention_type="unk" mention_subtype="unk" entity_type="per" numerus="unk" specificity="unk" start="17" end="32" head_start="20" head_end="22" head_text="Johans Biberlins"/>
+    <Reference mention_id="3" mention_type="unk" mention_subtype="unk" entity_type="per" numerus="unk" specificity="unk" start="17" end="20" head_start="19" head_end="20" head_text="Trägers"/>
+    <Reference mention_id="4" mention_type="unk" mention_subtype="unk" entity_type="per" numerus="unk" specificity="unk" start="22" end="25" head_start="22" head_end="23" head_text="Richarten"/>
+    <Reference mention_id="5" mention_type="unk" mention_subtype="unk" entity_type="gpe" numerus="unk" specificity="unk" start="24" end="25" head_start="24" head_end="25" head_text="Hiltelingen"/>
+    <Reference mention_id="6" mention_type="unk" mention_subtype="unk" entity_type="per" numerus="unk" specificity="unk" start="26" end="32" head_start="28" head_end="29" head_text="Schriber"/>
+    <Reference mention_id="7" mention_type="unk" mention_subtype="unk" entity_type="gpe" numerus="unk" specificity="unk" start="30" end="32" head_start="30" head_end="32" head_text="minren Basel"/>
+    <Reference mention_id="8" mention_type="unk" mention_subtype="unk" entity_type="loc" numerus="unk" specificity="unk" start="40" end="69" head_start="41" head_end="42" head_text="Hofstatt"/>
+    <Reference mention_id="9" mention_type="unk" mention_subtype="unk" entity_type="loc" numerus="unk" specificity="unk" start="47" end="48" head_start="47" head_end="48" head_text="Waldemburg"/>
+    <Reference mention_id="10" mention_type="unk" mention_subtype="unk" entity_type="gpe" numerus="unk" specificity="unk" start="53" end="56" head_start="55" head_end="56" head_text="Basel"/>
+    <Reference mention_id="11" mention_type="unk" mention_subtype="unk" entity_type="loc" numerus="unk" specificity="unk" start="57" end="59" head_start="58" head_end="59" head_text="Kornmergt"/>
+    <Reference mention_id="12" mention_type="unk" mention_subtype="unk" entity_type="loc" numerus="unk" specificity="unk" start="60" end="64" head_start="61" head_end="64" head_text="Huse zem Hassen"/>
+    <Reference mention_id="13" mention_type="unk" mention_subtype="unk" entity_type="loc" numerus="unk" specificity="unk" start="67" end="69" head_start="68" head_end="69" head_text="Richthuse"/>
+    <Reference mention_id="14" mention_type="unk" mention_subtype="unk" entity_type="per" numerus="unk" specificity="unk" start="75" end="76" head_start="75" head_end="76" head_text="die"/>
+    <Reference mention_id="15" mention_type="unk" mention_subtype="unk" entity_type="org" numerus="unk" specificity="unk" start="77" end="79" head_start="78" head_end="79" head_text="Closter"/>
+  </Mentions>
+  <Descriptors/>
+  <Values>
+    <Value value_type="money" start="87" end="91" text="3 ℔. Zinspfg ."/>
+    <Value value_type="money" start="93" end="96" text="1 ℔. Theffers"/>
+    <Value value_type="money" start="100" end="102" text="3 ℔."/>
+  </Values>
+  <Relations/>
+</XML>

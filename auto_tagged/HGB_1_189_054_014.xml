@@ -1,0 +1,99 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<XML>
+  <Metadata><FileDesc><Title>HGB_1_189_054_014.xml</Title></FileDesc><SettingDesc><Time>1675</Time></SettingDesc><ChangeLog><Change when="2023-12-18" who="IP">Postprocessing of automatically annotated document. Annotation was performed by using Flair Recursive Algorithm developed by IP, using model exp_A.</Change></ChangeLog></Metadata><Text>
+    <L line_id="0">
+      <T token_id="0">Item</T>
+      <T token_id="1">Lienhart</T>
+      <T token_id="2">Bientz</T>
+      <T token_id="3">undt</T>
+      <T token_id="4">Lienhart</T>
+      <T token_id="5">Oser</T>
+      <T token_id="6">vor</T>
+      <T token_id="7">Heinrich</T>
+      <T token_id="8">Kyburt</T>
+      <T token_id="9">vorhin</T>
+      <T token_id="10">Heinrich</T>
+      <T token_id="11">Hertzog</T>
+      <T token_id="12">und</T>
+      <T token_id="13">Jacob</T>
+      <T token_id="14">Schwartz</T>
+      <T token_id="15">von</T>
+      <T token_id="16">eim</T>
+      <T token_id="17">haus</T>
+      <T token_id="18">in</T>
+      <T token_id="19">Spahlen</T>
+      <T token_id="20">vorstatt</T>
+      <T token_id="21">hinder</T>
+      <T token_id="22">dem</T>
+      <T token_id="23">Ochsen</T>
+      <T token_id="24">neben</T>
+      <T token_id="25">Bosingers</T>
+      <T token_id="26">haus</T>
+      <T token_id="27">-</T>
+      <T token_id="28">11ß</T>
+      <T token_id="29">6ȡ</T>
+      <T token_id="30">.</T>
+      <T token_id="31">gibt</T>
+      <T token_id="32">jeder</T>
+      <T token_id="33">das</T>
+      <T token_id="34">halb</T>
+      <T token_id="35">-</T>
+      <T token_id="36">5ß</T>
+      <T token_id="37">9ȡ</T>
+      <T token_id="38">.</T>
+      <T token_id="39">Ebenso</T>
+      <T token_id="40">1677</T>
+      <T token_id="41">.</T>
+      <T token_id="42">Ebenso</T>
+      <T token_id="43">1678</T>
+      <T token_id="44">.</T>
+      <T token_id="45">Ebenso</T>
+      <T token_id="46">1676</T>
+      <T token_id="47">.</T>
+      <T token_id="48">Ebenso</T>
+      <T token_id="49">1680</T>
+      <T token_id="50">.</T>
+      <T token_id="51">Ebenso</T>
+      <T token_id="52">1679</T>
+      <T token_id="53">.</T>
+      <T token_id="54">1681</T>
+      <T token_id="55">Lienhard</T>
+      <T token_id="56">Bintz</T>
+      <T token_id="57">und</T>
+      <T token_id="58">Margreth</T>
+      <T token_id="59">Hinden</T>
+      <T token_id="60">lang</T>
+      <T token_id="61">geben</T>
+      <T token_id="62">obigen</T>
+      <T token_id="63">Zins</T>
+      <T token_id="64">.</T>
+    </L>
+  </Text>
+  <Mentions>
+    <Reference mention_id="0" mention_type="unk" mention_subtype="unk" entity_type="per" numerus="unk" specificity="unk" start="1" end="3" head_start="1" head_end="3" head_text="Lienhart Bientz"/>
+    <Reference mention_id="1" mention_type="unk" mention_subtype="unk" entity_type="per" numerus="unk" specificity="unk" start="4" end="6" head_start="4" head_end="6" head_text="Lienhart Oser"/>
+    <Reference mention_id="2" mention_type="unk" mention_subtype="unk" entity_type="per" numerus="unk" specificity="unk" start="7" end="9" head_start="7" head_end="9" head_text="Heinrich Kyburt"/>
+    <Reference mention_id="3" mention_type="unk" mention_subtype="unk" entity_type="per" numerus="unk" specificity="unk" start="10" end="12" head_start="10" head_end="12" head_text="Heinrich Hertzog"/>
+    <Reference mention_id="4" mention_type="unk" mention_subtype="unk" entity_type="per" numerus="unk" specificity="unk" start="13" end="15" head_start="13" head_end="15" head_text="Jacob Schwartz"/>
+    <Reference mention_id="5" mention_type="unk" mention_subtype="unk" entity_type="loc" numerus="unk" specificity="unk" start="16" end="27" head_start="17" head_end="18" head_text="haus"/>
+    <Reference mention_id="6" mention_type="unk" mention_subtype="unk" entity_type="loc" numerus="unk" specificity="unk" start="19" end="21" head_start="19" head_end="21" head_text="Spahlen vorstatt"/>
+    <Reference mention_id="7" mention_type="unk" mention_subtype="unk" entity_type="loc" numerus="unk" specificity="unk" start="22" end="24" head_start="23" head_end="24" head_text="Ochsen"/>
+    <Reference mention_id="8" mention_type="unk" mention_subtype="unk" entity_type="loc" numerus="unk" specificity="unk" start="25" end="27" head_start="26" head_end="27" head_text="haus"/>
+    <Reference mention_id="9" mention_type="unk" mention_subtype="unk" entity_type="per" numerus="unk" specificity="unk" start="25" end="26" head_start="25" head_end="26" head_text="Bosingers"/>
+    <Reference mention_id="10" mention_type="unk" mention_subtype="unk" entity_type="per" numerus="unk" specificity="unk" start="55" end="57" head_start="55" head_end="57" head_text="Lienhard Bintz"/>
+    <Reference mention_id="11" mention_type="unk" mention_subtype="unk" entity_type="per" numerus="unk" specificity="unk" start="58" end="61" head_start="58" head_end="61" head_text="Margreth Hinden lang"/>
+  </Mentions>
+  <Descriptors/>
+  <Values>
+    <Value value_type="money" start="28" end="31" text="11ß 6ȡ ."/>
+    <Value value_type="time.rec" start="32" end="33" text="jeder"/>
+    <Value value_type="money" start="36" end="39" text="5ß 9ȡ ."/>
+    <Value value_type="date" start="40" end="41" text="1677"/>
+    <Value value_type="date" start="43" end="44" text="1678"/>
+    <Value value_type="date" start="46" end="47" text="1676"/>
+    <Value value_type="date" start="49" end="50" text="1680"/>
+    <Value value_type="date" start="52" end="53" text="1679"/>
+    <Value value_type="date" start="54" end="55" text="1681"/>
+  </Values>
+  <Relations/>
+</XML>

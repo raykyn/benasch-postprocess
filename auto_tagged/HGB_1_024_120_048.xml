@@ -1,0 +1,73 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<XML>
+  <Metadata><FileDesc><Title>HGB_1_024_120_048.xml</Title></FileDesc><SettingDesc><Time>1669</Time></SettingDesc><ChangeLog><Change when="2023-12-18" who="IP">Postprocessing of automatically annotated document. Annotation was performed by using Flair Recursive Algorithm developed by IP, using model exp_A.</Change></ChangeLog></Metadata><Text>
+    <L line_id="0">
+      <T token_id="0">Item</T>
+      <T token_id="1">Jacob</T>
+      <T token_id="2">Maurer</T>
+      <T token_id="3">der</T>
+      <T token_id="4">Kupferschmidt</T>
+      <T token_id="5">von</T>
+      <T token_id="6">seim</T>
+      <T token_id="7">hauß</T>
+      <T token_id="8">auf</T>
+      <T token_id="9">Martini</T>
+      <T token_id="10">-</T>
+      <T token_id="11">6ß</T>
+      <T token_id="12">8ȡ</T>
+      <T token_id="13">.</T>
+      <T token_id="14">Ebenso</T>
+      <T token_id="15">1670</T>
+      <T token_id="16">.</T>
+      <T token_id="17">Ebenso</T>
+      <T token_id="18">1671</T>
+      <T token_id="19">.</T>
+      <T token_id="20">Ebenso</T>
+      <T token_id="21">1672</T>
+      <T token_id="22">.</T>
+      <T token_id="23">Ebenso</T>
+      <T token_id="24">1673</T>
+      <T token_id="25">.</T>
+      <T token_id="26">Ebenso</T>
+      <T token_id="27">1674</T>
+      <T token_id="28">.</T>
+      <T token_id="29">Ebenso</T>
+      <T token_id="30">1675</T>
+      <T token_id="31">.</T>
+      <T token_id="32">Ebenso</T>
+      <T token_id="33">1676</T>
+      <T token_id="34">.</T>
+      <T token_id="35">1677</T>
+      <T token_id="36">Benedict</T>
+      <T token_id="37">Glaser</T>
+      <T token_id="38">der</T>
+      <T token_id="39">Küpfferschmidt</T>
+      <T token_id="40">gibt</T>
+      <T token_id="41">obigen</T>
+      <T token_id="42">Zins</T>
+      <T token_id="43">.</T>
+    </L>
+  </Text>
+  <Mentions>
+    <Reference mention_id="0" mention_type="unk" mention_subtype="unk" entity_type="per" numerus="unk" specificity="unk" start="1" end="5" head_start="1" head_end="3" head_text="Jacob Maurer"/>
+    <Reference mention_id="1" mention_type="unk" mention_subtype="unk" entity_type="per" numerus="unk" specificity="unk" start="3" end="5" head_start="4" head_end="5" head_text="Kupferschmidt"/>
+    <Reference mention_id="2" mention_type="unk" mention_subtype="unk" entity_type="loc" numerus="unk" specificity="unk" start="6" end="8" head_start="7" head_end="8" head_text="hauß"/>
+    <Reference mention_id="3" mention_type="unk" mention_subtype="unk" entity_type="per" numerus="unk" specificity="unk" start="6" end="7" head_start="6" head_end="7" head_text="seim"/>
+    <Reference mention_id="4" mention_type="unk" mention_subtype="unk" entity_type="per" numerus="unk" specificity="unk" start="36" end="40" head_start="36" head_end="38" head_text="Benedict Glaser"/>
+    <Reference mention_id="5" mention_type="unk" mention_subtype="unk" entity_type="per" numerus="unk" specificity="unk" start="38" end="40" head_start="39" head_end="40" head_text="Küpfferschmidt"/>
+  </Mentions>
+  <Descriptors/>
+  <Values>
+    <Value value_type="date" start="8" end="10" text="auf Martini"/>
+    <Value value_type="money" start="11" end="13" text="6ß 8ȡ"/>
+    <Value value_type="date" start="15" end="16" text="1670"/>
+    <Value value_type="date" start="18" end="19" text="1671"/>
+    <Value value_type="date" start="21" end="22" text="1672"/>
+    <Value value_type="date" start="24" end="25" text="1673"/>
+    <Value value_type="date" start="27" end="28" text="1674"/>
+    <Value value_type="date" start="30" end="31" text="1675"/>
+    <Value value_type="date" start="33" end="34" text="1676"/>
+    <Value value_type="date" start="35" end="36" text="1677"/>
+  </Values>
+  <Relations/>
+</XML>

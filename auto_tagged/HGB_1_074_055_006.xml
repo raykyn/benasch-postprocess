@@ -1,0 +1,92 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<XML>
+  <Metadata><FileDesc><Title>HGB_1_074_055_006.xml</Title></FileDesc><SettingDesc><Time>1475</Time></SettingDesc><ChangeLog><Change when="2023-12-18" who="IP">Postprocessing of automatically annotated document. Annotation was performed by using Flair Recursive Algorithm developed by IP, using model exp_A.</Change></ChangeLog></Metadata><Text>
+    <L line_id="0">
+      <T token_id="0">Heinrich</T>
+      <T token_id="1">Eckboltzmiler</T>
+      <T token_id="2">hat</T>
+      <T token_id="3">um</T>
+      <T token_id="4">versessenen</T>
+      <T token_id="5">zins</T>
+      <T token_id="6">,</T>
+      <T token_id="7">Hanns</T>
+      <T token_id="8">Ebis</T>
+      <T token_id="9">sel</T>
+      <T token_id="10">.</T>
+      <T token_id="11">Hus</T>
+      <T token_id="12">und</T>
+      <T token_id="13">Garten</T>
+      <T token_id="14">,</T>
+      <T token_id="15">gelegen</T>
+      <T token_id="16">in</T>
+      <T token_id="17">der</T>
+      <T token_id="18">nüwen</T>
+      <T token_id="19">Vorstatt</T>
+      <T token_id="20">,</T>
+      <T token_id="21">zwüschen</T>
+      <T token_id="22">Frow</T>
+      <T token_id="23">Greden</T>
+      <T token_id="24">von</T>
+      <T token_id="25">Berenfels</T>
+      <T token_id="26">zu</T>
+      <T token_id="27">einer</T>
+      <T token_id="28">und</T>
+      <T token_id="29">Hanns</T>
+      <T token_id="30">Ebissel</T>
+      <T token_id="31">.</T>
+      <T token_id="32">Hus</T>
+      <T token_id="33">,</T>
+      <T token_id="34">zinst</T>
+      <T token_id="35">vor</T>
+      <T token_id="36">¬</T>
+      <T token_id="37">mals</T>
+      <T token_id="38">der</T>
+      <T token_id="39">dritten</T>
+      <T token_id="40">Pfrund</T>
+      <T token_id="41">unserer</T>
+      <T token_id="42">lieben</T>
+      <T token_id="43">Frowen</T>
+      <T token_id="44">Altar</T>
+      <T token_id="45">zu</T>
+      <T token_id="46">sant</T>
+      <T token_id="47">Peter</T>
+      <T token_id="48">2</T>
+      <T token_id="49">℔</T>
+      <T token_id="50">und</T>
+      <T token_id="51">Sürlin</T>
+      <T token_id="52">15</T>
+      <T token_id="53">sh</T>
+      <T token_id="54">.</T>
+      <T token_id="55">sodann</T>
+      <T token_id="56">aber</T>
+      <T token_id="57">2</T>
+      <T token_id="58">fl</T>
+      <T token_id="59">.</T>
+      <T token_id="60">Hanns</T>
+      <T token_id="61">Heinrich</T>
+      <T token_id="62">Grieben</T>
+      <T token_id="63">,</T>
+      <T token_id="64">gefrönt</T>
+      <T token_id="65">.</T>
+    </L>
+  </Text>
+  <Mentions>
+    <Reference mention_id="0" mention_type="unk" mention_subtype="unk" entity_type="per" numerus="unk" specificity="unk" start="0" end="2" head_start="0" head_end="2" head_text="Heinrich Eckboltzmiler"/>
+    <Reference mention_id="1" mention_type="unk" mention_subtype="unk" entity_type="loc" numerus="unk" specificity="unk" start="7" end="63" head_start="11" head_end="14" head_text="Hus und Garten"/>
+    <Reference mention_id="2" mention_type="unk" mention_subtype="unk" entity_type="per" numerus="unk" specificity="unk" start="7" end="11" head_start="7" head_end="9" head_text="Hanns Ebis"/>
+    <Reference mention_id="3" mention_type="unk" mention_subtype="unk" entity_type="loc" numerus="unk" specificity="unk" start="17" end="20" head_start="18" head_end="20" head_text="nüwen Vorstatt"/>
+    <Reference mention_id="4" mention_type="unk" mention_subtype="unk" entity_type="per" numerus="unk" specificity="unk" start="22" end="26" head_start="23" head_end="26" head_text="Greden von Berenfels"/>
+    <Reference mention_id="5" mention_type="unk" mention_subtype="unk" entity_type="loc" numerus="unk" specificity="unk" start="29" end="33" head_start="32" head_end="33" head_text="Hus"/>
+    <Reference mention_id="6" mention_type="unk" mention_subtype="unk" entity_type="per" numerus="unk" specificity="unk" start="29" end="32" head_start="29" head_end="31" head_text="Hanns Ebissel"/>
+    <Reference mention_id="7" mention_type="unk" mention_subtype="unk" entity_type="org" numerus="unk" specificity="unk" start="38" end="48" head_start="40" head_end="48" head_text="Pfrund unserer lieben Frowen Altar zu sant Peter"/>
+    <Reference mention_id="8" mention_type="unk" mention_subtype="unk" entity_type="loc" numerus="unk" specificity="unk" start="51" end="52" head_start="51" head_end="52" head_text="Sürlin"/>
+    <Reference mention_id="9" mention_type="unk" mention_subtype="unk" entity_type="per" numerus="unk" specificity="unk" start="60" end="63" head_start="60" head_end="63" head_text="Hanns Heinrich Grieben"/>
+  </Mentions>
+  <Descriptors/>
+  <Values>
+    <Value value_type="money" start="48" end="50" text="2 ℔"/>
+    <Value value_type="money" start="52" end="55" text="15 sh ."/>
+    <Value value_type="money" start="57" end="60" text="2 fl ."/>
+  </Values>
+  <Relations/>
+</XML>

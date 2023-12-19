@@ -1,0 +1,47 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<XML>
+  <Metadata><FileDesc><Title>HGB_1_010_121_036.xml</Title></FileDesc><SettingDesc><Time>1681</Time></SettingDesc><ChangeLog><Change when="2023-12-18" who="IP">Postprocessing of automatically annotated document. Annotation was performed by using Flair Recursive Algorithm developed by IP, using model exp_A.</Change></ChangeLog></Metadata><Text>
+    <L line_id="0">
+      <T token_id="0">Dietrich</T>
+      <T token_id="1">Krämer</T>
+      <T token_id="2">,</T>
+      <T token_id="3">Commentanten</T>
+      <T token_id="4">under</T>
+      <T token_id="5">St</T>
+      <T token_id="6">.</T>
+      <T token_id="7">Albanthor</T>
+      <T token_id="8">Contra</T>
+      <T token_id="9">Jacob</T>
+      <T token_id="10">Salathe</T>
+      <T token_id="11">dem</T>
+      <T token_id="12">Küeffer</T>
+      <T token_id="13">von</T>
+      <T token_id="14">Lupsingen</T>
+      <T token_id="15">,</T>
+      <T token_id="16">Benachbarte</T>
+      <T token_id="17">in</T>
+      <T token_id="18">St</T>
+      <T token_id="19">.</T>
+      <T token_id="20">Albanvorstatt</T>
+      <T token_id="21">,</T>
+      <T token_id="22">betr</T>
+      <T token_id="23">.</T>
+      <T token_id="24">eingefallener</T>
+      <T token_id="25">Mauer</T>
+      <T token_id="26">.</T>
+    </L>
+  </Text>
+  <Mentions>
+    <Reference mention_id="0" mention_type="unk" mention_subtype="unk" entity_type="per" numerus="unk" specificity="unk" start="0" end="8" head_start="0" head_end="2" head_text="Dietrich Krämer"/>
+    <Reference mention_id="1" mention_type="unk" mention_subtype="unk" entity_type="per" numerus="unk" specificity="unk" start="3" end="8" head_start="3" head_end="4" head_text="Commentanten"/>
+    <Reference mention_id="2" mention_type="unk" mention_subtype="unk" entity_type="loc" numerus="unk" specificity="unk" start="5" end="8" head_start="5" head_end="8" head_text="St . Albanthor"/>
+    <Reference mention_id="3" mention_type="unk" mention_subtype="unk" entity_type="per" numerus="unk" specificity="unk" start="9" end="15" head_start="9" head_end="11" head_text="Jacob Salathe"/>
+    <Reference mention_id="4" mention_type="unk" mention_subtype="unk" entity_type="per" numerus="unk" specificity="unk" start="11" end="13" head_start="12" head_end="13" head_text="Küeffer"/>
+    <Reference mention_id="5" mention_type="unk" mention_subtype="unk" entity_type="gpe" numerus="unk" specificity="unk" start="14" end="15" head_start="14" head_end="15" head_text="Lupsingen"/>
+    <Reference mention_id="6" mention_type="unk" mention_subtype="unk" entity_type="per" numerus="unk" specificity="unk" start="16" end="21" head_start="16" head_end="17" head_text="Benachbarte"/>
+    <Reference mention_id="7" mention_type="unk" mention_subtype="unk" entity_type="loc" numerus="unk" specificity="unk" start="18" end="21" head_start="18" head_end="21" head_text="St . Albanvorstatt"/>
+  </Mentions>
+  <Descriptors/>
+  <Values/>
+  <Relations/>
+</XML>
