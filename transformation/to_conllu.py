@@ -21,11 +21,19 @@ import pprint as pp
 NODES_WITHOUT_HEADS = ["Value"]
 
 
-def write_outstring(docpath, token_list, annotations, metadata):
+def write_outstring(token_list, annotations, metadata) -> str:
     """
     Writes a string in the conllu format which Flair expects.
+
+    This function gets called by the script to create the training data.
     """
-    pass
+    relation_string = "|".join([";".join([str(y) for y in x]) for x in metadata["relations"]])
+    out_string = f"""# sentence_id = {metadata["sentence_id"]}\n# text = {metadata["text"]}\n# relations = {relation_string}\n"""
+    for idx, (token, anno) in enumerate(zip(token_list, annotations)):
+        out_string += f"{idx} {token} {anno}\n"
+
+    return out_string
+    
    
 
 
@@ -36,7 +44,7 @@ def get_ancestors(node):
     """
     ancestors = []
     parent = node.getparent()
-    while parent.tag != "Text":
+    while parent.tag != "Body":
         if parent.tag != "Head":
             ancestors.append(parent)
         parent = parent.getparent()
@@ -66,6 +74,7 @@ def get_relations(root):
     relation_elems = root.findall("./Relations/Relation")
     relations = []
     for relation in relation_elems:
+        # NOTE: Coreferences indicated by Attributes are not included at the moment (as the standard xml does not include them as attributes)
         from_mention = root.find(f"./Mentions/*[@mention_id='{relation.get('from_mention')}']")
         to_mention = root.find(f"./Mentions/*[@mention_id='{relation.get('to_mention')}']")
         relations.append((
@@ -75,6 +84,18 @@ def get_relations(root):
             int(to_mention.get("head_end")) - 1,
             relation.get("rel_type")  # NOTE: could include further info such as tense here
             ))
+    """
+    TODO: Add attribute-parent info to standard xml so we can retrieve that relationship easily.
+    for attribute in root.findall(f"./Mentions/Attribute"):
+        to_mention = attribute
+        relations.append((
+            int(attribute.get("head_start")), 
+            int(attribute.get("head_end")) - 1,
+            int(to_mention.get("head_start")), 
+            int(to_mention.get("head_end")) - 1,
+            "att"
+            ))
+    """
     return relations
     
 
@@ -88,7 +109,7 @@ def construct_metadata(docpath, id):
 
     relations = get_relations(root)
 
-    return {"sentence_id": id, "text": text}
+    return {"sentence_id": id, "text": text, "relations": relations}
 
 
 def process_document(docpath, order):
@@ -210,14 +231,16 @@ if __name__ == "__main__":
             "filter": {
             },
             "tags": {
-                "entity_type|desc_type|value_type": []
+                "entity_type": []
             },
             "depth": 1,
             "tag_granularity": 1
         }
     token_list, annotations = process_document("../outfiles/admin_018_HGB_1_051_086_076.xml", CONFIG)
     metadata = construct_metadata("../outfiles/admin_018_HGB_1_051_086_076.xml", 42)
-    pp.pprint(list(zip(token_list, annotations)))
+    
+    write_outstring(token_list, annotations, metadata)
+    #pp.pprint(list(zip(token_list, annotations)))
     #process_document("../outfiles/admin_008_HGB_1_024_074_020.xml", orders)
 
     #write_outfile("test.tsv", token_list, annotation_cols)
