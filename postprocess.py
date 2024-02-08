@@ -245,6 +245,12 @@ def pro_coref_get_entity_type(work_root, coref, mention_type):
 
 
 def write_entities(out_root, work_root):
+    """
+    Write all entity mentions for Lists, References and Attributes.
+
+    Adds hierarchical relations (which mentions are contained in which other mentions) to the Hierarchy element.
+    """
+
     global old_to_new_ids
 
     old_to_new_ids = {}
@@ -288,7 +294,7 @@ def write_entities(out_root, work_root):
             start=entity.get("start"),
             end=entity.get("end"),
             )
-
+    
     ### REFERENCES ###
     for entity in work_root.findall(".//Entity[@span_type='ent']"):
         label = entity.get('label').lower()
@@ -518,6 +524,19 @@ def write_relations(out_root, work_root):
             except KeyError as e:
                 print(f"ERROR: When trying to write a relation, a mention id could not be found: {e}. Maybe the relation was connected to an invalid annotation such as a 'desc.xy'?")
     
+        # also, an attribute always features a coreference with its parent element
+        # while this is also represented in the Hierarchy element, we add this redundancy for clearness
+        try:
+            et.SubElement(relations_node, 
+                "Relation",
+                rel_type="att-coref",
+                tense="pres",
+                from_mention=str(old_to_new_ids[entity.get("id")]),
+                to_mention=str(old_to_new_ids[entity.getparent().get("id")]),
+                )
+        except KeyError as e:
+            print(f"ERROR: When trying to write a relation, a mention id could not be found: {e}. Maybe the relation was connected to an invalid annotation such as a 'desc.xy'?")
+
     # desc work almost the same as att, but the connected id is that of the parent element instead
     for descriptor in work_root.findall(".//Entity[@span_type='desc']"):
         parent = descriptor.getparent()
@@ -639,6 +658,26 @@ def write_events(out_root, in_root, document_text, start_index_dict, end_index_d
                 role_node.set("text", text)
 
 
+def write_hierarchy(out_root, work_root):
+    """
+    We retain the hierarchical information from the work root in the form
+    of parent-child-Elements. This makes further work with the data easier
+    whenever the hierarchy is of relevance for the task (i.e. when creating training data for ML)
+    """
+
+    hierarchy_elem = et.SubElement(out_root, "Hierarchy")
+    entity_elems = work_root.xpath(".//Entity[@span_type='lst' or @span_type='ent' or @span_type='att']")
+    for child in entity_elems:
+        parent = child.getparent()
+        while parent.tag != "XML":
+            if parent.get("span_type") in ["lst", "ent", "att"]:
+                parent_id = str(old_to_new_ids[parent.get("id")])
+                child_id = str(old_to_new_ids[child.get("id")])
+                et.SubElement(hierarchy_elem, "H", parent=parent_id, child=child_id)
+                break
+            parent = parent.getparent()  # we need to skip non-mentions
+
+
 def write_text(text_elem, text):
     """
     Text string is transformed into single token elements.
@@ -719,6 +758,7 @@ def process_general(in_root, outname):
     write_values(out_root, work_root)
     write_events(out_root, in_root, document_text, start_index_dict, end_index_dict)
     write_relations(out_root, work_root)
+    write_hierarchy(out_root, work_root)
 
     out_tree = et.ElementTree(out_root)
     out_tree.write(os.path.join(OUTFOLDER, outname), xml_declaration=True, pretty_print=True, encoding="utf8")
@@ -736,7 +776,7 @@ OUTFOLDER = "./outfiles/"
 
 if __name__ == "__main__":
 
-    infiles = sorted(glob.glob("data/test_events/*.xmi"))
+    infiles = sorted(glob.glob("data/testdata/*.xmi"))
 
     for infile in infiles:
         process_xmi(infile)
