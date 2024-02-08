@@ -13,7 +13,10 @@ WORK IN PROGRESS
 """
 
 import csv
-import to_inline
+try:
+    import to_inline
+except:
+    import transformation.to_inline as to_inline
 from lxml import etree as et
 import pprint as pp
 
@@ -35,8 +38,6 @@ def write_outstring(token_list, annotations, metadata) -> str:
     return out_string
     
    
-
-
 def get_ancestors(node):
     """
     We build a list with all ancestors of the token.
@@ -75,6 +76,7 @@ def get_relations(root):
     relations = []
     for relation in relation_elems:
         # NOTE: Coreferences indicated by Attributes are not included at the moment (as the standard xml does not include them as attributes)
+        print(relation.get('from_mention'))
         from_mention = root.find(f"./Mentions/*[@mention_id='{relation.get('from_mention')}']")
         to_mention = root.find(f"./Mentions/*[@mention_id='{relation.get('to_mention')}']")
         relations.append((
