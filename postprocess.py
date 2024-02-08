@@ -10,6 +10,7 @@ from lxml import etree as et
 from utils.text_modification import modify_text
 from utils.small_corrections import small_corrects
 import pprint as pp
+from collections import defaultdict
 #from xml.sax.saxutils import escape
 
 
@@ -32,6 +33,24 @@ def get_node_priority(node):
     #    return 2
     else:
         return 1
+    
+
+def convert_char_to_token_idx(start_index_dict, end_index_dict, start, end, entity):
+    # transform character index to token index
+    token_start = start_index_dict[start]
+    try:
+        token_end = end_index_dict[end]
+    except KeyError:
+        # Inception performs an implicit tokenization, which allows annotations
+        # to be set outside our own preprocessing. This can lead to annotations
+        # ending inside tokens as defined by our preprocessing/system
+        # to circumvent this problem, we simply stretch the tag to the end of the token
+        while end not in end_index_dict:
+            end += 1
+        token_end = end_index_dict[end]
+        
+        print(f"WARNING: An annotation ended inside a token. Check this error manually for annotation with id {entity.get('{http://www.omg.org/XMI}id')}!")
+    return token_start, token_end
 
 
 def create_node_tree(in_root, document_text, start_index_dict, end_index_dict):
@@ -50,6 +69,9 @@ def create_node_tree(in_root, document_text, start_index_dict, end_index_dict):
         # classify if span is entity, attribute or description
         label = entity.get('label')
         if label == None:
+            if entity.get("Role"):
+                # is a freetext role argument, no need to report that in the log
+                continue
             print(f"WARNING: Empty Label in node with id {entity.get('{http://www.omg.org/XMI}id')}!")
             label = ""
         label = label.lower().split(".")
@@ -74,25 +96,15 @@ def create_node_tree(in_root, document_text, start_index_dict, end_index_dict):
                 print(f"WARNING: Unclear Label encountered in node with id {entity.get('{http://www.omg.org/XMI}id')}!")
             span_type = ""
             continue
+        elif label[0].startswith("ev"):
+            # is an event trigger
+            continue
         else:
             print(f"ERROR: Unrecognized Span Label '{label[0]}' in annotation with id {entity.get('{http://www.omg.org/XMI}id')}!")
             continue
         label = ".".join(label)
 
-        # transform character index to token index
-        token_start = start_index_dict[start]
-        try:
-            token_end = end_index_dict[end]
-        except KeyError:
-            # Inception performs an implicit tokenization, which allows annotations
-            # to be set outside our own preprocessing. This can lead to annotations
-            # ending inside tokens as defined by our preprocessing/system
-            # to circumvent this problem, we simply stretch the tag to the end of the token
-            while end not in end_index_dict:
-                end += 1
-            token_end = end_index_dict[end]
-            
-            print(f"WARNING: An annotation ended inside a token. Check this error manually for annotation with id {entity.get('{http://www.omg.org/XMI}id')}!")
+        token_start, token_end = convert_char_to_token_idx(start_index_dict, end_index_dict, start, end, entity)
 
         # We need to check all parent nodes above if they contain the current node
         # NOTE: We increase token_end by 1 to match common span annotation schemes (which usually mark a span of length 1 as x to x+1)
@@ -105,7 +117,7 @@ def create_node_tree(in_root, document_text, start_index_dict, end_index_dict):
         else:
             current_node = et.SubElement(work_root, "Entity", id=entity.get("{http://www.omg.org/XMI}id"), span_type=span_type, label=label, start=str(token_start), end=str(token_end+1), text=document_text[start:end])
         parent_node = current_node
-    
+
     # We get relations from three sources: relation layer, att and desc
     relations = in_root.findall(".//custom:Relation", namespaces={"custom":"http:///custom.ecore"})
     for relation in relations:
@@ -422,11 +434,16 @@ def write_entities(out_root, work_root):
         
 
 def write_values(out_root, work_root):
+    global old_to_new_ids
+
     value_node = et.SubElement(out_root, "Values")
     token_list = out_root.findall(".//T")
     for value in work_root.findall(".//Entity[@span_type='value']"):
+        value_id = len(old_to_new_ids)
+        old_to_new_ids[value.get("id")] = value_id
         et.SubElement(value_node, 
             "Value",
+            value_id=str(value_id),
             value_type=value.get("label"),
             start=value.get("start"),
             end=value.get("end"),
@@ -529,6 +546,99 @@ def write_relations(out_root, work_root):
                 print(f"ERROR: When trying to write a relation, a mention id could not be found: {e}. Maybe the relation was connected to an invalid annotation such as a 'desc.xy'?")
 
 
+def write_events(out_root, in_root, document_text, start_index_dict, end_index_dict):
+    """
+    We use the CAS-root instead of the work root,
+    because the hierarchical information of the work root
+    is not of relevance to the events.
+    """
+    global old_to_new_ids
+
+    events_node = et.SubElement(out_root, "Events")
+
+    triggers = in_root.xpath(".//custom:Span[starts-with(@label, 'ev')]", namespaces={"custom":"http:///custom.ecore"})
+    role_elems = in_root.findall(".//custom:Span[@Role]", namespaces={"custom":"http:///custom.ecore"})
+
+    trigger_dict = {}
+    
+    for trigger in triggers:
+        event_info = trigger.get("label").split(".")
+        event_id, event_type, other_info = event_info[0], event_info[1], event_info[2:]
+        event_node = et.SubElement(events_node, "Event", event_id=event_id, type=event_type)  # probably put the event category here?
+        old_to_new_ids[trigger.get("{http://www.omg.org/XMI}id")] = event_id
+
+        trigger_dict[event_id] = event_node
+
+        start, end = int(trigger.get("begin")), int(trigger.get("end"))
+        token_start, token_end = convert_char_to_token_idx(start_index_dict, end_index_dict, start, end, trigger)
+        trigger_node = et.SubElement(event_node, "Trigger", start=str(token_start), end=str(token_end), text=document_text[start:end])
+
+    for role in role_elems:
+        labels = role.get("Role").split(";")
+        if role.get("label"):
+            try:
+                ref_att = old_to_new_ids[role.get("{http://www.omg.org/XMI}id")]
+            except:
+                print(f"ERROR: Role was given to an invalid annotation (such as a head-element) with id {role.get('{http://www.omg.org/XMI}id')}.")
+                continue
+        else:
+            ref_att = "#freetext"
+        start, end = int(role.get("begin")), int(role.get("end"))
+        token_start, token_end = convert_char_to_token_idx(start_index_dict, end_index_dict, start, end, role)
+        text=document_text[start:end]
+        for label in labels:
+            try:
+                role_type, event_id = label.split(".")
+            except ValueError:
+                print(f"ERROR: Role description of mention {role.get('{http://www.omg.org/XMI}id')} could not be parsed. A role is expected to be writte in the format '<role-type>.<corr_event_id>'.")
+                continue
+            # if event_id is longer than 1 (as a string), it is a subevent
+            # we should technically have functionality for any depth, but we stay with 2 levels for now (TODO!)
+            # now a subevent will trigger at least one additional event to spawn
+            # - one possible main event
+            # - the subevent
+            # - x additional subevents
+            # we have a problem here, because we first create the Events, then assign the roles to them
+            # and correctly sorting the events is only possible if we already know how many events exist
+            # so this requires a full rewrite
+            # unless... we just create the new event here?
+            # for the moment, let's brute force this
+            if len(event_id) > 1:
+                # this implies a subevent
+                event_id = "ev" + event_id
+                if event_id in trigger_dict:
+                    # the subevent was already created
+                    event_node = trigger_dict[event_id]
+                else:
+                    # the subevent has yet to be created
+                    # get the origin event and copy it
+                    origin_event_id = event_id[:-1]
+                    try:
+                        event_node = trigger_dict[origin_event_id]
+                    except:
+                        print(f"ERROR: No trigger element with id {origin_event_id} is present in the document!")
+                        continue
+                    # TODO: Currently just append subevents to their origin events until we've got a better code
+            else:
+                event_id = "ev" + event_id
+                try:
+                    event_node = trigger_dict[event_id]
+                except:
+                    print(f"ERROR: No trigger element with id {event_id} is present in the document!")
+                    continue
+            role_node = et.SubElement(event_node, "Role", type=role_type, ref=str(ref_att))
+            # we want additional info
+            # we put a ref to the id of the mention or value that it points to
+            # if the ref says "#freetext", the element gets a start and end instead.
+            # in any case, the element gets a text for better readability.
+            if ref_att == "#freetext":
+                role_node.set("start", str(token_start))
+                role_node.set("end", str(token_end))
+                role_node.set("text", text)
+            else: # points to another entity
+                role_node.set("text", text)
+
+
 def write_text(text_elem, text):
     """
     Text string is transformed into single token elements.
@@ -607,8 +717,8 @@ def process_general(in_root, outname):
 
     write_entities(out_root, work_root)
     write_values(out_root, work_root)
+    write_events(out_root, in_root, document_text, start_index_dict, end_index_dict)
     write_relations(out_root, work_root)
-    # TODO: Write Events
 
     out_tree = et.ElementTree(out_root)
     out_tree.write(os.path.join(OUTFOLDER, outname), xml_declaration=True, pretty_print=True, encoding="utf8")
@@ -626,7 +736,7 @@ OUTFOLDER = "./outfiles/"
 
 if __name__ == "__main__":
 
-    infiles = sorted(glob.glob("data/testdata/*.xmi"))
+    infiles = sorted(glob.glob("data/test_events/*.xmi"))
 
     for infile in infiles:
         process_xmi(infile)
