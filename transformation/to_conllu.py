@@ -6,6 +6,7 @@ the text, sentence id and relations.
 Relations are represented in the format <start-subj>;<end-subj>;<start-obj>;<end-obj>;<class> and separated by |-symbols.
 
 This system will use only the heads of entities to ensure all entities in the sentence can be connected.
+(this also of course means every mention has to contain a head)
 
 In theory, this algorithm should also work to extract events
 
@@ -31,8 +32,11 @@ def write_outstring(token_list, annotations, metadata) -> str:
     This function gets called by the script to create the training data.
     """
     relation_string = "|".join([";".join([str(y) for y in x]) for x in metadata["relations"]])
-    out_string = f"""# sentence_id = {metadata["sentence_id"]}\n# text = {metadata["text"]}\n# relations = {relation_string}\n"""
-    for idx, (token, anno) in enumerate(zip(token_list, annotations)):
+    if relation_string:
+        out_string = f"""# sentence_id = {metadata["sentence_id"]}\n# text = {metadata["text"]}\n# relations = {relation_string}\n"""
+    else:
+        out_string = f"""# sentence_id = {metadata["sentence_id"]}\n# text = {metadata["text"]}\n"""
+    for idx, (token, anno) in enumerate(zip(token_list, annotations), 1):
         out_string += f"{idx} {token} {anno}\n"
 
     return out_string
@@ -71,33 +75,57 @@ def check_if_first(node, ancestor, is_head=False):
         return node.getparent().index(node) == 0
     
 
+def resolve_lists(root, mention, mentions):
+    conns = root.xpath(f"./Hierarchy/H[@parent={mention.get('mention_id')}]")
+    conns = [root.find(f"./Mentions/*[@mention_id='{x.get('child')}']") for x in conns]
+    for conn in conns:
+        if conn.tag == "List":
+            resolve_lists(root, conn, mentions)
+        else:
+            mentions.append(conn)
+
+    
 def get_relations(root):
     relation_elems = root.findall("./Relations/Relation")
     relations = []
     for relation in relation_elems:
-        # NOTE: Coreferences indicated by Attributes are not included at the moment (as the standard xml does not include them as attributes)
-        print(relation.get('from_mention'))
+        from_mentions = []
+        to_mentions = []
+
         from_mention = root.find(f"./Mentions/*[@mention_id='{relation.get('from_mention')}']")
         to_mention = root.find(f"./Mentions/*[@mention_id='{relation.get('to_mention')}']")
-        relations.append((
-            int(from_mention.get("head_start")), 
-            int(from_mention.get("head_end")) - 1,
-            int(to_mention.get("head_start")), 
-            int(to_mention.get("head_end")) - 1,
-            relation.get("rel_type")  # NOTE: could include further info such as tense here
-            ))
-    """
-    TODO: Add attribute-parent info to standard xml so we can retrieve that relationship easily.
-    for attribute in root.findall(f"./Mentions/Attribute"):
-        to_mention = attribute
-        relations.append((
-            int(attribute.get("head_start")), 
-            int(attribute.get("head_end")) - 1,
-            int(to_mention.get("head_start")), 
-            int(to_mention.get("head_end")) - 1,
-            "att"
-            ))
-    """
+
+        if from_mention is None or to_mention is None:  # this filters event relations for the moment
+            if from_mention is None:
+                print(f"WARING: Couldn't find mention with id {relation.get('from_mention')}")
+            else:
+                print(f"WARING: Couldn't find mention with id {relation.get('to_mention')}")
+            continue
+
+        # resolve lists
+        if from_mention.tag == "List":
+            resolve_lists(root, from_mention, from_mentions)
+        else:
+            from_mentions = [from_mention]
+
+        if to_mention.tag == "List":
+            resolve_lists(root, to_mention, to_mentions)
+        else:
+            to_mentions = [to_mention]
+        
+        for from_mention in from_mentions:
+            if not from_mention.get("head_start"):  # skip mentions without head
+                continue
+            for to_mention in to_mentions:
+                if not to_mention.get("head_start"):  # skip mentions without head
+                    continue
+                relations.append((
+                    int(from_mention.get("head_start")) + 1, 
+                    int(from_mention.get("head_end")),
+                    int(to_mention.get("head_start")) + 1, 
+                    int(to_mention.get("head_end")),
+                    relation.get("rel_type")  # NOTE: could include further info such as tense here
+                    ))
     return relations
     
 
@@ -238,10 +266,11 @@ if __name__ == "__main__":
             "depth": 1,
             "tag_granularity": 1
         }
-    token_list, annotations = process_document("../outfiles/admin_018_HGB_1_051_086_076.xml", CONFIG)
-    metadata = construct_metadata("../outfiles/admin_018_HGB_1_051_086_076.xml", 42)
+    token_list, annotations = process_document("../outfiles/admin_011_HGB_1_028_032_029.xml", CONFIG)
+    metadata = construct_metadata("../outfiles/admin_011_HGB_1_028_032_029.xml", 42)
     
-    write_outstring(token_list, annotations, metadata)
+    out = write_outstring(token_list, annotations, metadata)
+    pp.pprint(out)
     #pp.pprint(list(zip(token_list, annotations)))
     #process_document("../outfiles/admin_008_HGB_1_024_074_020.xml", orders)
 

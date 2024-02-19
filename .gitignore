@@ -4,3 +4,4 @@ outfiles/*.xml
 __pycache__/
 trainingdata/*
 trainingdata_*
+outfiles_*

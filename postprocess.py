@@ -244,6 +244,31 @@ def pro_coref_get_entity_type(work_root, coref, mention_type):
     return mention_type, entity_type, other_types
 
 
+def check_and_resolve_head_conflicts(entity, head, mention_id):
+    """
+    Check if a head overlaps with other child elements of an entity.
+    I'll work through specific error scenarios as they come up:
+
+    1) head contains an attribute that should actually be appended to the parent.
+        => Shorten head to not contain the attribute anymore
+        (this assumes also that the attribute is at the beginning or end of the head)
+
+    Maybe we move these to a separate error correction script at some point
+    """
+    if head is None:
+        return
+    # Scenario 1
+    if len(head) > 0:
+        # heads should not contain children!
+        for child in head:
+            # Possibly limit to specific children?
+            if child.get("start") == head.get("start") and int(child.get("end")) < int(head.get("end")):
+                head.set("start", child.get("end"))
+            elif child.get("end") == head.get("end") and int(child.get("start")) > int(head.get("start")):
+                head.set("end", child.get("start"))
+            print(f"Warning! Shortened head of mention with id {mention_id} to make space for other spans.")
+
+
 def write_entities(out_root, work_root):
     """
     Write all entity mentions for Lists, References and Attributes.
@@ -332,19 +357,38 @@ def write_entities(out_root, work_root):
         numerus, spec, _ = process_others(other_types, entity.get("id"))
         entity_type = apply_conversions(entity_type)
 
+         # TODO: Decide if this reference is new or carries a coreference to a previous entity
+        mention_id = len(old_to_new_ids)
+        old_to_new_ids[entity.get("id")] = mention_id
+
         head_elem = entity.find("Entity[@label='head']")
-        if head_elem == None:
+        check_and_resolve_head_conflicts(entity, head_elem, mention_id)
+        if head_elem == None and len(entity) == 0:
             # Implizierter Head
+            # is added for the full span if no children exist in the span
             # print(f"Warning: Implizierter Head bei {entity.get('id')}.")
             head_start = entity.get("start")
             head_end = entity.get("end")
+        elif head_elem == None:
+            # Implizierter Head - Unsicher
+            # is added at the first token which is not part of another span
+            print(f"Warning: Unsicherer implizierter Head bei Mention ID {mention_id}.")
+            for token in range(int(entity.get("start")), int(entity.get("end"))):
+                for child in entity:
+                    if token in list(range(int(child.get("start")), int(child.get("end")))):
+                        break
+                else:
+                    head_start = str(token)
+                    head_end = str(token + 1)
+                    break
+            else: # no space for a implicit head bc filled with sub-spans
+                head_start = ""
+                head_end = ""
         else:
             head_start = head_elem.get("start")
             head_end = head_elem.get("end")
 
-        # TODO: Decide if this reference is new or carries a coreference to a previous entity
-        mention_id = len(old_to_new_ids)
-        old_to_new_ids[entity.get("id")] = mention_id
+        
 
         et.SubElement(entities_node, 
             "Reference",
@@ -358,7 +402,7 @@ def write_entities(out_root, work_root):
             end=entity.get("end"),
             head_start=head_start,
             head_end=head_end,
-            head_text=" ".join([t.text for t in token_list[int(head_start):int(head_end)]])
+            head_text=" ".join([t.text for t in token_list[int(head_start):int(head_end)]]) if head_start else ""
             )
     
     for entity in work_root.findall(".//Entity[@span_type='att']"):
@@ -698,6 +742,9 @@ def write_text(text_elem, text):
         line_elem = et.SubElement(text_elem, "L", line_id=str(i))
         tokens = line.split(" ")
         for token in tokens:
+            if not token:
+                current_index += 1  # for the whitespace we removed earlier
+                continue
             start_index_dict[current_index] = j
             token_elem = et.SubElement(line_elem, "T", token_id=str(j))
             token_elem.text = token

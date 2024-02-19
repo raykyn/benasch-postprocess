@@ -119,6 +119,8 @@ def process_document(docpath):
         if "head_start" in node.attrib and node.get("head_start"):
             incl_tokens = tokens[int(node.get("head_start")):int(node.get("head_end"))]
             head_elem = et.SubElement(elem, "Head")
+            # print(et.tostring(elem))
+            # print(et.tostring(incl_tokens[0]))
             elem.insert(elem.index(incl_tokens[0]), head_elem)
             for token in incl_tokens:
                 head_elem.append(token)
