@@ -11,30 +11,33 @@ import zipfile
 import pprint as pp
 
 # Path Info
-INFOLDER = "data/hgb_2"
+INFOLDERS = ["data/hgb_2_24_02_21", "data/hgb_1_24_02_21"]
+OUTFOLDER = "outfolder_24_02_21"
+postprocess.OUTFOLDER = OUTFOLDER
 
 # Which annotators to process, leave empty for all
 ANNOTATORS = ["kfuchs", "bhitz", "admin"]
 
 
 if __name__ == "__main__":
-    annotation_folder = os.path.join(INFOLDER, "annotation")
+    for infolder in INFOLDERS:
+        annotation_folder = os.path.join(infolder, "annotation")
 
-    filefolders = sorted(glob.glob(os.path.join(annotation_folder, "*")))
+        filefolders = sorted(glob.glob(os.path.join(annotation_folder, "*")))
 
-    for filefolder in filefolders:
-        userfolders = sorted(glob.glob(os.path.join(filefolder, "*.zip")))
+        for filefolder in filefolders:
+            userfolders = sorted(glob.glob(os.path.join(filefolder, "*.zip")))
 
-        for userfolder in userfolders:
-            username = os.path.basename(userfolder).replace(".zip", "")
-            if username == "INITIAL_CAS":
-                continue
-            if ANNOTATORS and username not in ANNOTATORS:
-                continue
-            archive = zipfile.ZipFile(userfolder, 'r')
-            xmi = archive.read(username + ".xmi")
+            for userfolder in userfolders:
+                username = os.path.basename(userfolder).replace(".zip", "")
+                if username == "INITIAL_CAS":
+                    continue
+                if ANNOTATORS and username not in ANNOTATORS:
+                    continue
+                archive = zipfile.ZipFile(userfolder, 'r')
+                xmi = archive.read(username + ".xmi")
 
-            postprocess.process_xmi_zip(username + "_" + os.path.basename(filefolder), xmi)
+                postprocess.process_xmi_zip(username + "_" + os.path.basename(filefolder), xmi)
     
     """
     pp.pprint("Finished processing all files.")

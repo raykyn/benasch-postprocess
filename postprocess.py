@@ -9,6 +9,7 @@ import re
 from lxml import etree as et
 from utils.text_modification import modify_text
 from utils.small_corrections import small_corrects
+import pathlib
 import pprint as pp
 from collections import defaultdict
 #from xml.sax.saxutils import escape
@@ -808,6 +809,7 @@ def process_general(in_root, outname):
     write_hierarchy(out_root, work_root)
 
     out_tree = et.ElementTree(out_root)
+    pathlib.Path(OUTFOLDER).mkdir(parents=True, exist_ok=True) 
     out_tree.write(os.path.join(OUTFOLDER, outname), xml_declaration=True, pretty_print=True, encoding="utf8")
 
 SCHEMA_INFO = None
