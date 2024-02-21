@@ -1,5 +1,7 @@
 """
 Create a json-file which splits our outfiles into a train, a dev and a test-share.
+
+Probably this should just be produced as a result of process_export => TODO
 """
 
 import os
@@ -8,10 +10,10 @@ from glob import glob
 import random
 import json
 
-INFOLDER = "outfiles/"  # The folder where all the standoff xml are
-USER_RANKING = ["kfuchs", "admin", "bhitz"]  # left is preferred
+INFOLDER = "./outfolder_24_02_21/"  # The folder where all the standoff xml are
+USER_RANKING = ["kfuchs", "bhitz", "admin"]  # left is preferred (should match process_export)
 DATA_RATIO = [0.8, 0.1, 0.1]  # Train, Dev, Test
-OUTFILE = "consistent_data.json"
+OUTFILE = "consistent_data_24_02_21.json"
 
 def sort_out_duplicates(infiles):
     filedict = {}
@@ -65,19 +67,13 @@ if __name__ == "__main__":
         "test": []
     }
 
-    # TODO: Shuffle documents instead of the random system
-    # with the current system train can end up larger than it should be
-
+    basenames = []
     for _, (_, infile) in infiles.items():
-        basename = os.path.basename(infile)
+        basenames.append(os.path.basename(infile))
 
-        r = random.random()
-        if r < DATA_RATIO[2] and len(outdict["test"]) <= DATA_RATIO[2]*len(infiles):
-            outdict["test"].append(basename)
-        elif r < DATA_RATIO[1] + DATA_RATIO[2] and len(outdict["dev"]) <= DATA_RATIO[1]*len(infiles):
-            outdict["dev"].append(basename)
-        else:
-            outdict["train"].append(basename)
+    random.shuffle(basenames)
+    split_1, split_2 = round(len(basenames) * DATA_RATIO[0]) - 1, round(len(basenames) * (DATA_RATIO[0] + DATA_RATIO[1])) - 1
+    outdict["train"], outdict["dev"], outdict["test"] = basenames[:split_1], basenames[split_1:split_2], basenames[split_2:]
 
     with open(OUTFILE, mode="w", encoding="utf8") as writer:
         json.dump(outdict, writer)
