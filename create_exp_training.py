@@ -19,13 +19,13 @@ import json
 import csv
 import os
 from glob import glob
+import pathlib
 from transformation.to_exp import process_document
 
 
 ### SETTINGS ###
-INFOLDER = "outfiles/"  # The folder where all the standoff xml are
-USER_RANKING = ["kfuchs", "admin", "bhitz"]  # left is preferred
-OUTFOLDER = "trainingdata_exp/desc_test/A/"
+INFOLDER = "outfolder_24_02_21/"  # The folder where all the standoff xml are
+OUTFOLDER = "trainingdata_exp/recommender_test/"
 tags_to_include = ["date", "per", "loc", "money", "gpe", "org"]
 ORDER =  {
             "tags": {
@@ -42,6 +42,8 @@ ORDER =  {
         }
 
 if __name__ == "__main__":
+    pathlib.Path(OUTFOLDER).mkdir(parents=True, exist_ok=True) 
+
     infiles = glob(INFOLDER + "*.xml")
 
     trainfile = open(OUTFOLDER + "train.txt", mode="w", encoding="utf8")

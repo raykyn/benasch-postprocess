@@ -68,7 +68,7 @@ def get_ancestors(node):
     """
     ancestors = []
     parent = node.getparent()
-    while parent.tag != "Text":
+    while parent.tag != "Body":
         #if parent.tag != "Head":
         ancestors.append(parent)
         parent = parent.getparent()
@@ -156,9 +156,7 @@ def process_annotation(annotation, config, depth=1):
                 new_tags.append((f"DEPTH-{depth}", "B-ENT"))
             
             if new_tags:
-                # relations should be a list of tuples (subj-start, subj-end, obj-start, obj-end, class)
-                relations = [] # TODO
-                more_annotations.append((new_tags, relations))
+                more_annotations.append(new_tags)
             depth += 1
         else:
             depth += 1

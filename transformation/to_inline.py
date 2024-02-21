@@ -121,9 +121,14 @@ def process_document(docpath):
             head_elem = et.SubElement(elem, "Head")
             # print(et.tostring(elem))
             # print(et.tostring(incl_tokens[0]))
-            elem.insert(elem.index(incl_tokens[0]), head_elem)
-            for token in incl_tokens:
-                head_elem.append(token)
+            try:
+                elem.insert(elem.index(incl_tokens[0]), head_elem)
+                for token in incl_tokens:
+                    head_elem.append(token)
+            except ValueError as er:
+                print(er)
+                print("A Head element could not be inserted at the right position in the XML tree. This probably indicates an invalid annotation.")
+                print(et.tostring(elem)) 
 
     # print(et.tostring(root, pretty_print=True))
 
