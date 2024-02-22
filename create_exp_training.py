@@ -26,6 +26,7 @@ from transformation.to_exp import process_document
 ### SETTINGS ###
 INFOLDER = "outfolder_24_02_21/"  # The folder where all the standoff xml are
 OUTFOLDER = "trainingdata_exp/recommender_test/"
+CONSISTENT_DATA = "consistent_data_24_02_21.json"
 tags_to_include = ["date", "per", "loc", "money", "gpe", "org"]
 ORDER =  {
             "tags": {
@@ -59,7 +60,7 @@ if __name__ == "__main__":
         print(f"Processing {infile}...")
         annotations = process_document(infile, ORDER)
 
-        with open("consistent_data.json", mode="r", encoding="utf8") as cons:
+        with open(CONSISTENT_DATA, mode="r", encoding="utf8") as cons:
             consistent_data = json.load(cons)
 
         basename = os.path.basename(infile)

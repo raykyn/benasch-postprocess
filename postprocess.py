@@ -430,11 +430,28 @@ def write_entities(out_root, work_root):
         ))
 
         head_elem = entity.find("Entity[@label='head']")
-        if head_elem == None:
+        check_and_resolve_head_conflicts(entity, head_elem, mention_id)
+        if head_elem == None and len(entity) == 0:
             # Implizierter Head
-            #print(f"Warning: Implizierter Head bei {entity.get('id')}.")
+            # is added for the full span if no children exist in the span
+            # print(f"Warning: Implizierter Head bei {entity.get('id')}.")
             head_start = entity.get("start")
             head_end = entity.get("end")
+        elif head_elem == None:
+            # Implizierter Head - Unsicher
+            # is added at the first token which is not part of another span
+            print(f"Warning: Unsicherer implizierter Head bei Mention ID {mention_id}.")
+            for token in range(int(entity.get("start")), int(entity.get("end"))):
+                for child in entity:
+                    if token in list(range(int(child.get("start")), int(child.get("end")))):
+                        break
+                else:
+                    head_start = str(token)
+                    head_end = str(token + 1)
+                    break
+            else: # no space for a implicit head bc filled with sub-spans
+                head_start = ""
+                head_end = ""
         else:
             head_start = head_elem.get("start")
             head_end = head_elem.get("end")
@@ -455,7 +472,7 @@ def write_entities(out_root, work_root):
             end=entity.get("end"),
             head_start=head_start,
             head_end=head_end,
-            head_text=" ".join([t.text for t in token_list[int(head_start):int(head_end)]])
+            head_text=" ".join([t.text for t in token_list[int(head_start):int(head_end)]]) if head_start else ""
             )
         
     # NOTE: Should we only add those descriptors that are NOT also relations?
@@ -825,7 +842,7 @@ OUTFOLDER = "./outfiles/"
 
 if __name__ == "__main__":
 
-    infiles = sorted(glob.glob("data/testdata/*.xmi"))
+    infiles = sorted(glob.glob("data/HGB_Exp_9_115_HGB_1_146_045_011/*.xmi"))
 
     for infile in infiles:
         process_xmi(infile)

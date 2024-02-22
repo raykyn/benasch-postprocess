@@ -10,6 +10,7 @@ import os
 import re
 from lxml import etree as et
 
+XML_VALIDATION_LINK = "https://dhbern.github.io/BeNASch/static/benasch.rng"
 # Put in this list all nodes by xpath syntax to be converted (from root)
 # a node must contain a start and end attribute to be valid for conversion
 TO_CONVERT = ["./Mentions/*", "./Descriptors/*", "./Values/*"]
@@ -132,6 +133,8 @@ def process_document(docpath):
 
     # print(et.tostring(root, pretty_print=True))
 
+    pi = et.ProcessingInstruction('xml-model', f'href="{}" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"') 
+    toproot.addprevious(pi)
     return toproot
 
 
@@ -140,9 +143,11 @@ if __name__ == "__main__":
     #write_document("text.xml", textnode)
     import glob
     import os
+    import pathlib
 
-    outfolder = "../auto_tagged_inline/"
-    for infile in glob.glob("../auto_tagged/*.xml"):
+    outfolder = "../outfiles_inline/"
+    pathlib.Path(outfolder).mkdir(parents=True, exist_ok=True) 
+    for infile in glob.glob("../outfolder_24_02_21/*.xml"):
         inline = process_document(infile)
         write_document(outfolder + os.path.basename(infile), inline)
         
