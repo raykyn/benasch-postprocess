@@ -31,6 +31,7 @@ def fix_att_full_coverage(root):
     Most likely, the att.xy should have been a desc.xy, but changing it now is too late,
     so just drop a warning, remove the Attribute that is problematic and move on.
     Also give the head positions to the reference.
+    NOTE: Kind of depreciated as validation is done separately now?
     """
     ref_spans = root.findall("./Mentions/Reference")
     att_spans = root.findall("./Mentions/Attribute")
@@ -133,21 +134,22 @@ def process_document(docpath):
 
     # print(et.tostring(root, pretty_print=True))
 
-    pi = et.ProcessingInstruction('xml-model', f'href="{}" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"') 
+    pi = et.ProcessingInstruction('xml-model', f'href="{XML_VALIDATION_LINK}" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"') 
     toproot.addprevious(pi)
     return toproot
 
 
 if __name__ == "__main__":
-    #textnode = process_document("../outfiles/admin_018_HGB_1_051_086_076.xml")
+    #textnode = process_document("../outfolder_24_02_22/bhitz_HGB_Exp_3_001_HGB_1_002_037_012.xml")
     #write_document("text.xml", textnode)
+
     import glob
     import os
     import pathlib
 
     outfolder = "../outfiles_inline/"
     pathlib.Path(outfolder).mkdir(parents=True, exist_ok=True) 
-    for infile in glob.glob("../outfolder_24_02_21/*.xml"):
+    for infile in sorted(glob.glob("../outfolder_24_02_22/*.xml")):
+        print(infile)
         inline = process_document(infile)
         write_document(outfolder + os.path.basename(infile), inline)
-        

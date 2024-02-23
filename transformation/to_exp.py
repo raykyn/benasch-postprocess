@@ -206,7 +206,6 @@ def process_document(docpath, config):
     texttree = to_inline.process_document(docpath)
 
     to_inline.ATTRIBUTES_TO_INCLUDE = ["_ALL_"]
-    tokenize_tree(texttree)
 
     tokens = texttree.findall(".//T")
     ancestors_list = [get_ancestors(token) for token in tokens]
@@ -269,19 +268,30 @@ if __name__ == "__main__":
     tags_to_include = ["date", "per", "loc", "money", "gpe", "org"]
     config = {
             "tags": {
-                "Reference": {"entity_type": {"include": tags_to_include, "prefix": "ref.ent"}, "mention_subtype": {"include": [], "prefix": "ref.menstyp"}}, 
-                "Attribute": {"entity_type": {"include": tags_to_include, "prefix": "att.ent"}, "mention_subtype": {"include": [], "prefix": "att.menstyp"}}, 
-                "Value": {"value_type": {"include": tags_to_include, "prefix": "val.val"}}, 
-                "Descriptor": {"desc_type": {"include": [], "prefix": "desc.desc"}}
+                "Reference": {
+                    "mention_type": {"include": [], "prefix": "tag:ref;men"}, 
+                    "entity_type": {"include": tags_to_include, "prefix": "ent"}, 
+                    "mention_subtype": {"include": [], "prefix": "submen"},
+                    "numerus": {"include": [], "prefix": "num"},
+                    "specificity": {"include": [], "prefix": "spec"},
+                    }, 
+                "Attribute": {
+                    "mention_type": {"include": [], "prefix": "tag:att;men"}, 
+                    "entity_type": {"include": tags_to_include, "prefix": "ent"}, 
+                    "mention_subtype": {"include": [], "prefix": "submen"},
+                    "numerus": {"include": [], "prefix": "num"},
+                    "specificity": {"include": [], "prefix": "spec"},
+                    }, 
+                "Value": {"value_type": {"include": tags_to_include, "prefix": "val"}}, 
+                #"Descriptor": {"desc_type": {"include": [], "prefix": "desc.desc"}}
             },
-            "add_relations": False,  # adds relationship annotations in conll-u plus format
-            "merge_overlapping_desc_tags": True,  # if a desc tag covers the same span as another tag (Reference or Attribute usually), we put the desc tag as a mention subtype info to the entity annotation instead.
+            "merge_overlapping_desc_tags": False,  # if a desc tag covers the same span as another tag (Reference or Attribute usually), we put the desc tag as a mention subtype info to the entity annotation instead.
             "depth_anno": None,  # annotate the depth, options: "None", "Binary" (doc vs ent level), "Ordinal"
             "tag_anno": None, # annotate the parent tag, options: "None" or list of attributes that should be annotated (e.g. ["entity_type"])  
-            "tag_granularity": 1,  # how granular should the label info be
+            "tag_granularity": 1,  # how granular should the label info be (TODO: Move to the instructions per tag type)
             "require_parent": None  # only add a sequence to the annotations if the parent of that sequence is one of the given entity_type, or give "doc" if flat annotations are wanted, None to disable filter
         }
-    annotations = process_document("../outfiles/admin_018_HGB_1_051_086_076.xml", config)
+    annotations = process_document("./outfolder_24_02_22/admin_018_HGB_1_051_086_076.xml", config)
 
     #annotations = process_document("../outfiles/admin_HGB_Exp_11_112_HGB_1_154_040_010.xml", config)
     
