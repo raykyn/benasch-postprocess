@@ -293,7 +293,8 @@ def write_entities(out_root, work_root):
         label = entity.get("label").lower().split(".")
         if len(label) > 1:
             subtype = label[1]
-        subtype = ""
+        else:
+            subtype = ""
 
         # get all child entity types
         child_entities = entity.findall("./Entity[@span_type='ent']")

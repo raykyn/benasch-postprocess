@@ -10,10 +10,10 @@ from glob import glob
 import random
 import json
 
-INFOLDER = "./outfolder_24_02_21/"  # The folder where all the standoff xml are
+INFOLDER = "./outfolder_24_04_03/"  # The folder where all the standoff xml are
 USER_RANKING = ["kfuchs", "bhitz", "admin"]  # left is preferred (should match process_export)
 DATA_RATIO = [0.8, 0.1, 0.1]  # Train, Dev, Test
-OUTFILE = "consistent_data_24_02_21.json"
+OUTFILE = "consistent_data_24_04_03.json"
 
 def sort_out_duplicates(infiles):
     filedict = {}
@@ -24,7 +24,7 @@ def sort_out_duplicates(infiles):
         if basename in filedict:
             filedict[basename][0].append(username)
         else:
-             filedict[basename] = ([username], infile)
+            filedict[basename] = ([username], basename)
         
     
     for entry in filedict:
@@ -36,7 +36,7 @@ def sort_out_duplicates(infiles):
                     print(filedict[entry])
                     filedict[entry] = ([username], filedict[entry][1])
                     break
-            print(f"User {filedict[entry][0][0]} was chosen.")
+            print(f"User {username} was chosen.")
     
     return filedict
 
@@ -68,8 +68,8 @@ if __name__ == "__main__":
     }
 
     basenames = []
-    for _, (_, infile) in infiles.items():
-        basenames.append(os.path.basename(infile))
+    for _, (username, infile) in infiles.items():
+        basenames.append(os.path.basename("_".join([username[0], infile])))
 
     random.shuffle(basenames)
     split_1, split_2 = round(len(basenames) * DATA_RATIO[0]) - 1, round(len(basenames) * (DATA_RATIO[0] + DATA_RATIO[1])) - 1

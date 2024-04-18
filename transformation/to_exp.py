@@ -136,11 +136,18 @@ def process_annotation(annotation, config, depth=1):
                     else:
                         tag = []
                         for k, v in config["tags"][first_ancestor.tag].items():
+                            if k == "tag":
+                                tag.append(f"tag:{v}")
+                                continue
                             if first_ancestor.get(k):
                                 prefix = ""
                                 if v["prefix"]:
                                     prefix = v["prefix"] + ":"
-                                tag.append(prefix + "_".join(first_ancestor.get(k).split("_")[:config["tag_granularity"]]))
+                                value = "_".join(first_ancestor.get(k).split("_")[:config["tag_granularity"]])
+                                if ":" in value or ";" in value:
+                                    print("Warning: Disallowed character such as : or ; in label!")
+                                    value = value.replace(":", "_").replace(";", "_")
+                                tag.append(prefix + value)
                         tag = ";".join(tag)
                     tag = attach + tag
                 else:
@@ -182,11 +189,13 @@ def filter_ancestors(ancestor, config, allow_heads=False):
         # this is hacky as hell anyways so, stuff like this should be solved first in postprocessing anyways
         parent = ancestor.getparent()
         if parent.tag == "Descriptor" and parent.findall(".//T") == ancestor.findall(".//T"):
-            ancestor.set("mention_subtype", parent.get("desc_type"))
+            parent.getparent().set("mention_subtype", parent.get("desc_type"))
             parent.set("skip", str(1))
             add_skips(ancestor, 1)
 
     for key, value in config["tags"][ancestor.tag].items():
+        if key == "tag":
+            return True
         # value is a dict with "include" where all tags to read are contained, an empty "include" means to include the tag
         # "exclude" where all tags not to include are kept
         include = value["include"]
@@ -235,11 +244,18 @@ def process_document(docpath, config):
                     attach = "I-"
                 tag = []
                 for k, v in config["tags"][first_ancestor.tag].items():
+                    if k == "tag":
+                        tag.append(f"tag:{v}")
+                        continue
                     if first_ancestor.get(k):
                         prefix = ""
                         if v["prefix"]:
                             prefix = v["prefix"] + ":"
-                        tag.append(prefix + "_".join(first_ancestor.get(k).split("_")[:config["tag_granularity"]]))
+                        value = "_".join(first_ancestor.get(k).split("_")[:config["tag_granularity"]])
+                        if ":" in value or ";" in value:
+                            print("Warning: Disallowed character such as : or ; in label!")
+                            value = value.replace(":", "_").replace(";", "_")
+                        tag.append(prefix + value)
                 tag = ";".join(tag)
                 tag = attach + tag
             else:
@@ -268,30 +284,37 @@ if __name__ == "__main__":
     tags_to_include = ["date", "per", "loc", "money", "gpe", "org"]
     config = {
             "tags": {
+                "List": {
+                    "tag": "list",
+                    "entity_types": {"include": [], "prefix": "ent"},
+                    "subtype": {"include": [], "prefix": "stype"}, 
+                },
                 "Reference": {
-                    "mention_type": {"include": [], "prefix": "tag:ref;men"}, 
-                    "entity_type": {"include": tags_to_include, "prefix": "ent"}, 
+                    "tag": "ref",
+                    "mention_type": {"include": [], "prefix": "men"}, 
+                    "entity_type": {"include": [], "prefix": "ent"}, 
                     "mention_subtype": {"include": [], "prefix": "submen"},
                     "numerus": {"include": [], "prefix": "num"},
                     "specificity": {"include": [], "prefix": "spec"},
                     }, 
                 "Attribute": {
-                    "mention_type": {"include": [], "prefix": "tag:att;men"}, 
-                    "entity_type": {"include": tags_to_include, "prefix": "ent"}, 
+                    "tag": "att",
+                    "mention_type": {"include": [], "prefix": "men"}, 
+                    "entity_type": {"include": [], "prefix": "ent"}, 
                     "mention_subtype": {"include": [], "prefix": "submen"},
                     "numerus": {"include": [], "prefix": "num"},
                     "specificity": {"include": [], "prefix": "spec"},
                     }, 
-                "Value": {"value_type": {"include": tags_to_include, "prefix": "val"}}, 
+                "Value": {"tag": "val", "value_type": {"include": [], "prefix": "val"}}, 
                 #"Descriptor": {"desc_type": {"include": [], "prefix": "desc.desc"}}
             },
             "merge_overlapping_desc_tags": False,  # if a desc tag covers the same span as another tag (Reference or Attribute usually), we put the desc tag as a mention subtype info to the entity annotation instead.
             "depth_anno": None,  # annotate the depth, options: "None", "Binary" (doc vs ent level), "Ordinal"
             "tag_anno": None, # annotate the parent tag, options: "None" or list of attributes that should be annotated (e.g. ["entity_type"])  
-            "tag_granularity": 1,  # how granular should the label info be (TODO: Move to the instructions per tag type)
+            "tag_granularity": 2,  # how granular should the label info be (TODO: Move to the instructions per tag type)
             "require_parent": None  # only add a sequence to the annotations if the parent of that sequence is one of the given entity_type, or give "doc" if flat annotations are wanted, None to disable filter
         }
-    annotations = process_document("./outfolder_24_02_22/admin_018_HGB_1_051_086_076.xml", config)
+    annotations = process_document("./outfolder_24_02_22/bhitz_HGB_Exp_9_183_HGB_1_215_063_015.xml", config)
 
     #annotations = process_document("../outfiles/admin_HGB_Exp_11_112_HGB_1_154_040_010.xml", config)
     

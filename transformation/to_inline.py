@@ -82,6 +82,11 @@ def process_document(docpath):
     oldroot = et.parse(docpath).getroot()
     tokens = oldroot.findall(".//T")
 
+    # only for a debug thing, delete after!
+    head_elems = oldroot.findall(".//Reference[@entity_type='head']")
+    for elem in head_elems:
+        del elem
+
     # Fix the attribute instead of desc error
     oldroot = fix_att_full_coverage(oldroot)
 
@@ -147,9 +152,9 @@ if __name__ == "__main__":
     import os
     import pathlib
 
-    outfolder = "../outfiles_inline/"
+    outfolder = "./auto_tagged/hgb_corpus_full/"
     pathlib.Path(outfolder).mkdir(parents=True, exist_ok=True) 
-    for infile in sorted(glob.glob("../outfolder_24_02_22/*.xml")):
+    for infile in sorted(glob.glob("./from_inference/out/hgb_specific_full/*.xml")):
         print(infile)
         inline = process_document(infile)
         write_document(outfolder + os.path.basename(infile), inline)

@@ -24,32 +24,51 @@ from transformation.to_exp import process_document
 
 
 ### SETTINGS ###
-INFOLDER = "outfolder_24_02_21/"  # The folder where all the standoff xml are
-OUTFOLDER = "trainingdata_exp/recommender_test/"
-CONSISTENT_DATA = "consistent_data_24_02_21.json"
+INFOLDER = "outfolder_24_04_03/"  # The folder where all the standoff xml are
+OUTFOLDER = "trainingdata_exp/recommender/full_info_24_04_03_merge"
+CONSISTENT_DATA = "consistent_data_24_04_03.json"
 tags_to_include = ["date", "per", "loc", "money", "gpe", "org"]
-ORDER =  {
+ORDER = {
             "tags": {
-                "Reference": {"entity_type": {"include": tags_to_include, "prefix": "ref.ent"}, "mention_subtype": {"include": [], "prefix": "ref.menstyp"}}, 
-                "Attribute": {"entity_type": {"include": tags_to_include, "prefix": "att.ent"}, "mention_subtype": {"include": [], "prefix": "ref.menstyp"}}, 
-                "Value": {"value_type": {"include": tags_to_include, "prefix": "val.val"}}, 
-                "Descriptor": {"desc_type": {"include": [], "prefix": "desc.desc"}}
+                "List": {
+                    "tag": "lst",
+                    "entity_types": {"include": [], "prefix": "ent"},
+                    "subtype": {"include": [], "prefix": "stype"}, 
+                },
+                "Reference": {
+                    "tag": "ref",
+                    "mention_type": {"include": [], "prefix": "men"}, 
+                    "entity_type": {"include": [], "prefix": "ent"}, 
+                    "mention_subtype": {"include": [], "prefix": "submen"},
+                    "numerus": {"include": [], "prefix": "num"},
+                    "specificity": {"include": [], "prefix": "spec"},
+                    }, 
+                "Attribute": {
+                    "tag": "att",
+                    "mention_type": {"include": [], "prefix": "men"}, 
+                    "entity_type": {"include": [], "prefix": "ent"}, 
+                    "mention_subtype": {"include": [], "prefix": "submen"},
+                    "numerus": {"include": [], "prefix": "num"},
+                    "specificity": {"include": [], "prefix": "spec"},
+                    }, 
+                "Value": {"tag": "val", "value_type": {"include": [], "prefix": "val"}}, 
+                "Descriptor": {"tag": "desc", "desc_type": {"include": [], "prefix": "desc"}}
             },
             "merge_overlapping_desc_tags": True,  # if a desc tag covers the same span as another tag (Reference or Attribute usually), we put the desc tag as a mention subtype info to the entity annotation instead.
             "depth_anno": None,  # annotate the depth, options: "None", "Binary" (doc vs ent level), "Ordinal"
             "tag_anno": None, # annotate the parent tag, options: "None" or list of attributes that should be annotated (e.g. ["entity_type"])  
-            "tag_granularity": 1,  # how granular should the label info be
+            "tag_granularity": 2,  # how granular should the label info be (TODO: Move to the instructions per tag type)
             "require_parent": None  # only add a sequence to the annotations if the parent of that sequence is one of the given entity_type, or give "doc" if flat annotations are wanted, None to disable filter
         }
 
 if __name__ == "__main__":
     pathlib.Path(OUTFOLDER).mkdir(parents=True, exist_ok=True) 
 
-    infiles = glob(INFOLDER + "*.xml")
+    infiles = sorted(glob(INFOLDER + "*.xml"))
 
-    trainfile = open(OUTFOLDER + "train.txt", mode="w", encoding="utf8")
-    devfile = open(OUTFOLDER + "dev.txt", mode="w", encoding="utf8")
-    testfile = open(OUTFOLDER + "test.txt", mode="w", encoding="utf8")
+    trainfile = open(os.path.join(OUTFOLDER, "train.txt"), mode="w", encoding="utf8")
+    devfile = open(os.path.join(OUTFOLDER, "dev.txt"), mode="w", encoding="utf8")
+    testfile = open(os.path.join(OUTFOLDER, "test.txt"), mode="w", encoding="utf8")
 
     trainwriter = csv.writer(trainfile, delimiter="\t", lineterminator="\n")
     devwriter = csv.writer(devfile, delimiter="\t", lineterminator="\n")

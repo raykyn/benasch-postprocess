@@ -4,6 +4,7 @@
         "nom",
         "pro",
 		"self",
+        "self_nam",
         "unk"
     ],
     "value_tags": [
@@ -21,7 +22,7 @@
         "numerus": ["sgl", "grp", "neg"],
         "specificity": ["spc", "uspc"],
         "tense": ["pres", "past", "fut"],
-        "other": ["pro"]
+        "other": ["pro", "nam"]
     },
     "conversions": {
         "entity_types": {
