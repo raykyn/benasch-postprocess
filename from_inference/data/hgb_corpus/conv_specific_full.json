@@ -1,0 +1,42 @@
+{
+    "nam": {
+        "type": "Reference",
+        "regex": "^(?P<mention_type>.+?)\\.(?P<entity_type>.+?)(?P<other>(\\..+?)*)$"
+    },
+    "nom": {
+        "type": "Reference",
+        "regex": "^(?P<mention_type>.+?)\\.(?P<entity_type>.+?)\\.(?P<mention_subtype>.*?)(?P<other>(\\..+?)*)$"
+    },
+    "pro": {
+        "type": "Reference",
+        "regex": "^(?P<mention_type>.+?)\\.(?P<entity_type>.+?)\\.(?P<mention_subtype>.*?)(?P<other>(\\..+?)*)$"
+    },
+    "att": {
+        "type": "Attribute",
+        "regex": "^(?P<mention_type>.+?)\\.(?P<entity_type>.+?)\\.(?P<mention_subtype>.*?)(?P<other>(\\..+?)*)$",
+        "overwrite": ["mention_type", "nom"]
+    },
+    "date": {
+        "type": "Value",
+        "regex": "^(?P<value_type>.*)$"
+    },
+    "date_range": {
+        "type": "Value",
+        "regex": "^(?P<value_type>.*)$"
+    },
+    "time": {
+        "type": "Value",
+        "regex": "^(?P<value_type>.*)$"
+    },
+    "money": {
+        "type": "Value",
+        "regex": "^(?P<value_type>.*)$"
+    },
+    "head": {
+        "type": "Head"
+    },
+    "lst": {
+        "type": "List",
+        "regex": "^(?P<subtype>.*)$"
+    }
+}
