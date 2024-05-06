@@ -13,6 +13,7 @@ import pathlib
 import pprint as pp
 from collections import defaultdict
 #from xml.sax.saxutils import escape
+from special_functions import convert_date_lists
 
 
 def get_node_priority(node):
@@ -561,6 +562,7 @@ def write_relations(out_root, work_root):
         # check if an entity is included in this span, then this is what the relationship refers to
         # if there is no entity included, it's not a relationship
         child_entities = entity.findall("./Entity[@span_type='ent']")
+        child_entities.extend(entity.findall("./Entity[@span_type='lst']"))
         
         for child_entity in child_entities:
             try:
@@ -585,6 +587,7 @@ def write_relations(out_root, work_root):
         # check if an entity is included in this span, then this is what the relationship refers to
         # if there is no entity included, it's not a relationship
         child_entities = entity.findall("./Entity[@span_type='ent']")
+        child_entities.extend(entity.findall("./Entity[@span_type='lst']"))
 
         for child_entity in child_entities:
             try:
@@ -625,6 +628,7 @@ def write_relations(out_root, work_root):
         # check if an entity is included in this span, then this is what the relationship refers to
         # if there is no entity included, it's not a relationship
         child_entities = descriptor.findall("./Entity[@span_type='ent']")
+        child_entities.extend(descriptor.findall("./Entity[@span_type='lst']"))
         
         for child_entity in child_entities:
             try:
@@ -666,6 +670,17 @@ def extract_role_field(node):
     return out
 
 
+def update_eventspan_length(event, events_node):
+    for subevent in event.findall("./Subevent"):
+        for role in subevent.findall("./Role"):
+            ref = role.get("ref")
+            corr = events_node.find("./Event[@event_id='" + ref + "']")
+            if corr is not None:
+                update_eventspan_length(corr, events_node)
+                event.set("start", str(min([int(event.get("start")), int(corr.get("start"))])))
+                event.set("end", str(max([int(event.get("end")), int(corr.get("end"))])))
+
+
 def write_events(out_root, work_root, document_text, start_index_dict, end_index_dict):
     """
     Rewrite this code, but important changes:
@@ -683,18 +698,52 @@ def write_events(out_root, work_root, document_text, start_index_dict, end_index
     evspans = work_root.xpath(".//Entity[@span_type='evspan']")
     events.extend(evspans)
 
-    # evspans may be indicated by a DESC or ATT, we need to check those too, together with a settings file
+    # evspans may be indicated by a Enity mentions, we need to check those too, together with a settings file
     # to define their exact behaviour TODO LATER
+    # if a trigger is inside a desc, it always implies that the desc is the eventspan?
+    possible_evspans = work_root.xpath(".//Entity[@span_type='ent' or @span_type='att' or @span_type='desc']")
+    for possible in possible_evspans:
+        # this only works for desc and att-pro. For refs and att-nom the trigger is usually the head.
+        # so those will only work with a settings file.
+        triggers = possible.findall("./Entity[@span_type='evtrigger']")
+        # backup if multiple triggers are in the same desc-span
+        valid_triggers = [tr for tr in triggers if tr.get("role") == ""]
+        if len(valid_triggers) == 1:
+            events.append(possible)
 
     # a trigger will only indicate its own event if an eventspan is not present
-    evtriggers = work_root.xpath(".//Entity[@span_type='evtrigger']")
-    events.extend([e for e in evtriggers if e.getparent().get("span_type") != "evspan"])
+    possible_evtriggers = work_root.xpath(".//Entity[@span_type='evtrigger']")
+    for tr in possible_evtriggers:
+        parent = tr.getparent()
+        # Falls das Parent-Elem kein evspan ist, darf es nicht auch in den Events sein! sonst muss angenommen werden, dass der
+        # Trigger einfach dort zu gehört! (TODO: auch refs und att-nom haben keine Trigger und sollten so behandelt werden)
+        if parent.get("span_type") != "evspan" and parent not in events:
+            events.append(tr)
+        # Falls das Parent-Elem eine evspan ist, müssen wir die event-id überprüfen und nur wenn es dieselbe ist,
+        # handelt es sich um dasselbe event (und der Trigger wird nicht genommen)
+        elif parent.get("span_type") == "evspan":
+            if len(tr.get("label").split(".")[0]) < 3:
+                if len(parent.get("label").split(".")[0]) >= 3:
+                    events.append(tr)
+                else:
+                    # if both have no id, they belong together
+                    continue
+            else:
+                parent_id = parent.get("label").split(".")[0][6:]
+                trigger_id = tr.get("label").split(".")[0][2:]
+                if parent_id != trigger_id:
+                    events.append(tr)
+
+    # we need already here to assign each event a unique id for the standard-xml
+    old_to_new_event_ids = {}  # maybe merge with old_to_new_ids?
+    for i, event in enumerate(events, len(old_to_new_ids)):
+        old_to_new_event_ids[event.get("id")] = str(i)
 
     for event in events:
-        event_info = event.get("label").split(".")
-        event_id, event_type, other_info = event_info[0], event_info[1], event_info[2:]
         # if the event was indicated by a trigger, we need to first create the eventspan
         if event.get("span_type") == "evtrigger":
+            event_info = event.get("label").split(".")
+            event_id, event_type, other_info = event_info[0], event_info[1], event_info[2:]
             # look at all sibling nodes and check their role id (if present)
             # then set the event span ranging from the start of the first role to the end of the last role
             # or trigger
@@ -704,7 +753,7 @@ def write_events(out_root, work_root, document_text, start_index_dict, end_index
                 event_id = event_id[2:]  # ev0 ==> 0
             valid_siblings = [event]
             roles = []
-            for sibling in event.getparent():  # TODO: freetext roles cannot be found currently
+            for sibling in event.getparent():
                 roleinfos = extract_role_field(sibling)
                 if roleinfos is not None:
                     for roleinfo in roleinfos:
@@ -717,15 +766,34 @@ def write_events(out_root, work_root, document_text, start_index_dict, end_index
             # assign self as trigger
             trigger = event
         else:
-            if len(event_id) < 7:
-                event_id = ""
+            roles = []
+            # if a trigger exists, write the trigger
+            # TODO a trigger must have the same event id!
+            trigger = event.find("./Entity[@span_type='evtrigger']")
+            if event.get("span_type") != "evspan":
+                # if we have an implied eventspan (e.g. from att-pro or desc)
+                # we get the event info from the trigger instead
+                # TODO: Implement behaviour if no trigger is present (probably take the mention subtype of the desc/att-span or use settings file)
+                event_info = trigger.get("label").split(".")
+                event_id, event_type, other_info = event_info[0], event_info[1], event_info[2:]
+                if len(event_id) < 3:
+                    event_id = ""
+                else:
+                    event_id = event_id[2:]  # ev0 ==> 0
+                # also, the role is already implied by the mention_subtype (more likely needs to be solved by a settings file TODO)
+                if event.get("span_type") == "desc":
+                    roles.append((event.getparent(), {"type": event.get("label").split(".")[1], "id": event_id}))
+                elif event.get("span_type") == "att":
+                    roles.append((event, {"type": event.get("label").split(".")[1], "id": event_id}))
             else:
-                event_id = event_id[6:]  # evspan0 ==> 0
+                event_info = event.get("label").split(".")
+                event_id, event_type, other_info = event_info[0], event_info[1], event_info[2:]
+                if len(event_id) < 7:
+                    event_id = ""
+                else:
+                    event_id = event_id[6:]  # evspan0 ==> 0
             span_start = event.get("start")
             span_end = event.get("end")
-            # if a trigger exists, write the trigger
-            trigger = event.find("./Entity[@span_type='evtrigger']")
-            roles = []
             for child in event:
                 roleinfos = extract_role_field(child)
                 if roleinfos is not None:
@@ -735,8 +803,7 @@ def write_events(out_root, work_root, document_text, start_index_dict, end_index
                             break
 
         # create Event node
-        event_node = et.SubElement(events_node, "Event", event_id=event_id, type=event_type, start=span_start, end=span_end)  # probably put the event category here?
-        old_to_new_ids[event.get("{http://www.omg.org/XMI}id")] = event_id
+        event_node = et.SubElement(events_node, "Event", event_id=old_to_new_event_ids[event.get("id")], type=event_type, start=span_start, end=span_end)  # probably put the event category here?
         # create the trigger node
         if trigger is not None:
             et.SubElement(event_node, "Trigger", start=trigger.get("start"), end=trigger.get("end"), text=trigger.get("text"))
@@ -759,7 +826,9 @@ def write_events(out_root, work_root, document_text, start_index_dict, end_index
             for role_elem, roleinfo in roles:
                 roleid = ".".join(roleinfo["id"])
                 if di.startswith(roleid):
-                    if role_elem.get("span_type") != "freetext":
+                    if role_elem.get("span_type") == "evtrigger":
+                        ref_att = old_to_new_event_ids[role_elem.get("id")]
+                    elif role_elem.get("span_type") != "freetext":
                         try:
                             ref_att = old_to_new_ids[role_elem.get("id")]
                         except:
@@ -775,6 +844,12 @@ def write_events(out_root, work_root, document_text, start_index_dict, end_index
                     else: # points to another entity
                         role_node.set("text", role_elem.get("text"))
 
+    # update span lengths after other events have been added
+    for event in events_node:
+        try:
+            update_eventspan_length(event, events_node)
+        except RecursionError:
+            print(f"ERROR: During event postprocessing, a recursion error occured while the event with id {event.get('event_id')} was processed. This happens when a circular role-relation was assigned between one or more events. While the events can still be written, mind you that this implies that the annotation is not BeNASch-valid and the eventspans could not set correctly.")
 
 def write_hierarchy(out_root, work_root):
     """
@@ -843,17 +918,20 @@ def process_xmi_zip(filename, xmi_file):
     process_general(in_root, outname)
 
 
-def process_xmi(xmi_file):
+def process_xmi(xmi_file, debug=False):
     print(f"Processing {xmi_file}.")
 
     infile = et.parse(xmi_file)
     outname = os.path.basename(xmi_file).replace(".xmi", ".xml")
     in_root = infile.getroot()
 
-    process_general(in_root, outname)
+    process_general(in_root, outname, debug)
 
 
-def process_general(in_root, outname):
+def apply_special_functions(work_root):
+    convert_date_lists(work_root)
+
+def process_general(in_root, outname, debug=False):
 
     # Modify the CAS XMI according to htr.xy tags
     in_root = modify_text(in_root)
@@ -871,9 +949,12 @@ def process_general(in_root, outname):
 
     work_root = create_node_tree(in_root, document_text, start_index_dict, end_index_dict)
    
-    # For debugging seeing the trees might be helpful, so we keep the option in to write them
-    work_tree = et.ElementTree(work_root)
-    work_tree.write(os.path.join("./", outname), xml_declaration=True, pretty_print=True, encoding="utf8")
+    if debug:
+        # For debugging seeing the trees might be helpful, so we keep the option in to write them
+        work_tree = et.ElementTree(work_root)
+        work_tree.write(os.path.join("./", outname), xml_declaration=True, pretty_print=True, encoding="utf8")
+
+    apply_special_functions(work_root)
 
     write_entities(out_root, work_root)
     write_values(out_root, work_root)
@@ -901,4 +982,4 @@ if __name__ == "__main__":
     infiles = sorted(glob.glob("data/testdata/*.xmi"))
 
     for infile in infiles:
-        process_xmi(infile)
+        process_xmi(infile, debug=True)
