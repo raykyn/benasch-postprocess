@@ -72,8 +72,9 @@ def create_node_tree(in_root, document_text, start_index_dict, end_index_dict):
         if label == None:
             if entity.get("Role"):
                 # is a freetext role argument, no need to report that in the log
-                continue
-            print(f"WARNING: Empty Label in node with id {entity.get('{http://www.omg.org/XMI}id')}!")
+                pass
+            else:
+                print(f"WARNING: Empty Label in node with id {entity.get('{http://www.omg.org/XMI}id')}!")
             label = ""
         label = label.lower().split(".")
         span_type = ""
@@ -97,13 +98,23 @@ def create_node_tree(in_root, document_text, start_index_dict, end_index_dict):
                 print(f"WARNING: Unclear Label encountered in node with id {entity.get('{http://www.omg.org/XMI}id')}!")
             span_type = ""
             continue
+        elif label[0].startswith("evspan"):
+            span_type = "evspan"
         elif label[0].startswith("ev"):
-            # is an event trigger
-            continue
+            span_type = "evtrigger"
+        elif label[0] == "" and entity.get("Role"):
+            span_type = "freetext"
         else:
             print(f"ERROR: Unrecognized Span Label '{label[0]}' in annotation with id {entity.get('{http://www.omg.org/XMI}id')}!")
             continue
         label = ".".join(label)
+
+        if entity.get("Role") is not None:
+            role = entity.get("Role")
+        elif entity.get("role") is not None:
+            role = entity.get("Role")
+        else:
+            role = ""
 
         token_start, token_end = convert_char_to_token_idx(start_index_dict, end_index_dict, start, end, entity)
 
@@ -111,12 +122,12 @@ def create_node_tree(in_root, document_text, start_index_dict, end_index_dict):
         # NOTE: We increase token_end by 1 to match common span annotation schemes (which usually mark a span of length 1 as x to x+1)
         while(parent_node != work_root):
             if token_end <= int(parent_node.get("end"))-1:
-                current_node = et.SubElement(parent_node, "Entity", id=entity.get("{http://www.omg.org/XMI}id"), span_type=span_type, label=label, start=str(token_start), end=str(token_end+1), text=document_text[start:end])
+                current_node = et.SubElement(parent_node, "Entity", id=entity.get("{http://www.omg.org/XMI}id"), span_type=span_type, label=label, role=role, start=str(token_start), end=str(token_end+1), text=document_text[start:end])
                 break
             else:
                 parent_node = parent_node.getparent()
         else:
-            current_node = et.SubElement(work_root, "Entity", id=entity.get("{http://www.omg.org/XMI}id"), span_type=span_type, label=label, start=str(token_start), end=str(token_end+1), text=document_text[start:end])
+            current_node = et.SubElement(work_root, "Entity", id=entity.get("{http://www.omg.org/XMI}id"), span_type=span_type, label=label, role=role, start=str(token_start), end=str(token_end+1), text=document_text[start:end])
         parent_node = current_node
 
     # We get relations from three sources: relation layer, att and desc
@@ -628,97 +639,141 @@ def write_relations(out_root, work_root):
                 print(f"ERROR: When trying to write a relation, a mention id could not be found: {e}. Maybe the relation was connected to an invalid annotation such as a 'desc.xy'?")
 
 
-def write_events(out_root, in_root, document_text, start_index_dict, end_index_dict):
+def extract_role_field(node):
     """
-    We use the CAS-root instead of the work root,
-    because the hierarchical information of the work root
-    is not of relevance to the events.
+    At the moment, we accept . and : to separate
+    role ids. This behaviour will likely change in
+    the future.
+    Semikolons split multiple roles!
+    """
+    rolefield = node.get("role")
+    if not rolefield:
+        return None
+    out = []
+    for role in rolefield.split(";"):
+        role = role.split(".")
+        if len(role) == 1:
+            out.append({"type": role[0], "id": [""]})
+        elif len(role) == 2:
+            if ":" in role[1]:
+                roleid = role[1].split(":")
+                out.append({"type": role[0], "id": roleid})
+            else:    
+                roleid = list(role[1])
+                out.append({"type": role[0], "id": roleid})
+        else:
+            out.append({"type": role[0], "id": role[1:]})
+    return out
+
+
+def write_events(out_root, work_root, document_text, start_index_dict, end_index_dict):
+    """
+    Rewrite this code, but important changes:
+    - the trigger is not the important part, but instead the event-span
+    - if no eventspan is annotated, but a trigger is, the evspan is extrapolated
+    - event-spans, trigger and roles do not necessarily need an id if only 1 event with no subevents is in that annotation level
     """
     global old_to_new_ids
 
     events_node = et.SubElement(out_root, "Events")
 
-    triggers = in_root.xpath(".//custom:Span[starts-with(@label, 'ev')]", namespaces={"custom":"http:///custom.ecore"})
-    role_elems = in_root.findall(".//custom:Span[@Role]", namespaces={"custom":"http:///custom.ecore"})
+    events = []
 
-    trigger_dict = {}
-    
-    for trigger in triggers:
-        event_info = trigger.get("label").split(".")
+    # an event is either indicated by an eventspan or a trigger
+    evspans = work_root.xpath(".//Entity[@span_type='evspan']")
+    events.extend(evspans)
+
+    # evspans may be indicated by a DESC or ATT, we need to check those too, together with a settings file
+    # to define their exact behaviour TODO LATER
+
+    # a trigger will only indicate its own event if an eventspan is not present
+    evtriggers = work_root.xpath(".//Entity[@span_type='evtrigger']")
+    events.extend([e for e in evtriggers if e.getparent().get("span_type") != "evspan"])
+
+    for event in events:
+        event_info = event.get("label").split(".")
         event_id, event_type, other_info = event_info[0], event_info[1], event_info[2:]
-        event_node = et.SubElement(events_node, "Event", event_id=event_id, type=event_type)  # probably put the event category here?
-        old_to_new_ids[trigger.get("{http://www.omg.org/XMI}id")] = event_id
-
-        trigger_dict[event_id] = event_node
-
-        start, end = int(trigger.get("begin")), int(trigger.get("end"))
-        token_start, token_end = convert_char_to_token_idx(start_index_dict, end_index_dict, start, end, trigger)
-        trigger_node = et.SubElement(event_node, "Trigger", start=str(token_start), end=str(token_end), text=document_text[start:end])
-
-    for role in role_elems:
-        labels = role.get("Role").split(";")
-        if role.get("label"):
-            try:
-                ref_att = old_to_new_ids[role.get("{http://www.omg.org/XMI}id")]
-            except:
-                print(f"ERROR: Role was given to an invalid annotation (such as a head-element) with id {role.get('{http://www.omg.org/XMI}id')}.")
-                continue
-        else:
-            ref_att = "#freetext"
-        start, end = int(role.get("begin")), int(role.get("end"))
-        token_start, token_end = convert_char_to_token_idx(start_index_dict, end_index_dict, start, end, role)
-        text=document_text[start:end]
-        for label in labels:
-            try:
-                role_type, event_id = label.split(".")
-            except ValueError:
-                print(f"ERROR: Role description of mention {role.get('{http://www.omg.org/XMI}id')} could not be parsed. A role is expected to be writte in the format '<role-type>.<corr_event_id>'.")
-                continue
-            # if event_id is longer than 1 (as a string), it is a subevent
-            # we should technically have functionality for any depth, but we stay with 2 levels for now (TODO!)
-            # now a subevent will trigger at least one additional event to spawn
-            # - one possible main event
-            # - the subevent
-            # - x additional subevents
-            # we have a problem here, because we first create the Events, then assign the roles to them
-            # and correctly sorting the events is only possible if we already know how many events exist
-            # so this requires a full rewrite
-            # unless... we just create the new event here?
-            # for the moment, let's brute force this
-            if len(event_id) > 1:
-                # this implies a subevent
-                event_id = "ev" + event_id
-                if event_id in trigger_dict:
-                    # the subevent was already created
-                    event_node = trigger_dict[event_id]
-                else:
-                    # the subevent has yet to be created
-                    # get the origin event and copy it
-                    origin_event_id = event_id[:-1]
-                    try:
-                        event_node = trigger_dict[origin_event_id]
-                    except:
-                        print(f"ERROR: No trigger element with id {origin_event_id} is present in the document!")
-                        continue
-                    # TODO: Currently just append subevents to their origin events until we've got a better code
+        # if the event was indicated by a trigger, we need to first create the eventspan
+        if event.get("span_type") == "evtrigger":
+            # look at all sibling nodes and check their role id (if present)
+            # then set the event span ranging from the start of the first role to the end of the last role
+            # or trigger
+            if len(event_id) < 3:
+                event_id = ""
             else:
-                event_id = "ev" + event_id
-                try:
-                    event_node = trigger_dict[event_id]
-                except:
-                    print(f"ERROR: No trigger element with id {event_id} is present in the document!")
+                event_id = event_id[2:]  # ev0 ==> 0
+            valid_siblings = [event]
+            roles = []
+            for sibling in event.getparent():  # TODO: freetext roles cannot be found currently
+                roleinfos = extract_role_field(sibling)
+                if roleinfos is not None:
+                    for roleinfo in roleinfos:
+                        if roleinfo["id"][0] == event_id:
+                            valid_siblings.append(sibling)
+                            roles.append((sibling, roleinfo))
+                            break
+            span_start = min(valid_siblings, key=lambda x: int(x.get("start"))).get("start")
+            span_end = max(valid_siblings, key=lambda x: int(x.get("end"))).get("end")
+            # assign self as trigger
+            trigger = event
+        else:
+            if len(event_id) < 7:
+                event_id = ""
+            else:
+                event_id = event_id[6:]  # evspan0 ==> 0
+            span_start = event.get("start")
+            span_end = event.get("end")
+            # if a trigger exists, write the trigger
+            trigger = event.find("./Entity[@span_type='evtrigger']")
+            roles = []
+            for child in event:
+                roleinfos = extract_role_field(child)
+                if roleinfos is not None:
+                    for roleinfo in roleinfos:
+                        if roleinfo["id"][0] == event_id:
+                            roles.append((child, roleinfo))
+                            break
+
+        # create Event node
+        event_node = et.SubElement(events_node, "Event", event_id=event_id, type=event_type, start=span_start, end=span_end)  # probably put the event category here?
+        old_to_new_ids[event.get("{http://www.omg.org/XMI}id")] = event_id
+        # create the trigger node
+        if trigger is not None:
+            et.SubElement(event_node, "Trigger", start=trigger.get("start"), end=trigger.get("end"), text=trigger.get("text"))
+        # write list of Subevents
+        # first identify distinct subevent ids
+        subevent_ids = set([".".join(roleinfo["id"]) for _, roleinfo in roles])
+        dictinct_ids = []
+        for si in subevent_ids:
+            for si2 in subevent_ids:
+                if si == si2:
                     continue
-            role_node = et.SubElement(event_node, "Role", type=role_type, ref=str(ref_att))
-            # we want additional info
-            # we put a ref to the id of the mention or value that it points to
-            # if the ref says "#freetext", the element gets a start and end instead.
-            # in any case, the element gets a text for better readability.
-            if ref_att == "#freetext":
-                role_node.set("start", str(token_start))
-                role_node.set("end", str(token_end))
-                role_node.set("text", text)
-            else: # points to another entity
-                role_node.set("text", text)
+                if si2.startswith(si):
+                    break
+            else:
+                dictinct_ids.append(si)
+        # each distinct id spawns its own subevent
+        for di in sorted(dictinct_ids):
+            subevent_node = et.SubElement(event_node, "Subevent", subevent_id=di)
+            # now we have to filter all roles to fit them to their subevent(s)
+            for role_elem, roleinfo in roles:
+                roleid = ".".join(roleinfo["id"])
+                if di.startswith(roleid):
+                    if role_elem.get("span_type") != "freetext":
+                        try:
+                            ref_att = old_to_new_ids[role_elem.get("id")]
+                        except:
+                            print(f"ERROR: Role was given to an invalid annotation (such as a head-element) with id {role_elem.get('{http://www.omg.org/XMI}id')}.")
+                            continue
+                    else:
+                        ref_att = "#freetext"
+                    role_node = et.SubElement(subevent_node, "Role", type=roleinfo["type"], ref=str(ref_att))
+                    if ref_att == "#freetext":
+                        role_node.set("start", role_elem.get("start"))
+                        role_node.set("end", role_elem.get("end"))
+                        role_node.set("text", role_elem.get("text"))
+                    else: # points to another entity
+                        role_node.set("text", role_elem.get("text"))
 
 
 def write_hierarchy(out_root, work_root):
@@ -817,12 +872,12 @@ def process_general(in_root, outname):
     work_root = create_node_tree(in_root, document_text, start_index_dict, end_index_dict)
    
     # For debugging seeing the trees might be helpful, so we keep the option in to write them
-    #work_tree = et.ElementTree(work_root)
-    #work_tree.write(os.path.join(DEBUGFOLDER, outname), xml_declaration=True, pretty_print=True, encoding="utf8")
+    work_tree = et.ElementTree(work_root)
+    work_tree.write(os.path.join("./", outname), xml_declaration=True, pretty_print=True, encoding="utf8")
 
     write_entities(out_root, work_root)
     write_values(out_root, work_root)
-    write_events(out_root, in_root, document_text, start_index_dict, end_index_dict)
+    write_events(out_root, work_root, document_text, start_index_dict, end_index_dict)
     write_relations(out_root, work_root)
     write_hierarchy(out_root, work_root)
 
@@ -843,7 +898,7 @@ OUTFOLDER = "./outfiles/"
 
 if __name__ == "__main__":
 
-    infiles = sorted(glob.glob("data/HGB_Exp_9_115_HGB_1_146_045_011/*.xmi"))
+    infiles = sorted(glob.glob("data/testdata/*.xmi"))
 
     for infile in infiles:
         process_xmi(infile)
