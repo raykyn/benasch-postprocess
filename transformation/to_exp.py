@@ -94,11 +94,36 @@ def check_if_first(node, ancestor, is_head=False):
         return node.getparent().index(node) == 0
     
 
+def check_parent(filter, annotation):
+    """
+    Filter is a dict where the key references an attribute of the annotation.
+    "doc" is a special case, where spans without a parent are also included.
+    The dict is considered an OR-construction for the moment, so only one condition must match.
+    """
+
+    for key, value in filter.items():
+        for v in value:
+            if key == "tag":
+                if v == "ref" and annotation.tag == "Reference":
+                    return True
+                elif v == "att" and annotation.tag == "Attribute":
+                    return True
+                elif v == "val" and annotation.tag == "Value":
+                    return True
+                elif v == "lst" and annotation.tag == "List":
+                    return True
+                elif v == "desc" and annotation.tag == "Descriptor":
+                    return True
+            elif annotation.get(key).startswith(v):
+                return True
+    return False
+
+
 def process_annotation(annotation, config, depth=1):
     more_annotations = []
 
     if annotation.tag in config["tags"] and filter_ancestors(annotation, config):
-        if config["require_parent"] is None or ("entity_type" in annotation.attrib and "_".join(annotation.get("entity_type").split("_")[:config["tag_granularity"]]) in config["require_parent"]):
+        if config["require_parent"] is None or check_parent(config["require_parent"], annotation): # ("entity_type" in annotation.attrib and "_".join(annotation.get("entity_type").split("_")[:config["tag_granularity"]]) in config["require_parent"]):
             new_tags = []
             tokens = annotation.findall(".//T")
             ancestors_list = [get_ancestors(token) for token in tokens]
@@ -272,7 +297,7 @@ def process_document(docpath, config):
 
         annotations.append(first_layer_annotation)
 
-    if config["require_parent"] is None or "base" not in config["require_parent"]:
+    if config["require_parent"] is None or "doc" not in config["require_parent"]:
         for annotation in texttree.findall("./*"):
             annotations.extend(process_annotation(annotation, config))
 

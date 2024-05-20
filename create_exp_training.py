@@ -24,41 +24,41 @@ from transformation.to_exp import process_document
 
 
 ### SETTINGS ###
-INFOLDER = "outfolder_24_04_03/"  # The folder where all the standoff xml are
-OUTFOLDER = "trainingdata_exp/recommender/full_info_24_04_03_merge"
+INFOLDER = "outfolder_24_04_30/"  # The folder where all the standoff xml are
+OUTFOLDER = "trainingdata_exp/24_04_30/full"
 CONSISTENT_DATA = "consistent_data_24_04_03.json"
 tags_to_include = ["date", "per", "loc", "money", "gpe", "org"]
 ORDER = {
             "tags": {
-                "List": {
-                    "tag": "lst",
-                    "entity_types": {"include": [], "prefix": "ent"},
-                    "subtype": {"include": [], "prefix": "stype"}, 
-                },
+                #"List": {
+                #    "tag": "lst",
+                #    "entity_types": {"include": [], "prefix": "ent"},
+                #    "subtype": {"include": [], "prefix": "stype"}, 
+                #},
                 "Reference": {
                     "tag": "ref",
-                    "mention_type": {"include": [], "prefix": "men"}, 
+                    #"mention_type": {"include": [], "prefix": "men"}, 
                     "entity_type": {"include": [], "prefix": "ent"}, 
-                    "mention_subtype": {"include": [], "prefix": "submen"},
-                    "numerus": {"include": [], "prefix": "num"},
-                    "specificity": {"include": [], "prefix": "spec"},
+                    #"mention_subtype": {"include": [], "prefix": "submen"},
+                    #"numerus": {"include": [], "prefix": "num"},
+                    #"specificity": {"include": [], "prefix": "spec"},
                     }, 
                 "Attribute": {
                     "tag": "att",
-                    "mention_type": {"include": [], "prefix": "men"}, 
+                    #"mention_type": {"include": [], "prefix": "men"}, 
                     "entity_type": {"include": [], "prefix": "ent"}, 
-                    "mention_subtype": {"include": [], "prefix": "submen"},
-                    "numerus": {"include": [], "prefix": "num"},
-                    "specificity": {"include": [], "prefix": "spec"},
+                    #"mention_subtype": {"include": [], "prefix": "submen"},
+                    #"numerus": {"include": [], "prefix": "num"},
+                    #"specificity": {"include": [], "prefix": "spec"},
                     }, 
                 "Value": {"tag": "val", "value_type": {"include": [], "prefix": "val"}}, 
                 "Descriptor": {"tag": "desc", "desc_type": {"include": [], "prefix": "desc"}}
             },
-            "merge_overlapping_desc_tags": True,  # if a desc tag covers the same span as another tag (Reference or Attribute usually), we put the desc tag as a mention subtype info to the entity annotation instead.
+            "merge_overlapping_desc_tags": False,  # if a desc tag covers the same span as another tag (Reference or Attribute usually), we put the desc tag as a mention subtype info to the entity annotation instead.
             "depth_anno": None,  # annotate the depth, options: "None", "Binary" (doc vs ent level), "Ordinal"
             "tag_anno": None, # annotate the parent tag, options: "None" or list of attributes that should be annotated (e.g. ["entity_type"])  
             "tag_granularity": 2,  # how granular should the label info be (TODO: Move to the instructions per tag type)
-            "require_parent": None  # only add a sequence to the annotations if the parent of that sequence is one of the given entity_type, or give "doc" if flat annotations are wanted, None to disable filter
+            "require_parent": None # only add a span to the annotations if the parent of that span fits one or more requirements fits a key-value pair in the dict or give "doc" if flat annotations are wanted, "doc" may be included as a key in the dict so base spans are also included, None to disable filter TODO: Explain this better. It's now a list of OR-conditions
         }
 
 if __name__ == "__main__":
@@ -92,6 +92,7 @@ if __name__ == "__main__":
             writer = trainwriter
         else:
             print(f"WARNING! {infile} was not found in consistent training registry!")
+            continue
 
         # write the filename as a comment (flair ignores these in ColumnCorpus)
         writer.writerow([f"# {os.path.basename(infile)}"])
