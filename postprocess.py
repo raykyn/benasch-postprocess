@@ -488,7 +488,6 @@ def write_entities(out_root, work_root):
             head_text=" ".join([t.text for t in token_list[int(head_start):int(head_end)]]) if head_start else ""
             )
         
-    # NOTE: Should we only add those descriptors that are NOT also relations?
     description_node = et.SubElement(out_root, "Descriptors")    
     for desc in work_root.findall(".//Entity[@span_type='desc']"):
         label = desc.get('label').lower()
@@ -502,11 +501,15 @@ def write_entities(out_root, work_root):
                 desc_type = "unk"
                 desc.set('label', desc_type + ".unk")
 
+        desc_id = len(old_to_new_ids)
+        old_to_new_ids[desc.get("id")] = desc_id
+
         desc_types.add((
             desc_type,
         ))
         et.SubElement(description_node, 
             "Descriptor",
+            desc_id=str(desc_id), 
             desc_type=desc_type,
             start=desc.get("start"),
             end=desc.get("end"),
@@ -857,18 +860,21 @@ def write_hierarchy(out_root, work_root):
     of parent-child-Elements. This makes further work with the data easier
     whenever the hierarchy is of relevance for the task (i.e. when creating training data for ML)
     """
-
     hierarchy_elem = et.SubElement(out_root, "Hierarchy")
-    entity_elems = work_root.xpath(".//Entity[@span_type='lst' or @span_type='ent' or @span_type='att']")
-    for child in entity_elems:
-        parent = child.getparent()
-        while parent.tag != "XML":
-            if parent.get("span_type") in ["lst", "ent", "att"]:
-                parent_id = str(old_to_new_ids[parent.get("id")])
-                child_id = str(old_to_new_ids[child.get("id")])
-                et.SubElement(hierarchy_elem, "H", parent=parent_id, child=child_id)
-                break
-            parent = parent.getparent()  # we need to skip non-mentions
+    entity_elems = work_root.xpath(".//Entity[@span_type='lst' or @span_type='ent' or @span_type='att' or @span_type='value' or @span_type='desc']")
+    for entity in entity_elems:
+        parent = entity.getparent()
+        if parent.tag == "XML":
+            child_id = str(old_to_new_ids[entity.get("id")])
+            et.SubElement(hierarchy_elem, "H", parent="doc", child=child_id)
+        else:
+            while parent.tag != "XML":
+                if parent.get("span_type") in ["lst", "ent", "att", "value", "desc"]:
+                    parent_id = str(old_to_new_ids[parent.get("id")])
+                    child_id = str(old_to_new_ids[entity.get("id")])
+                    et.SubElement(hierarchy_elem, "H", parent=parent_id, child=child_id)
+                    break
+                parent = parent.getparent()  # we need to skip non-mentions
 
 
 def write_text(text_elem, text):

@@ -109,6 +109,7 @@ if __name__ == "__main__":
             writer = trainfile
         else:
             print(f"WARNING! {infile} was not found in consistent training registry!")
+            continue
 
         writer.write(outstring)
         writer.write("\n")
