@@ -7,9 +7,9 @@ import glob, os, json
 from lxml import etree as et
 
 
-INFILES = "./outfolder_24_04_30/*.xml"
-OUTFILE = "./gt_24_04_30.xml"
-CONSISTENT_DATA = "./consistent_data_24_04_03.json"
+INFILES = "./data/std_xml/outfiles_24_04_30/*.xml"
+OUTFILE = "./data/gt/gt_24_04_30.xml"
+CONSISTENT_DATA = "./data/persistent_data/persistent_data_24_04_30_0.json"
 
 
 if __name__ == "__main__":
@@ -17,7 +17,7 @@ if __name__ == "__main__":
         consistent_data = json.load(cons)
 
     out = et.Element("Corpus")
-    for infile in glob.glob(INFILES):
+    for infile in sorted(glob.glob(INFILES)):
         outname = os.path.basename(infile)
         if outname in consistent_data["test"]:
             print(infile)

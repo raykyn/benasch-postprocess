@@ -114,7 +114,7 @@ def check_parent(filter, annotation):
                     return True
                 elif v == "desc" and annotation.tag == "Descriptor":
                     return True
-            elif annotation.get(key).startswith(v):
+            elif key in annotation.attrib and annotation.get(key).startswith(v):
                 return True
     return False
 
