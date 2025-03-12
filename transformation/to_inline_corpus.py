@@ -13,14 +13,14 @@ from lxml import etree as et
 XML_VALIDATION_LINK = "https://dhbern.github.io/BeNASch/static/benasch.rng"
 # Put in this list all nodes by xpath syntax to be converted (from root)
 # a node must contain a start and end attribute to be valid for conversion
-TO_CONVERT = ["./Mentions/*", "./Descriptors/*", "./Values/*"]
+TO_CONVERT = ["./Mentions/*", "./Descriptors/*", "./Values/*", "./Misc/*"]
 
 # Write "_ALL_" to include all attributes
 ATTRIBUTES_TO_INCLUDE = ["_ALL_"]
 #ATTRIBUTES_TO_INCLUDE = []
 #ATTRIBUTES_TO_INCLUDE = ["mention_type", "entity_type", "desc_type", "value_type"]
 
-# if including all attributes, those in here will be excluded
+# if including all attributes, those in here will be excluded anyways
 ATTRIBUTES_TO_EXCLUDE = ["head_text", "text", "start", "end", "head_start", "head_end"]
 
 
@@ -42,7 +42,10 @@ def fix_att_full_coverage(root):
                 print(att.get("head_text"))
                 ref.set("head_start", att.get("head_start"))
                 ref.set("head_end", att.get("head_end"))
-                att.getparent().remove(att)
+                try:
+                    att.getparent().remove(att)
+                except:
+                    pass
     return root
 
 
@@ -78,14 +81,14 @@ def sort_function(elem):
     return (node_length, get_node_priority(elem))
 
 
-def process_document(docpath):
-    oldroot = et.parse(docpath).getroot()
+def process_document(oldroot, remove_token_tags=False):
+    #oldroot = et.parse(docpath).getroot()
     tokens = oldroot.findall(".//T")
 
     # only for a debug thing, delete after!
-    head_elems = oldroot.findall(".//Reference[@entity_type='head']")
-    for elem in head_elems:
-        del elem
+    #head_elems = oldroot.findall(".//Reference[@entity_type='head']")
+    #for elem in head_elems:
+    #    del elem
 
     # Fix the attribute instead of desc error
     oldroot = fix_att_full_coverage(oldroot)
@@ -96,7 +99,7 @@ def process_document(docpath):
         no = oldroot.findall(c)
         nodes.extend(no)
 
-    toproot = et.Element("XML")
+    toproot = et.Element("Document")
     metadata = oldroot.find("Metadata")
     if metadata is not None:
         metadata.tag = "Header"
@@ -123,7 +126,7 @@ def process_document(docpath):
                 elem.append(child)
         
         # if element contains a head, we need to append that
-        if "head_start" in node.attrib and node.get("head_start"):
+        if "head_start" in node.attrib and node.get("head_start") and node.get("no_head_found") is None:
             incl_tokens = tokens[int(node.get("head_start")):int(node.get("head_end"))]
             head_elem = et.SubElement(elem, "Head")
             # print(et.tostring(elem))
@@ -139,8 +142,16 @@ def process_document(docpath):
 
     # print(et.tostring(root, pretty_print=True))
 
-    pi = et.ProcessingInstruction('xml-model', f'href="{XML_VALIDATION_LINK}" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"') 
-    toproot.addprevious(pi)
+    #pi = et.ProcessingInstruction('xml-model', f'href="{XML_VALIDATION_LINK}" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"') 
+    #toproot.addprevious(pi)
+
+    standoff = et.SubElement(toproot, "Standoff")
+    standoff.append(oldroot.find("Events"))
+    standoff.append(oldroot.find("Relations"))
+
+    if remove_token_tags:
+        et.strip_tags(toproot,'T')
+
     return toproot
 
 
@@ -150,11 +161,18 @@ if __name__ == "__main__":
 
     import glob
     import os
-    import pathlib
 
-    outfolder = "./data/inline/outfiles_24_05_29/"
-    pathlib.Path(outfolder).mkdir(parents=True, exist_ok=True) 
-    for infile in sorted(glob.glob("./data/std_xml/outfiles_24_05_29/*.xml")):
-        print(infile)
-        inline = process_document(infile)
-        write_document(outfolder + os.path.basename(infile), inline)
+    outfile = "./hgb_corpus_24_07_26_inline_full.xml"
+    in_root = et.iterparse("./hgb_corpus_std_24_07_26_full.xml")
+    i = 0
+    with open(outfile, mode="w", encoding="utf8") as outf:
+        outf.write("<?xml version='1.0' encoding='UTF-8'?>\n")
+        outf.write("<Corpus>\n")
+        for action, element in in_root:
+            if element.tag == "Document":
+                inline = process_document(element, remove_token_tags=True)
+                outf.write(et.tostring(inline, encoding="UTF-8", pretty_print=True).decode("utf8"))
+                if i % 1000 == 0:
+                    print(f"Finished {i} samples.")
+                i += 1
+        outf.write("</Corpus>\n")

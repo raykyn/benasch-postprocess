@@ -11,8 +11,10 @@ import zipfile
 import pprint as pp
 
 # Path Info
-INFOLDERS = ["data/hgb_24_04_03_2", "data/hgb_24_04_03_1"]
-OUTFOLDER = "outfolder_24_04_03"
+INFOLDERS = [
+    "./data/exported/hgb_1_24_07_24", 
+    "./data/exported/hgb_2_24_07_24"]
+OUTFOLDER = "./data/std_xml/24_07_24"
 postprocess.OUTFOLDER = OUTFOLDER
 
 # Which annotators to process, leave empty for all

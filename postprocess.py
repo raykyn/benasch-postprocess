@@ -29,8 +29,8 @@ def get_node_priority(node):
         return 1
     if l == "desc":
         return 0
-    #elif l == "head":
-    #    return 2
+    elif l == "head":
+        return 2
     else:
         return 1
     
@@ -76,6 +76,8 @@ def create_node_tree(in_root, document_text, start_index_dict, end_index_dict):
                 print(f"WARNING: Empty Label in node with id {entity.get('{http://www.omg.org/XMI}id')}!")
             label = ""
         label = label.lower().split(".")
+        if entity.get("Role") is not None:
+            entity.set("Role", entity.get("Role").lower())
         span_type = ""
         if label[0] in SCHEMA_INFO["mention_classes"]:
             span_type = "ent"
@@ -169,10 +171,14 @@ def process_others(other_info, mention_id):
 
     return numerus, spec, tempus
 
-def apply_conversions(entity_type):
+def apply_entity_type_conversions(entity_type):
     for o, r in SCHEMA_INFO["conversions"]["entity_types"].items():
         entity_type = re.sub(o, r, entity_type)
+    return entity_type
 
+def apply_role_name_conversions(entity_type):
+    for o, r in SCHEMA_INFO["conversions"]["role_names"].items():
+        entity_type = re.sub(o, r, entity_type)
     return entity_type
 
 old_to_new_ids = {}
@@ -206,7 +212,7 @@ Using parent of head instead as parent of Attribute. Make sure to fix this as he
     else:
         entity_type = label[1]
 
-    entity_type = apply_conversions(entity_type)
+    entity_type = apply_entity_type_conversions(entity_type)
     return entity_type
 
 
@@ -251,7 +257,7 @@ def pro_coref_get_entity_type(work_root, coref, mention_type):
                 other_types = [el]
                 break
     
-    entity_type = apply_conversions(entity_type)
+    entity_type = apply_entity_type_conversions(entity_type)
     return mention_type, entity_type, other_types
 
 
@@ -319,13 +325,13 @@ def write_entities(out_root, work_root):
                     entity_types.append("unk")
                 else:
                     mention_type, entity_type, other_types = pro_coref_get_entity_type(work_root, coref, label[0])
-                    entity_type = apply_conversions(entity_type)
+                    entity_type = apply_entity_type_conversions(entity_type)
                     entity_types.append(entity_type)
         entity_types = ",".join(entity_types)
 
         et.SubElement(entities_node, 
             "List",
-            mention_id=str(mention_id), 
+            id=str(mention_id), 
             subtype=subtype,
             entity_types=entity_types,
             start=entity.get("start"),
@@ -367,7 +373,7 @@ def write_entities(out_root, work_root):
 
         # Process other types
         numerus, spec, _ = process_others(other_types, entity.get("id"))
-        entity_type = apply_conversions(entity_type)
+        entity_type = apply_entity_type_conversions(entity_type)
 
          # TODO: Decide if this reference is new or carries a coreference to a previous entity
         mention_id = len(old_to_new_ids)
@@ -404,7 +410,7 @@ def write_entities(out_root, work_root):
 
         et.SubElement(entities_node, 
             "Reference",
-            mention_id=str(mention_id), 
+            id=str(mention_id), 
             mention_type=mention_type,
             mention_subtype=mention_subtype,
             entity_type=entity_type,
@@ -433,7 +439,7 @@ def write_entities(out_root, work_root):
         if mention_subtype == "alias":
             mention_type = "nam"
         numerus, spec, _ = process_others(label[2:], entity.get("id"))
-        entity_type = apply_conversions(entity_type)
+        entity_type = apply_entity_type_conversions(entity_type)
 
         mention_subtypes.add((
             mention_subtype,
@@ -473,7 +479,7 @@ def write_entities(out_root, work_root):
 
         et.SubElement(entities_node, 
             "Attribute",
-            mention_id=str(mention_id), 
+            id=str(mention_id), 
             mention_type=mention_type,
             mention_subtype=mention_subtype,
             entity_type=entity_type,
@@ -507,7 +513,7 @@ def write_entities(out_root, work_root):
         ))
         et.SubElement(description_node, 
             "Descriptor",
-            desc_id=str(desc_id), 
+            id=str(desc_id), 
             desc_type=desc_type,
             start=desc.get("start"),
             end=desc.get("end"),
@@ -525,7 +531,7 @@ def write_values(out_root, work_root):
         old_to_new_ids[value.get("id")] = value_id
         et.SubElement(value_node, 
             "Value",
-            value_id=str(value_id),
+            id=str(value_id),
             value_type=value.get("label"),
             start=value.get("start"),
             end=value.get("end"),
@@ -675,11 +681,12 @@ def update_eventspan_length(event, events_node):
     for subevent in event.findall("./Subevent"):
         for role in subevent.findall("./Role"):
             ref = role.get("ref")
-            corr = events_node.find("./Event[@event_id='" + ref + "']")
+            corr = events_node.find("./Event[@id='" + ref + "']")
             if corr is not None:
                 update_eventspan_length(corr, events_node)
                 event.set("start", str(min([int(event.get("start")), int(corr.get("start"))])))
                 event.set("end", str(max([int(event.get("end")), int(corr.get("end"))])))
+                corr.set("event_parent", event.get("id"))
 
 
 def write_events(out_root, work_root, document_text, start_index_dict, end_index_dict):
@@ -699,18 +706,18 @@ def write_events(out_root, work_root, document_text, start_index_dict, end_index
         if list_elem.get("role"):
             prev_roles.append(list_elem.get("role")) 
         for child in list_elem:
-            if child.get("span_type") in ["ent", "val"]:
-                if transfer_roles and list_elem.get("role"):
+            if child.get("span_type") in ["ent", "value"]:
+                if transfer_roles and prev_roles:
                     if child.get("role"):
-                        child.set("role", child.get("role") + ";".join(prev_roles))
+                        child.set("role", child.get("role") + ";" + ";".join(prev_roles))
                     else:
                         child.set("role", ";".join(prev_roles))
                 collector.append(child)
             elif child.get("span_type") == "lst":
-                solve_list(child, collector, prev_roles=prev_roles.copy())
+                solve_list(child, collector, prev_roles=prev_roles.copy(), transfer_roles=transfer_roles)
 
     # move all roles from list elements to their children
-    for list_elem in work_root.xpath(".//Entity[@span_type='lst']"):
+    for list_elem in work_root.xpath(".//Entity[@span_type='lst' and not(parent::Entity[@span_type='lst'])]"):
         solve_list(list_elem, [], [], transfer_roles=True)
 
     global old_to_new_ids
@@ -764,7 +771,10 @@ def write_events(out_root, work_root, document_text, start_index_dict, end_index
     # we need already here to assign each event a unique id for the standard-xml
     old_to_new_event_ids = {}  # maybe merge with old_to_new_ids?
     for i, event in enumerate(events, len(old_to_new_ids)):
-        old_to_new_ids[event.get("id")] = str(i)
+        if event.get("id") in old_to_new_ids:
+            old_to_new_ids["ev_" + event.get("id")] = str(i)
+        else:
+            old_to_new_ids[event.get("id")] = str(i)
         old_to_new_event_ids[event.get("id")] = str(i)
 
     # collect all elements with roles so we can later detect which ones didnt get an event
@@ -833,7 +843,9 @@ def write_events(out_root, work_root, document_text, start_index_dict, end_index
             span_end = max(valid_siblings, key=lambda x: int(x.get("end"))).get("end")
             # assign self as trigger
             trigger = event
-            anchor = event.getparent().get("id") if event.getparent().tag != "XML" else "doc"
+            anchor = "self"  # a alone-standing trigger is never anchored to another span-element
+            parent = event.getparent().get("id") if event.getparent().tag != "XML" else "doc"
+            #anchor = event.getparent().get("id") if event.getparent().tag != "XML" else "doc"
         else:
             roles = []
             # if a trigger exists, write the trigger
@@ -856,6 +868,7 @@ def write_events(out_root, work_root, document_text, start_index_dict, end_index
                     # pretty sure this is wrong? => need test file for this
                     roles.append((event, {"type": event.get("label").split(".")[1], "id": event_id}))
                 anchor = event.get("id")
+                parent = ""
             else:
                 event_info = event.get("label").split(".")
                 event_id, event_type, other_info = event_info[0], event_info[1], event_info[2:]
@@ -863,7 +876,9 @@ def write_events(out_root, work_root, document_text, start_index_dict, end_index
                     event_id = ""
                 else:
                     event_id = event_id[6:]  # evspan0 ==> 0
-                anchor = event.getparent().get("id") if event.getparent().tag != "XML" else "doc"
+                anchor = "self"
+                parent = event.getparent().get("id") if event.getparent().tag != "XML" else "doc"
+                #anchor = event.getparent().get("id") if event.getparent().tag != "XML" else "doc"
             span_start = event.get("start")
             span_end = event.get("end")
             # get all roles that are part of the event
@@ -885,7 +900,8 @@ def write_events(out_root, work_root, document_text, start_index_dict, end_index
                         if not event_id or roleinfo["id"][0] == event_id:
                             roles.append((child, roleinfo))
         # create Event node
-        event_node = et.SubElement(events_node, "Event", event_id=old_to_new_event_ids[event.get("id")], type=event_type.strip(), start=span_start, end=span_end, anchor=str(old_to_new_ids[anchor]) if anchor != "doc" else "doc")
+        event_node = et.SubElement(events_node, "Event", id=old_to_new_event_ids[event.get("id")], type=event_type.strip(), start=span_start, end=span_end, anchor=str(old_to_new_ids[anchor]) if anchor != "self" else "self", event_parent=str(old_to_new_ids[parent]) if parent not in ["doc", ""] else parent)
+        
         # create the trigger node
         if trigger is not None:
             et.SubElement(event_node, "Trigger", start=trigger.get("start"), end=trigger.get("end"), text=trigger.get("text"))
@@ -903,7 +919,7 @@ def write_events(out_root, work_root, document_text, start_index_dict, end_index
                 dictinct_ids.append(si)
         # each distinct id spawns its own subevent
         for di in sorted(dictinct_ids):
-            subevent_node = et.SubElement(event_node, "Subevent", subevent_id=di)
+            subevent_node = et.SubElement(event_node, "Subevent", id=event_node.get("id")+"."+di)
             # now we have to filter all roles to fit them to their subevent(s)
             for role_elem, roleinfo in roles:
                 roleid = ".".join(roleinfo["id"])
@@ -918,7 +934,7 @@ def write_events(out_root, work_root, document_text, start_index_dict, end_index
                             continue
                     else:
                         ref_att = "#freetext"
-                    role_node = et.SubElement(subevent_node, "Role", type=roleinfo["type"].strip(), ref=str(ref_att))
+                    role_node = et.SubElement(subevent_node, "Role", type=apply_role_name_conversions(roleinfo["type"].strip()), ref=str(ref_att))
                     if ref_att == "#freetext":
                         role_node.set("start", role_elem.get("start"))
                         role_node.set("end", role_elem.get("end"))
@@ -966,6 +982,20 @@ def write_hierarchy(out_root, work_root):
             child_id = str(old_to_new_ids[entity.get("id")])
             et.SubElement(hierarchy_elem, "H", parent="doc", child=child_id)
 
+    # add alone-standing event spans to the hierarchy as well
+    event_elems = out_root.xpath(".//Event")
+    for event in event_elems:
+        parent = event.get("event_parent")
+        relations_to_change = hierarchy_elem.findall(f"./H[@parent='{parent}']")
+        for relation in relations_to_change:
+            target = out_root.xpath(f".//*[@id='{relation.get('child')}']")[0]
+            # check if the child is actually inside the event span
+            if int(target.get("start")) >= int(event.get("start")) and int(target.get("end")) <= int(event.get("end")):
+                relation.set("parent", event.get("id"))
+        et.SubElement(hierarchy_elem, "H", parent=parent, child=event.get("id"))
+        # this was only a helper
+        del event.attrib["event_parent"]
+        
 
 def write_text(text_elem, text):
     """
@@ -1026,6 +1056,34 @@ def process_xmi(xmi_file, debug=False):
     return out_tree
 
 
+def apply_special_operation(special_operation, root):
+    global old_to_new_ids
+    if special_operation == "transform_loc_owner_to_descriptor":
+        # if a loc-mention has a mention type owner and is the parent in an owner-relation
+        # clear the submention type and instead create a descriptor which encompasses the
+        # target of the owner-relation
+        loc_mentions = root.findall("./Mentions/*[@mention_subtype='owner']")
+        for loc_mention in loc_mentions:
+            loc_mention.set("mention_subtype", "")
+            relations = root.xpath(f"./Relations/Relation[@rel_type='owner' and @from_mention='{loc_mention.get('id')}']")
+            for relation in relations:
+                to_elem = root.find(f"./Mentions/*[@id='{relation.get('to_mention')}']")
+                # check that descriptor doesn't already exist
+                start = to_elem.get("start")
+                end = to_elem.get("end")
+                if root.xpath(f"./Descriptors/Descriptor[@desc_type='owner' and @start='{start}' and @end='{end}']"):
+                    continue
+                desc_id = str(len(old_to_new_ids))
+                old_to_new_ids["special_"+desc_id] = desc_id
+                et.SubElement(root.find("./Descriptors"), "Descriptor", id=desc_id, desc_type="owner", start=start, end=end)
+                # add the new descriptor the hierarchy
+                hierarchy = root.find("./Hierarchy")
+                old_h_elem = hierarchy.xpath(f"./H[@parent='{loc_mention.get('id')}' and @child='{to_elem.get('id')}']")[0]
+                hierarchy.remove(old_h_elem)
+                et.SubElement(hierarchy, "H", parent=loc_mention.get('id'), child=desc_id)
+                et.SubElement(hierarchy, "H", parent=desc_id, child=to_elem.get('id'))
+
+
 def process_general(in_root, outname, debug=False):
 
     # Modify the CAS XMI according to htr.xy tags
@@ -1055,6 +1113,9 @@ def process_general(in_root, outname, debug=False):
     write_relations(out_root, work_root)
     write_hierarchy(out_root, work_root)
 
+    for special_operation in SCHEMA_INFO["special_operations"]:
+        apply_special_operation(special_operation, out_root)
+
     out_tree = et.ElementTree(out_root)
     pathlib.Path(OUTFOLDER).mkdir(parents=True, exist_ok=True) 
     out_tree.write(os.path.join(OUTFOLDER, outname), xml_declaration=True, pretty_print=True, encoding="utf8")
@@ -1074,8 +1135,8 @@ DEBUGFOLDER = "./data/debug/"
 
 if __name__ == "__main__":
 
-    infiles = sorted(glob.glob("./data/exported/due_tests/*/*.xmi"))
-    OUTFOLDER = "./data/std_xml/due_tests/"
+    infiles = sorted(glob.glob("./data/exported/test/*.xmi"))
+    OUTFOLDER = "./data/std_xml/test/"
 
     for infile in infiles:
         out_tree = process_xmi(infile, debug=True)

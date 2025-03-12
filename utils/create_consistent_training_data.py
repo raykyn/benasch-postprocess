@@ -10,8 +10,11 @@ from glob import glob
 import random
 import json
 
-INFOLDER = "./outfolder_24_04_03/"  # The folder where all the standoff xml are
+INFOLDER = "./data/std_xml/outfiles_24_04_30/"  # The folder where all the standoff xml are
 USER_RANKING = ["kfuchs", "bhitz", "admin"]  # left is preferred (should match process_export)
+RULE_USER_DISTRO = {  # overwrites the USER_RANKING for certain corpora
+    "HGB_Exp_6": "admin"
+}
 DATA_RATIO = [0.8, 0.1, 0.1]  # Train, Dev, Test
 OUTFILE = "consistent_data_24_04_03.json"
 
@@ -31,12 +34,18 @@ def sort_out_duplicates(infiles):
         if len(filedict[entry][0]) > 1:
             possible_users = ", ".join(filedict[entry][0])
             print(f"Resolving file {entry} between users {possible_users}.")
-            for username in USER_RANKING:
-                if username in filedict[entry][0]:
-                    print(filedict[entry])
-                    filedict[entry] = ([username], filedict[entry][1])
+            for rule in RULE_USER_DISTRO:
+                if entry.startswith(rule):
+                    filedict[entry] = ([RULE_USER_DISTRO[rule]], filedict[entry][1])
+                    print(f"User {RULE_USER_DISTRO[rule]} was chosen based on the defined rules for {rule}.")
                     break
-            print(f"User {username} was chosen.")
+            else:
+                for username in USER_RANKING:
+                    if username in filedict[entry][0]:
+                        print(filedict[entry])
+                        filedict[entry] = ([username], filedict[entry][1])
+                        break
+                print(f"User {username} was chosen.")
     
     return filedict
 

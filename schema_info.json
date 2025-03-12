@@ -27,6 +27,17 @@
     "conversions": {
         "entity_types": {
             "^fac(.*)": "loc_fac\\1"
+        },
+        "role_names": {
+            "date_interval": "date-interval",
+            "date_missing": "date-missing",
+            "date_due": "date-due",
+            "payer_prev": "payer-prev",
+            "interest_redeemable": "interest-redeemable",
+            "interest_conv": "interest-conv"
         }
-    }
+    },
+    "special_operations": [
+        "transform_loc_owner_to_descriptor"
+    ]
 }

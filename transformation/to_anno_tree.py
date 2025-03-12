@@ -20,7 +20,7 @@ def get_token_char_ids(root):
 
 
 def add_self_and_children(elem_id, parent, hierarchy, old_root, token_to_chars):
-    elem = old_root.xpath(f".//*[@mention_id='{elem_id}' or @value_id='{elem_id}' or @desc_id='{elem_id}']")[0]
+    elem = old_root.xpath(f".//*[@id='{elem_id}']")[0]
 
     # add char ids (additionally)
     try:
