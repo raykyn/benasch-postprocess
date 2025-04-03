@@ -58,6 +58,13 @@ def create_node_tree(in_root, document_text, start_index_dict, end_index_dict):
     This node tree is mostly just as a help, but the code may probably easily be adopted to port everything to a TEI-format.
     """
     spans = in_root.findall(".//custom:Span", namespaces={"custom":"http:///custom.ecore"})
+    # synthetize a Descriptor with type document for each sentence element in the xmi
+    synthetic_sentences = in_root.findall(".//type5:Sentence", namespaces={"type5":"http:///de/tudarmstadt/ukp/dkpro/core/api/segmentation/type.ecore"})
+    for synth in synthetic_sentences:
+        synth = et.SubElement(in_root, "{http:///custom.ecore}Span", attrib=synth.attrib)
+        synth.set("label", "desc.tax")
+        spans.append(synth)
+    
     # note which entity and which tag, start or end, needs to be inserted at this point
     sorted_spans = []
     for ent in spans:
@@ -93,8 +100,9 @@ def create_node_tree(in_root, document_text, start_index_dict, end_index_dict):
             span_type = "head"
         elif label[0] in SCHEMA_INFO["value_tags"]:
             span_type = "value"
+        elif label[0] == "htr" and label[1] == "delete":
+            span_type = "htr_delete"
         elif label[0] in SCHEMA_INFO["other_tags"]:
-            # TODO: Implement deletion and moving by htr tags
             if label[0] == "unclear":
                 print(f"WARNING: Unclear Label encountered in node with id {entity.get('{http://www.omg.org/XMI}id')}!")
             span_type = ""
@@ -390,7 +398,7 @@ def write_entities(out_root, work_root):
         elif head_elem == None:
             # Implizierter Head - Unsicher
             # is added at the first token which is not part of another span
-            print(f"Warning: Unsicherer implizierter Head bei Mention ID {mention_id}.")
+            print(f"Warning: Unsicherer implizierter Head bei ID {entity.get('id')} (mention id {mention_id}).")
             for token in range(int(entity.get("start")), int(entity.get("end"))):
                 for child in entity:
                     if token in list(range(int(child.get("start")), int(child.get("end")))):
@@ -743,7 +751,7 @@ def write_events(out_root, work_root, document_text, start_index_dict, end_index
         if len(valid_triggers) == 1:
             events.append(possible)
         elif len(valid_triggers) > 1:
-            print("WARNING: Multiple event-trigger were inside an event-span or a span which can imply an event-span (e.g. desc). That span is likely not schema-valid.")
+            print("Warning: Multiple event-trigger were inside an event-span or a span which can imply an event-span (e.g. desc). That span is likely not schema-valid.")
 
     # a trigger will only indicate its own event if an eventspan is not present
     possible_evtriggers = work_root.xpath(".//Entity[@span_type='evtrigger']")
@@ -751,7 +759,7 @@ def write_events(out_root, work_root, document_text, start_index_dict, end_index
         parent = tr.getparent()
         # Falls das Parent-Elem kein evspan ist, darf es nicht auch in den Events sein! sonst muss angenommen werden, dass der
         # Trigger einfach dort zu gehört! (TODO: auch refs und att-nom haben keine Trigger und sollten so behandelt werden)
-        if parent.get("span_type") != "evspan" and parent not in events:
+        if tr.get("role") != "" or (parent.get("span_type") != "evspan" and parent not in events):
             events.append(tr)
         # Falls das Parent-Elem eine evspan ist, müssen wir die event-id überprüfen und nur wenn es dieselbe ist,
         # handelt es sich um dasselbe event (und der Trigger wird nicht genommen)
@@ -896,7 +904,7 @@ def write_events(out_root, work_root, document_text, start_index_dict, end_index
                 if roleinfos is not None:
                     for roleinfo in roleinfos:
                         # if no event_id was given, we assume only one event in the span,
-                        # so all children with roles are aprt of it.
+                        # so all children with roles are part of it.
                         if not event_id or roleinfo["id"][0] == event_id:
                             roles.append((child, roleinfo))
         # create Event node
@@ -952,6 +960,8 @@ def write_events(out_root, work_root, document_text, start_index_dict, end_index
         try:
             update_eventspan_length(event, events_node)
         except RecursionError:
+            # TODO: Instead of raising an error, check if an event was already iterated upon, then don't continue
+            # this is because Benasch now allows intersecting event spans.
             print(f"ERROR: During event postprocessing, a recursion error occured while the event with id {event.get('event_id')} was processed. This happens when a circular role-relation was assigned between one or more events. While the events can still be written, mind you that this implies that the annotation is not BeNASch-valid and the eventspans could not set correctly.")
 
     # check if all roles were assigned to events. Throw error if they weren't assigned
@@ -1029,7 +1039,7 @@ def write_text(text_elem, text):
             j += 1
     return start_index_dict, end_index_dict
 
-def process_xmi_zip(filename, xmi_file):
+def process_xmi_zip(filename, xmi_file, write_deletions=False):
     in_root = et.fromstring(xmi_file)
 
     at_least_one_span = in_root.find("./custom:Span", namespaces={"custom":"http:///custom.ecore"})
@@ -1041,7 +1051,7 @@ def process_xmi_zip(filename, xmi_file):
 
     outname = filename.replace(".txt", ".xml")
 
-    process_general(in_root, outname)
+    process_general(in_root, outname, write_deletions=write_deletions)
 
 
 def process_xmi(xmi_file, debug=False):
@@ -1084,7 +1094,67 @@ def apply_special_operation(special_operation, root):
                 et.SubElement(hierarchy, "H", parent=desc_id, child=to_elem.get('id'))
 
 
-def process_general(in_root, outname, debug=False):
+def delete_marked(work_root, text, remove_empty_lines=True):
+    """
+    We remove htr.delete marked spans, and shift all ids to keep the correct spans in place.
+    """
+    for del_node in work_root.findall(".//Entity[@span_type='htr_delete']"):
+        del_start = int(del_node.get("start"))
+        del_end = int(del_node.get("end"))
+        del_len = del_end - del_start
+
+        # delete tokens
+        for t in range(del_start, del_end):
+            token = text.find(f"./L/T[@token_id='{str(t)}']")
+            token.getparent().remove(token)
+        
+        # shift all annotation ids
+        for span in work_root.findall(".//Entity"):
+            if span.get("span_type") == "htr_delete":
+                pass
+            if int(span.get("start")) <= del_start and int(span.get("end")) >= del_end:
+                span.set("end", str(int(span.get("end")) - del_len))
+                if "head_start" in span.attrib:
+                    span.set("head_end", str(int(span.get("head_end")) - del_len))
+            elif int(span.get("start")) >= del_end:
+                span.set("start", str(int(span.get("start")) - del_len))
+                span.set("end", str(int(span.get("end")) - del_len))
+                if "head_start" in span.attrib:
+                    span.set("head_start", str(int(span.get("head_start")) - del_len))
+                    span.set("head_end", str(int(span.get("head_end")) - del_len))
+
+        # reset token ids
+        for i, token in enumerate(text.findall("./L/T")):
+            token.set("token_id", str(i))
+            
+        # delete the htr.delete element and all its children
+        del_node.getparent().remove(del_node)
+
+    # remove empty lines
+    if remove_empty_lines:
+        for line in text.findall("./L"):
+            if not len(line):
+                text.remove(line)
+        # reset line ids
+        for i, line in enumerate(text.findall("./L")):
+            line.set("line_id", str(i))
+
+
+def write_marked_for_deletion(out_root, work_root):
+    """
+    In this behavior, spans that are errors in the text due to layout recognition
+    errors are not deleted, but instead marked with annotations.
+    This can be helpful e.g. if a sequence tagger is to be trained to recognize errors.
+    """
+    text_errors = et.SubElement(out_root, "ERRORS")
+    for del_node in work_root.findall(".//Entity[@span_type='htr_delete']"):
+        error = et.SubElement(text_errors, "Error")
+        error.set("type", "bad_text")
+        error.set("start", del_node.get("start"))
+        error.set("end", del_node.get("end"))
+
+
+def process_general(in_root, outname, write_deletions=False, debug=False):
 
     # Modify the CAS XMI according to htr.xy tags
     in_root = modify_text(in_root)
@@ -1101,11 +1171,16 @@ def process_general(in_root, outname, debug=False):
     start_index_dict, end_index_dict = write_text(out_text, document_text)
 
     work_root = create_node_tree(in_root, document_text, start_index_dict, end_index_dict)
-   
+
     if debug:
         # For debugging seeing the trees might be helpful, so we keep the option in to write them
         work_tree = et.ElementTree(work_root)
         work_tree.write(os.path.join(DEBUGFOLDER, outname), xml_declaration=True, pretty_print=True, encoding="utf8")
+
+    
+    # delete or write all htr.delete spans
+    if not write_deletions:
+        delete_marked(work_root, out_text)
 
     write_entities(out_root, work_root)
     write_values(out_root, work_root)
@@ -1115,12 +1190,16 @@ def process_general(in_root, outname, debug=False):
 
     for special_operation in SCHEMA_INFO["special_operations"]:
         apply_special_operation(special_operation, out_root)
+    
+    # delete or write all htr.delete spans
+    if write_deletions:
+        write_marked_for_deletion(out_root, work_root)
 
     out_tree = et.ElementTree(out_root)
     pathlib.Path(OUTFOLDER).mkdir(parents=True, exist_ok=True) 
     out_tree.write(os.path.join(OUTFOLDER, outname), xml_declaration=True, pretty_print=True, encoding="utf8")
-
     return out_tree
+
 
 SCHEMA_INFO = None
 def read_schema():

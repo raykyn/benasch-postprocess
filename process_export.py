@@ -12,13 +12,15 @@ import pprint as pp
 
 # Path Info
 INFOLDERS = [
-    "./data/exported/hgb_1_24_07_24", 
-    "./data/exported/hgb_2_24_07_24"]
-OUTFOLDER = "./data/std_xml/24_07_24"
+    "./data/exported/complex_descs"]
+OUTFOLDER = "./data/std_xml/complex_descs"
 postprocess.OUTFOLDER = OUTFOLDER
 
 # Which annotators to process, leave empty for all
-ANNOTATORS = ["kfuchs", "bhitz", "admin"]
+ANNOTATORS = ["bhitz"]
+
+# choose if elements annotated with "htr.delete" should be deleted (False) or written as annotations (True)
+WRITE_DELETIONS = False
 
 
 if __name__ == "__main__":
@@ -38,8 +40,9 @@ if __name__ == "__main__":
                     continue
                 archive = zipfile.ZipFile(userfolder, 'r')
                 xmi = archive.read(username + ".xmi")
+                typesystem = archive.read("TypeSystem.xml")
 
-                postprocess.process_xmi_zip(username + "_" + os.path.basename(filefolder), xmi)
+                postprocess.process_xmi_zip(username + "_" + os.path.basename(filefolder), xmi, write_deletions=WRITE_DELETIONS)
     
     """
     pp.pprint("Finished processing all files.")

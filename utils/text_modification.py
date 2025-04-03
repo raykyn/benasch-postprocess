@@ -20,7 +20,7 @@ def find_textnode(in_root):
 
 def fit_annotations(in_root, node, begin, end, length):
     # modify the other tags to fit the new string
-    for other in in_root.findall(".//custom:Span", namespaces={"custom":"http:///custom.ecore"}):
+    for other in in_root.xpath("./*[self::custom:Span or self::type5:Sentence or self::type5:Token]", namespaces={"custom":"http:///custom.ecore", "type5":"http:///de/tudarmstadt/ukp/dkpro/core/api/segmentation/type.ecore"}):
         if other == node:
             continue
         other_begin = int(other.get("begin"))
@@ -29,8 +29,8 @@ def fit_annotations(in_root, node, begin, end, length):
             new_begin = other_begin - length
             other.set("begin", str(new_begin))
         if other_end > end:
-            new_begin = other_end - length
-            other.set("end", str(new_begin))
+            new_end = other_end - length
+            other.set("end", str(new_end))
         if other_begin >= begin and other_end <= end:
             # tag is inside deleted part, delete tag as well
             other.getparent().remove(other)
@@ -288,7 +288,8 @@ def remove_headers(in_root):
 
 
 def modify_text(in_root):
-    in_root = delete_text(in_root)
+    # depreciated bc text deletion is now done after building the work tree
+    #in_root = delete_text(in_root)
 
     in_root = remove_headers(in_root)
     in_root = move_line_end(in_root)
