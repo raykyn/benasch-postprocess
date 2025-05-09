@@ -20,6 +20,7 @@ def find_textnode(in_root):
 
 def fit_annotations(in_root, node, begin, end, length):
     # modify the other tags to fit the new string
+    # NOTE: This currently breaks sentences and is not correct behaviour for them
     for other in in_root.xpath("./*[self::custom:Span or self::type5:Sentence or self::type5:Token]", namespaces={"custom":"http:///custom.ecore", "type5":"http:///de/tudarmstadt/ukp/dkpro/core/api/segmentation/type.ecore"}):
         if other == node:
             continue
@@ -28,7 +29,7 @@ def fit_annotations(in_root, node, begin, end, length):
         if other_begin >= end:
             new_begin = other_begin - length
             other.set("begin", str(new_begin))
-        if other_end > end:
+        if other_end >= end:
             new_end = other_end - length
             other.set("end", str(new_end))
         if other_begin >= begin and other_end <= end:
@@ -51,21 +52,27 @@ def fit_annotations(in_root, node, begin, end, length):
             other.getparent().remove(other)
 
 
+def delete_and_fit(in_root, node, begin, end, length):
+    text_node = find_textnode(in_root)
+    document_text = text_node.get("sofaString")
+    document_text = document_text[:begin] + document_text[end:]
+    text_node.set("sofaString", document_text)
+
+    fit_annotations(in_root, node, begin, end, length)
+
 def delete_text(in_root):
     htr_nodes = in_root.findall(".//custom:Span[@label='htr.delete']", namespaces={"custom":"http:///custom.ecore"})
 
     for node in htr_nodes:
-        begin = int(node.get("begin"))
-        end = int(node.get("end")) + 1
+        begin = int(node.get("begin")) - 1
+        end = int(node.get("end"))
         length = end - begin
         
         # remove text
-        text_node = find_textnode(in_root)
-        document_text = text_node.get("sofaString")
-        document_text = document_text[:begin] + document_text[end:]
-        text_node.set("sofaString", document_text)
+        delete_and_fit(in_root, node, begin, end, length)
 
-        fit_annotations(in_root, node, begin, end, length)
+        in_root.remove(node)
+        # delete the htr node after processing
 
     return in_root
 
@@ -91,7 +98,7 @@ def move_line_end(in_root):
         text_node.set("sofaString", new_document_text)
 
         # modify the other tags to fit the new string
-        for other in in_root.findall(".//custom:Span", namespaces={"custom":"http:///custom.ecore"}):
+        for other in in_root.xpath("./*[self::custom:Span or self::type5:Sentence or self::type5:Token]", namespaces={"custom":"http:///custom.ecore", "type5":"http:///de/tudarmstadt/ukp/dkpro/core/api/segmentation/type.ecore"}):
             if other == node:
                 continue
             other_begin = int(other.get("begin"))
@@ -133,6 +140,9 @@ def move_line_end(in_root):
                 other.set("begin", str(new_begin))
                 other.set("end", str(new_end))
 
+        # delete the htr node after processing
+        in_root.remove(node)
+
     return in_root
 
 
@@ -171,9 +181,25 @@ def move_line_up(in_root):
         swap_text = document_text[swap_begin:swap_end]
         new_document_text = document_text[:swap_begin] + tagged_text + swap_text + document_text[end:]
         text_node.set("sofaString", new_document_text)
-
         
 
+        # modify the other tags to fit the new string
+        for other in in_root.findall(f".//type5:Token", namespaces={"type5":"http:///de/tudarmstadt/ukp/dkpro/core/api/segmentation/type.ecore"}):
+            if other == node:
+                continue
+            other_begin = int(other.get("begin"))
+            other_end = int(other.get("end"))
+            if other_begin >= swap_end and other_end <= end:
+                new_begin = other_begin - swap_length
+                other.set("begin", str(new_begin))
+                new_end = other_end - swap_length
+                other.set("end", str(new_end))
+            elif other_begin >= swap_begin and other_end <= swap_end:
+                new_begin = other_begin + length
+                other.set("begin", str(new_begin))
+                new_end = other_end + length
+                other.set("end", str(new_end))
+        
         # modify the other tags to fit the new string
         for other in in_root.findall(".//custom:Span", namespaces={"custom":"http:///custom.ecore"}):
             if other == node:
@@ -206,6 +232,9 @@ def move_line_up(in_root):
                 other.set("begin", str(new_begin))
                 new_end = other_end - swap_length
                 other.set("end", str(new_end))
+
+        # delete the htr node after processing
+        in_root.remove(node)
 
     return in_root
 
@@ -224,7 +253,6 @@ def remove_headers(in_root):
     """
     Very project-specific. We marked document headers with STARTDATE and ENDDATE.
     This function removes lines that are marked with these strings.
-    We also need to remove all tags that are inside these strings.
     """
     text_node = find_textnode(in_root)
     document_text = text_node.get("sofaString")
@@ -234,64 +262,108 @@ def remove_headers(in_root):
         start = r.start()
         end = r.end() + 1
         length = end - start
-        #print(length)
+        #print(start, end, length)
 
-        document_text = text_node.get("sofaString")
-        document_text = document_text[:start] + document_text[end:]
-        text_node.set("sofaString", document_text)
-
-        # modify the other tags to fit the new string
-        # TO TEST: Not sure if the sentence movement will work perfect in some edge cases.
-        for other in in_root.findall(".//type5:Sentence", namespaces={"type5":"http:///de/tudarmstadt/ukp/dkpro/core/api/segmentation/type.ecore"}):
-            other_begin = int(other.get("begin"))
-            other_end = int(other.get("end"))
-            if other_begin >= end:
-                new_begin = other_begin - length
-                other.set("begin", str(new_begin))
-                new_end = other_end - length
-                other.set("end", str(new_end))
-
+        # check if there are any tags inside the marked text
         for other in in_root.findall(".//custom:Span", namespaces={"custom":"http:///custom.ecore"}):
             other_begin = int(other.get("begin"))
             other_end = int(other.get("end"))
-            """
-            if other_begin >= end:
-                new_begin = other_begin - length
-                other.set("begin", str(new_begin))
-                new_end = other_end - length
-                other.set("end", str(new_end))
-            """
-            if other_begin >= end:
-                new_begin = other_begin - length
-                other.set("begin", str(new_begin))
-            if other_end > end:
-                new_end = other_end - length
-                other.set("end", str(new_end))
-            if other_begin >= start and other_end <= end:
-                # tag is inside deleted part, delete tag as well
-                other.getparent().remove(other)
+            if (other_begin >= start and other_begin < end) or (other_end > start and other_end <= end):
+                # has a tag that starts or ends or both inside the marked span
+                # delete the startdate/enddate spans
+                delete_and_fit(in_root, None, end-8, end, 8)
+                delete_and_fit(in_root, None, start, start+10, 10)
+                break
+        else:
+            document_text = text_node.get("sofaString")
+            document_text = document_text[:start] + document_text[end:]
+            text_node.set("sofaString", document_text)
 
-        for other in in_root.findall(".//custom:Relation", namespaces={"custom":"http:///custom.ecore"}):
-            other_begin = int(other.get("begin"))
-            other_end = int(other.get("end"))
-            if other_begin >= end:
-                new_begin = other_begin - length
-                other.set("begin", str(new_begin))
-            if other_end > end:
-                new_begin = other_end - length
-                other.set("end", str(new_begin))
-            if other_begin >= start and other_end <= end:
-                # tag is inside deleted part, delete tag as well
-                other.getparent().remove(other)
+            # modify the other tags to fit the new string
+            # TO TEST: Not sure if the sentence movement will work perfect in some edge cases.
+            for other in in_root.findall(".//type5:Sentence", namespaces={"type5":"http:///de/tudarmstadt/ukp/dkpro/core/api/segmentation/type.ecore"}):
+                other_begin = int(other.get("begin"))
+                other_end = int(other.get("end"))
+                if other_begin >= start and other_end <= end:
+                    other.getparent().remove(other)
+                else:
+                    if other_begin >= end:
+                        other.set("begin", str(other_begin-length))
+                        other.set("end", str(other_end-length))
+                    elif other_end <= start:
+                        pass
+                    elif other_begin >= start and other_begin <= end:
+                        other.set("begin", str(other_begin+(end-other_begin)-length))
+                        other.set("end", str(other_end-length))
+                    elif other_end >= start and other_end <= end:
+                        other.set("begin", str(other_begin))
+                        other.set("end", str(start-1))
+
+            for other in in_root.findall(".//type5:Token", namespaces={"type5":"http:///de/tudarmstadt/ukp/dkpro/core/api/segmentation/type.ecore"}):
+                other_begin = int(other.get("begin"))
+                other_end = int(other.get("end"))
+                if other_begin >= start and other_end <= end:
+                    other.getparent().remove(other)
+                else:
+                    if other_begin >= end:
+                        other.set("begin", str(other_begin-length))
+                        other.set("end", str(other_end-length))
+                    elif other_end <= start:
+                        pass
+                    elif other_begin >= start and other_begin <= end:
+                        other.set("begin", str(other_begin+(end-other_begin)-length))
+                        other.set("end", str(other_end-length))
+                    elif other_end >= start and other_end <= end:
+                        other.set("begin", str(other_begin))
+                        other.set("end", str(start-1))
+
+            for other in in_root.findall(".//custom:Span", namespaces={"custom":"http:///custom.ecore"}):
+                other_begin = int(other.get("begin"))
+                other_end = int(other.get("end"))
+                if other_begin >= start and other_end <= end:
+                    other.getparent().remove(other)
+                else:
+                    if other_begin >= end:
+                        other.set("begin", str(other_begin-length))
+                        other.set("end", str(other_end-length))
+                    elif other_end <= start:
+                        pass
+                    elif other_begin >= start and other_begin <= end:
+                        other.set("begin", str(other_begin+(end-other_begin)-length))
+                        other.set("end", str(other_end-length))
+                    elif other_end >= start and other_end <= end:
+                        other.set("begin", str(other_begin))
+                        other.set("end", str(start-1))
+                
+            for other in in_root.findall(".//custom:Relation", namespaces={"custom":"http:///custom.ecore"}):
+                other_begin = int(other.get("begin"))
+                other_end = int(other.get("end"))
+                if other_begin >= start and other_end <= end:
+                    other.getparent().remove(other)
+                else:
+                    if other_begin >= end:
+                        other.set("begin", str(other_begin-length))
+                        other.set("end", str(other_end-length))
+                    elif other_end <= start:
+                        pass
+                    elif other_begin >= start and other_begin <= end:
+                        other.set("begin", str(other_begin+(end-other_begin)-length))
+                        other.set("end", str(other_end-length))
+                    elif other_end >= start and other_end <= end:
+                        other.set("begin", str(other_begin))
+                        other.set("end", str(start-1))
 
     return in_root
 
 
-def modify_text(in_root):
+def modify_text(in_root, delete_marked=True):
     # depreciated bc text deletion is now done after building the work tree
-    #in_root = delete_text(in_root)
+    if delete_marked:
+        in_root = delete_text(in_root)
 
     in_root = remove_headers(in_root)
+    #from lxml import etree as et
+    #print(et.tostring(in_root, encoding='unicode', pretty_print=True))
     in_root = move_line_end(in_root)
     in_root = move_line_top(in_root)
     in_root = move_line_up(in_root)

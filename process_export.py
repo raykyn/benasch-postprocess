@@ -10,43 +10,53 @@ import os
 import zipfile
 import pprint as pp
 
+
 # Path Info
-INFOLDERS = [
-    "./data/exported/complex_descs"]
-OUTFOLDER = "./data/std_xml/complex_descs"
-postprocess.OUTFOLDER = OUTFOLDER
+DATA = "./data/hgb_2025_04_03/"
+
+# ACTIONS
+ACTIONS = ["PROCESS"]
+
+# FOLDER PATHS (best to keep like this)
+EXPORT = os.path.join(DATA, "exports")
+UNZIPPED = os.path.join(DATA, "unzipped")
+OUTPUT = os.path.join(DATA, "processed")
+postprocess.OUTFOLDER = OUTPUT
 
 # Which annotators to process, leave empty for all
-ANNOTATORS = ["bhitz"]
+ANNOTATORS = []
 
 # choose if elements annotated with "htr.delete" should be deleted (False) or written as annotations (True)
 WRITE_DELETIONS = False
 
 
 if __name__ == "__main__":
-    for infolder in INFOLDERS:
-        annotation_folder = os.path.join(infolder, "annotation")
+    if "UNZIP" in ACTIONS:
+        for infolder in glob.glob(EXPORT + "/*"):
+            if not os.path.isdir(infolder):  # don't process the zip files
+                continue
 
-        filefolders = sorted(glob.glob(os.path.join(annotation_folder, "*")))
+            annotation_folder = os.path.join(infolder, "annotation")
 
-        for filefolder in filefolders:
-            userfolders = sorted(glob.glob(os.path.join(filefolder, "*.zip")))
+            filefolders = sorted(glob.glob(os.path.join(annotation_folder, "*")))
 
-            for userfolder in userfolders:
-                username = os.path.basename(userfolder).replace(".zip", "")
-                if username == "INITIAL_CAS":
-                    continue
-                if ANNOTATORS and username not in ANNOTATORS:
-                    continue
-                archive = zipfile.ZipFile(userfolder, 'r')
-                xmi = archive.read(username + ".xmi")
-                typesystem = archive.read("TypeSystem.xml")
+            for filefolder in filefolders:
+                userfolders = sorted(glob.glob(os.path.join(filefolder, "*.zip")))
 
-                postprocess.process_xmi_zip(username + "_" + os.path.basename(filefolder), xmi, write_deletions=WRITE_DELETIONS)
-    
-    """
-    pp.pprint("Finished processing all files.")
-    pp.pprint(postprocess.mention_subtypes)
-    pp.pprint(postprocess.desc_types)
-    pp.pprint(postprocess.relation_types)
-    """
+                for userfolder in userfolders:
+                    username = os.path.basename(userfolder).replace(".zip", "")
+                    if username == "INITIAL_CAS":
+                        continue
+                    if ANNOTATORS and username not in ANNOTATORS:
+                        continue
+                    archive = zipfile.ZipFile(userfolder, 'r')
+                    xmi = archive.read(username + ".xmi")
+
+                    # write the xmi to the unzipped folder
+                    if not os.path.exists(UNZIPPED):
+                        os.makedirs(UNZIPPED)
+                    with open(os.path.join(UNZIPPED, username + "_" + os.path.basename(filefolder)).replace(".txt", ".xmi"), 'wb') as f:
+                        f.write(xmi)
+    if "PROCESS" in ACTIONS:
+        for infile in sorted(glob.glob(UNZIPPED + "/*.xmi")):
+            postprocess.process_xmi(infile, write_deletions=WRITE_DELETIONS)
